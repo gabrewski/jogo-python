@@ -1,8 +1,12 @@
 # jogo-python
 trabalho final para a disciplina de LP do curso de Análise e Desenvolvimento de Sistemas do IFPR
 
-\nBeatriz Ivano
-\nFernanda Yumi Tomoi
-\nGabriela Melissa Ribeiro Porto
-\nLuiz Gustavo Silva Kryszczun
-\nLeonardo Kenzo Kishi (menção honrosa)
+Beatriz Ivano
+
+Fernanda Yumi Tomoi
+
+Gabriela Melissa Ribeiro Porto
+
+Luiz Gustavo Silva Kryszczun
+
+Leonardo Kenzo Kishi (menção honrosa)
