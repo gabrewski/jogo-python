@@ -1,7 +1,7 @@
 # jogo-python
 trabalho final para a disciplina de LP do curso de Análise e Desenvolvimento de Sistemas do IFPR
 <br><br>
-Beatriz Ivano
+Beatriz Ivano dos Santos
 <br>
 Fernanda Yumi Tomoi
 <br>
