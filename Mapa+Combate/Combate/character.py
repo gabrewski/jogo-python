@@ -17,6 +17,3 @@ class Main_Character(Character):
     def __init__(self, name: str, hp:int) -> None:
         super().__init_(name=name, hp = hp)
 
-class Enemy(Character):
-    def __init__(self, name: str, hp:int) -> None:
-        super().__init_(name=name, hp = hp)
