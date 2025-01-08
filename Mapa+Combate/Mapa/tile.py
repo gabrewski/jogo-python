@@ -7,21 +7,6 @@ ANSI_WHITE = "\033[97m"
 ANSI_MAGENTA = "\033[35m"
 ANSI_CYAN = "\033[36m"
 
-
-"""
-I simplified the logic of tile objects by deprecating the colored parameter.
-The color parameter can also be used for the same purpose.
-
-
-colored example: 
-tile = Tile("x", ANSI_RED)
-
-non-colored example:
-tile = Tile("x")
-
-"""
-
-
 class Tile:
     def __init__(self, symbol: str, color: str | None = None):
         self.symbol = f"{color}{symbol}{ANSI_RESET}" if color else symbol

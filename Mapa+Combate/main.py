@@ -20,3 +20,5 @@ while True:
     print(f"Vida do {main_character.name}: {main_character.hp}")
     print(f"Vida do {enemy.name}: {enemy.hp}")
     input()
+
+#biomas do mapa: floresta, deserto, tundra, pântano e vulcão
