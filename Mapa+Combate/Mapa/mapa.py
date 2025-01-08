@@ -49,3 +49,8 @@ class Map:
             row_tiles = [tile.symbol for tile in row]
             print("|" + "".join(row_tiles) + "|")
         print(frame)
+
+''' 
+movimento do personagem
+adicionar biomas
+'''
