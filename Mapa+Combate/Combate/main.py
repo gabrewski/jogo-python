@@ -1,26 +1,14 @@
 from character import *
 from weapon import *
+from combat import *
 import os
 
 
-main_character = Character (name="Dargia", hp=100, atk=10)
-enemy = Character (name="Enemy", hp=100, atk=3)
+player = Player (name="Dargia", hp=100, atk=10)
+enemy = Enemy (name="Goblin", hp=100, atk=5)
 
-while True:
-    os.system("cls")
-    main_character.attack(enemy)
-    enemy.attack(main_character)
-    if main_character.hp==0: 
-        print ("Batalha perdida")
-        break
-    elif enemy.hp==0:
-        print("Batalha vencida")
-        break
-    
-    print(f"Vida do {main_character.name}: {main_character.hp}")
-    print(f"Vida do {enemy.name}: {enemy.hp}")
-    input()
-    
+combat_encounter(player,enemy)
+
 #To do list:
 #Transformar o combate em batalha por turnos
 #Implementar defesa como atributo

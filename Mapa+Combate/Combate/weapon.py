@@ -1,14 +1,14 @@
 class Weapon:
-    def __init__(self,
-                 name: str,
-                 atk: int,
-                 ) -> None:
+    def __init__(self, name: str, atk: int) -> None:
         self.name = name
-        self.atk = atk
+        self.wep_atk = atk
 
-#Criação de armas dentro da classe "Weapon"
-iron_sword = Weapon(name="Iron Sword",atk=5)
+espada = Weapon(name="Espada de Ferro", atk=5)
 
-short_bow = Weapon(name="Short Bow", atk=4)
+adaga = Weapon(name="Adaga", atk=3)
 
-fists = Weapon(name="Fists", atk=2)
+arco = Weapon(name="Arco", atk=4)
+
+grimório = Weapon(name="Grimório", atk=4)
+
+punhos = Weapon(name="Punhos", atk=2)
