@@ -1,5 +1,5 @@
 from random import randint
-from tile import Tile, plains, forest, pines, mountain, water
+from tile import Tile, plains, forest, pines, mountain, water, player_marker
 
 
 class Map:

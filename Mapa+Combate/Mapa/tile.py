@@ -12,9 +12,6 @@ class Tile:
         self.colored_name = f"{color}{name.upper()}{c.ANSI_RESET}"
         self.colored_legend = f"{self.colored_symbol} {self.colored_name}"
 
-    def load_image(self):
-        self.image = pygame.image.load(os.path.join("images", f"{self.name}.png")).convert_alpha()
-
 
 plains = Tile(".", "plains", c.ANSI_YELLOW)
 forest = Tile("8", "forest", c.ANSI_GREEN)
