@@ -17,3 +17,8 @@ def combat_encounter(player, enemy):
         print(f"Vida do {player.name}: {player.hp}")
         print(f"Vida do {enemy.name}: {enemy.hp}")
         input()
+        
+        
+#Atacar
+#Defender/Não fazer nada
+#Fugir (Termina o combate)
