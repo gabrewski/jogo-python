@@ -23,7 +23,7 @@ class Player (Character):
 class Enemy(Character):
     def __init__(self, name: str, hp:int, atk:int) -> None:
         super().__init__(name=name, hp=hp, atk=atk)
-        self.weapon=espada
+        self.weapon=porrete
 
 #Lista de inimigos segmentada por fases
     enemy_list_fase_1=[

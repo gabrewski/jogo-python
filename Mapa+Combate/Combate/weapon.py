@@ -1,11 +1,13 @@
 class Weapon:
     def __init__(self, name: str, atk: int) -> None:
         self.name = name
-        self.wep_atk = atk
+        self.atk = atk
 
 espada = Weapon(name="Espada de Ferro", atk=5)
 
-adaga = Weapon(name="Adaga", atk=3)
+porrete = Weapon(name="Porrete de Madeira", atk=2)
+
+adaga = Weapon(name="Adaga", atk=3)                                
 
 arco = Weapon(name="Arco", atk=4)
 

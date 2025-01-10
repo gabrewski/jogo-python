@@ -12,7 +12,7 @@ def run() -> None:
 
     while True:
         os.system("cls" if os.name == "nt" else "clear")  #clear the console for a cleaner display
-        game_map.display_map()  #display the map with the player position
+        game_map.display_map()  #display th e map with the player position
 
         player.calculate_movement_options(map_w, map_h)
         
