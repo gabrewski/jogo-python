@@ -19,10 +19,6 @@ class Map:
         for fila in self.map_info:
             print("|" + "".join(fila) + "|")
         print(frame)
-            
-        
-
-
 
 
 '''game_mapa = [

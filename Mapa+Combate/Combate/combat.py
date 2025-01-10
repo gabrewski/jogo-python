@@ -12,7 +12,7 @@ def combat_encounter(player, enemy):
     
         print(f"Vida do {player.name}: {player.hp}")
         print(f"Vida do {enemy.name}: {enemy.hp}\n")
-        print("\nAtacar (1)\nDefender (2)\nFugir (3)\n")
+        print("\nAtacar (1)\nGuarda (2)\nFugir (3)\n")
         opt = input("O que deseja fazer? ")
         
         if opt==1:
@@ -30,7 +30,10 @@ def combat_encounter(player, enemy):
             print("Você fugiu da batalha.")
             break
         
-        
-#Atacar
-#Defender/Não fazer nada
-#Fugir (Termina o combate)
+
+#To do list:
+#Opções de combate:
+#>Atacar (Chance de acerto critico (10%) - 100% de dano extra)
+#>Guarda (100% ou % alta de redução de dano)
+#>Item - Criar classe de item para ser usada no meio do combate: P
+#>Fugir (Termina o combate)
