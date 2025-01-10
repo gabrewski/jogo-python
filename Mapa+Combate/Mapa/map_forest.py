@@ -35,7 +35,7 @@ class Map:
         self.copy_map()
 
     def generate_map(self) -> None:
-        self.map_data = [[plains for _ in range(self.width)] for _ in range(self.height)]
+        self.init_map_data = [[plains for _ in range(self.width)] for _ in range(self.height)]
         self.copy_map()
 
     def generate_patch(
@@ -60,7 +60,7 @@ class Map:
                     width = randint(int(0.7 * max_size), max_size)
                     start_x = init_start_x - randint(1, 2)
                 for j in range(width):
-                    self.map_data[start_y + i][start_x + j] = tile
+                    self.init_map_data[start_y + i][start_x + j] = tile
         self.copy_map()
     
     def display_movement_options(self, options: dict[str, bool]) -> None:
