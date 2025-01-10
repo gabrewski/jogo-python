@@ -13,6 +13,9 @@ class Character:
         target.hp = max(target.hp, 0)
         print(f"{self.name} deu {self.atk + self.weapon.atk} de dano ao {target.name}")
 
+    def defend(self,target) -> None:
+        print(f"{self.name} defendeu o ataque.")
+        
 #Classe do jogador
 class Player (Character):
     def __init__(self, name: str, hp:int, atk:int) -> None:
