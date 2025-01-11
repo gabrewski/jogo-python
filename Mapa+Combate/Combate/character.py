@@ -30,10 +30,10 @@ class Character:
         self.hp = max(self.hp, 0)
         print(f"\n{self.name} defendeu o ataque, mas levou {damage} de dano.")
     
-    def use_item(self) -> None:
+'''    def use_item(self) -> None:
         if item = potion:
             self.hp += self.potion.value
-            self.hp = max(self.hp, 0)
+            self.hp = max(self.hp, 0)'''
 
 
 #Classe do jogador

@@ -14,6 +14,7 @@ class Tile:
         else:
             self.symbol=symbol
 
+#Tipos de terreno usados nas diversas fases
 planice = Tile("_", ANSI_GREEN)
 floresta = Tile("♣", ANSI_GREEN)
 montanha = Tile("▲", ANSI_WHITE)
