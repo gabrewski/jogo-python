@@ -1,5 +1,5 @@
 from character import *
-from weapon import * 
+from item import * 
 import os
 import time
 
@@ -43,8 +43,6 @@ def combat_encounter(player, enemy):
         
 
 #To do list:
-#Opções de combate: 
-#>Atacar (Chance de acerto critico (10%) - 100% de dano extra) x
-#>Guarda (100% ou % alta de redução de dano) x 
-#>Item - Criar classe de item para ser usada no meio do combate: P
-#>Fugir (Termina o combate) x
+#opçao de usar item
+#integrar item drop no combate
+#Implementar método para escolher um inimigo aleatorio da lista de inimigos ao iniciar combate baseado no terreno.
