@@ -1,22 +1,20 @@
-from weapon import *
-from armor import * 
 from item import *
 import random
 
 #Classe para todos os personagens
 class Character:
-    def __init__(self, name: str, hp: int, atk: int, crit_chance: int, crit_rate: float):
+    def __init__(self, name: str, hp: int, atk: int, crit_chance: int, crit_damage: float):
         self.name = name
         self.hp = hp
         self.hp_max = hp
         self.atk = atk
         self.crit_chance = crit_chance
-        self.crit_rate = crit_rate
+        self.crit_damage = crit_damage
 
     def attack(self, target) -> None:
         roll = random.randint(1,100) #determina se o ataque vai ser crítico
         if roll <= self.crit_chance:
-            damage = int(round(self.atk + self.weapon.atk) * self.crit_rate)
+            damage = int(round(self.atk + self.weapon.atk) * self.crit_damage)
             print("\nAtaque crítico!")
         else:
             damage = self.atk + self.weapon.atk
@@ -30,26 +28,23 @@ class Character:
         self.hp = max(self.hp, 0)
         print(f"\n{self.name} defendeu o ataque, mas levou {damage} de dano.")
     
-    def use_item(self) -> None:
-        if item = potion:
+'''    def use_item(self) -> None:
+        if item in i potion:
             self.hp += self.potion.value
-            self.hp = max(self.hp, 0)
-
+            self.hp = max(self.hp, 0)'''
 
 #Classe do jogador
 class Player (Character):
-    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_rate: float) -> None:
-        super().__init__(name = name, hp = hp, atk=atk, crit_chance = crit_chance, crit_rate = crit_rate)
+    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float) -> None:
+        super().__init__(name = name, hp = hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = espada
         self.armor = armor
-        self.item = potion
-
 
 #Classe para inimigos
 class Enemy(Character):
-    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_rate: float) -> None:
-        super().__init__(name=name, hp=hp, atk=atk, crit_chance = crit_chance, crit_rate = crit_rate)
-        self.weapon=porrete
+    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float) -> None:
+        super().__init__(name=name, hp=hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
+        self.weapon = porrete
 
 #Lista de inimigos segmentada por fases
     enemy_list_fase_1=[ #floresta
@@ -81,4 +76,5 @@ class Enemy(Character):
         {"name": "Cultistas do Fogo", "hp": 0, "def": 0, "Weapon": "xx", "tiles": "xx", "xp-range": 00-00, "gold-range": 00-00}
     ]
 
+#Preencher lista de inimigos
 #adicionar mini-bosses
