@@ -4,14 +4,14 @@ from combat import *
 import os
 
 
-player = Player (name="Dargia", hp=100, atk=10)
-enemy = Enemy (name="Goblin", hp=100, atk=5)
+player = Player (name="Dargia", hp=100, atk=10, crit_chance = 50, crit_rate = 2)
+enemy = Enemy (name="Goblin", hp=100, atk=5, crit_chance = 50, crit_rate = 1.5)
 
 combat_encounter(player,enemy)
 
 #To do list:
-#Transformar o combate em batalha por turnos
-#Implementar defesa como atributo
+#Transformar o combate em batalha por turnos x
+#Implementar defesa como atributo x
 #Elaborar a formula de defesa
 #Implementar combate na exploração do mapa
 #Implementar encontros de combate aleatórios ao explorar o mapa
