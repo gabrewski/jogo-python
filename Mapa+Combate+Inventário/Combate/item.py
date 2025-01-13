@@ -57,3 +57,6 @@ class Ouro(Item):
         self.equipable = equipable
 
 ouro = Ouro(name = "Ouro", gold_value = 1, equipable = False)
+
+#adicionar:
+#itens de quests ex: Chave para o Castelo

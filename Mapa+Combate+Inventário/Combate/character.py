@@ -45,7 +45,7 @@ class Enemy(Character):
     def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float) -> None:
         super().__init__(name=name, hp=hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = porrete
-
+        
 #Lista de inimigos segmentada por fases
     enemy_list_fase_1=[ #floresta
         {"name": "Goblin", "hp": 0, "def": 0, "Weapon": "xx", "tiles": "xx", "xp-range": 00-00, "gold-range": 00-00},
