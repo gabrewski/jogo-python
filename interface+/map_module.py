@@ -2,7 +2,7 @@ import curses
 from curses import wrapper
 import time
 
-def main(stdscr):
+def show_map(window):
     # Configuração de cores
     curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
     curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK)
@@ -20,7 +20,7 @@ def main(stdscr):
         '∼' : curses.color_pair(6) # deserto
     }
 
-    map_ascii = [
+    ascii_map = [
         "_____________________________________________________________________≈≈≈≈≈_____",
         "_____________________________________________________≈≈≈_____≈≈≈≈≈≈≈≈≈≈≈_______",
         "_________________________________________________≈≈≈______≈≈≈≈≈≈≈≈≈≈≈≈≈≈≈______",
@@ -34,7 +34,7 @@ def main(stdscr):
         "_____∼∼∼∼________∼∼_____∼∼∼∼∼∼∼_____≈≈≈____________YYYYYYYYYYYYYYYYYYYYYYYY____",
         "______________________________________≈≈≈≈____YY______YYYYYYYYYYYYYYYYYYYYYY___",
         "________▲____________≈≈≈≈__________≈≈≈≈____________YYYYYYYYYYYYYYYYYYYYYY______",
-        "_______▲▲▲__▲______≈≈≈≈≈≈≈≈___≈≈≈≈≈≈≈≈________________YYYYYYYYYYYYYYYYYYYYY_____",
+        "_______▲▲▲__▲______≈≈≈≈≈≈≈≈___≈≈≈≈≈≈≈≈_______________YYYYYYYYYYYYYYYYYYYYY_____",
         "__▲__▲▲▲▲▲▲▲▲▲______≈≈≈___≈≈≈≈≈≈____≈≈≈________________YYYYYYYYYYYYYYYY________",
         "_▲▲▲▲▲▲▲▲▲__▲▲▲▲____________________≈≈≈≈≈_______YYYYYYY_______YYYYYYYYYYY______",
         "____▲▲▲▲____▲▲_________________________≈≈≈≈_______________YYY__________________",
@@ -51,35 +51,57 @@ def main(stdscr):
     ]
 
     # Obter dimensões da tela
-    height, width = stdscr.getmaxyx()
+    max_y, max_x = window.getmaxyx()
+
+    # limpar janela
+    window.clear()
+    window.box()    
+
+    # posição do mapa
+    start_y = (max_y - len(ascii_map)) // 2
+    start_x = 2
+  
+    # Desenhar o mapa
+    for y, line in enumerate(ascii_map):
+        for x, char in enumerate(line):
+            try:
+                window.addch(y + start_y, x + start_x, char, TERRAIN_COLORS.get(char, curses.color_pair(6)))
+            except curses.error:
+                pass
+
+    # Adicionar legenda
+    legend_y = start_y + 10
+    legend_x = start_x + len(ascii_map[0]) + 2
+    legends = [
+        ("1. ▲ - Mountains", curses.color_pair(5)),
+        ("2. Y - Forest", curses.color_pair(2)),
+        ("3. _ - Plains", curses.color_pair(3)),
+        ("4. ≈ - Water", curses.color_pair(1)),
+        ("5. ∼ - Desert", curses.color_pair(6)),
+        ("6. ≋ - Magma", curses.color_pair(4))
+    ]
+
+    # Verificar se há espaço suficiente para a legenda
+    longest_legend = max(len(text) for text, _ in legends)
+    if legend_x + longest_legend < max_x - 2:  # -2 para margem da borda
+        for i, (text, color) in enumerate(legends):
+            try:
+                window.addstr(legend_y + i, legend_x, text, color)
+            except curses.error:
+                pass
     
-    # Criar pad com tamanho suficiente para o texto ASCII
-    pad_height = len(map_ascii) + 2  # Altura do texto + margem
-    pad_width = len(map_ascii[0]) + 2  # Largura do texto + margem
-    pad = curses.newpad(pad_height, pad_width)
+    # Atualizar a janela
+    window.refresh()
+
+    # Aguardar input do usuário
+    while True:
+        try:
+            key = window.getch()
+            if key in [ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6')]:
+                return int(chr(key))
+            elif key in [27, ord('q'), ord('Q')]:  # ESC ou Q para sair
+                return 6  # Retorna como se tivesse selecionado "Return"
+        except curses.error:
+            continue
     
-    # Adicionar o texto ASCII ao pad
-    for i, line in enumerate(map_ascii):
-        for j, char in enumerate(line):
-            pad.addstr(i, j, char, TERRAIN_COLORS.get(char, curses.color_pair(1)))
-
-    # Calcular posição central
-    start_y = (height - len(map_ascii)) // 2
-    start_x = (width - len(map_ascii[0])) // 2
-
-    # Loop de exibição
-    for i in range(50):
-        stdscr.clear()
-        stdscr.refresh()
-        
-        # Atualizar pad com posicionamento centralizado
-        pad.refresh(0,  # pad starting line
-                   0,  # pad starting column
-                   start_y,  # screen starting line
-                   start_x,  # screen starting column
-                   start_y + len(map_ascii) + 1,  # screen ending line
-                   start_x + len(map_ascii[0]) + 1)  # screen ending column
-
-    stdscr.getch()
-
-wrapper(main)
+    return 0  # Retorno padrão se algo der errado
