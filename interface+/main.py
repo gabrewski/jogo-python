@@ -1,10 +1,11 @@
 import curses
+from map_module import show_map
 
 # fazer os imports aqui
-# importar os coisos do jogador (nome e level) do sistema de progresso
-# importar o mapa
-# importar os itens do sistema de inventário
-# importar o combate
+# Importar os coisos do jogador (nome e level) do sistema de progresso
+# Importar os coiso de mapa aleatório
+# Importar os itens do sistema de inventário
+# Importar o combate
 
 class GameInterface:
     def __init__(self, stdscr):
@@ -33,6 +34,7 @@ class GameInterface:
         self.setup_windows()
         self.refresh_all()
         
+    # DESENHANDO OS QUADRADINHOS E PAH
     def setup_windows(self):
         self.max_y, self.max_x = self.stdscr.getmaxyx()
         
@@ -50,11 +52,11 @@ class GameInterface:
         # Status do personagem
         self.stats_win = curses.newwin(8, side_width, 5, game_width)
         
-        # Inventário
+        # Inventário (ocupa o resto do espaço vertical)
         inv_height = self.max_y - 13 
         self.inv_win = curses.newwin(inv_height, side_width, 13, game_width)
         
-        # Área de comandos
+        # Área de comandos (mesma largura da área do jogo)
         self.cmd_win = curses.newwin(5, game_width, game_height, 0)
         
         self.draw_borders()
@@ -71,21 +73,16 @@ class GameInterface:
         self.inv_win.refresh()
         self.cmd_win.refresh()
     
+    #ATUALIZAÇÕES DE INFORMAÇÕES
     def update_game_area(self, game_map=None):
         """Atualiza a área principal do jogo"""
         self.game_win.clear()
         self.game_win.box()
-        
-        # usar seu módulo de mapa
-        # if (mapa):
-        #     for y, row in enumerate(mapa.tiles):
-        #         for x, tile in enumerate(row):
-        #             self.game_win.addch(y + 1, x + 1, tile.char)
-        
+
         # Por enquanto, apenas um exemplo
-        self.game_win.addstr(1, 1, "@ - Player")
+        self.game_win.addstr(2, 3, "começa na vila")
         self.game_win.refresh()
-    
+
     def update_character(self, name="Hero", level=1, hp=100, max_hp=100):
         """Atualiza informações do personagem"""
         self.char_win.clear()
@@ -100,13 +97,7 @@ class GameInterface:
         self.stats_win.clear()
         self.stats_win.box()
         
-        # if stats:
-        #     display_stats = [
-        #         f"STR: {stats.strength}",
-        #         f"DEX: {stats.dexterity}"
-        #     ]
-        
-        # Por enquanto, valores de exemplo, não sei o que vai ter
+        # Por enquanto, valores de exemplo, tem que pegar do sistema de progressão
         stats = [
             "MP: ████████── 80/100",
             "STR: 15",
@@ -124,10 +115,7 @@ class GameInterface:
         self.inv_win.box()
         self.inv_win.addstr(1, 2, "Inventory:")
         
-        # if inventory:
-        #     items = inventory.get_items()
-        
-        # Por enquanto, itens de exemplo
+        # Por enquanto, itens de exemplo, tem que pegar do inventario
         items = ["Health Potion", "Iron Sword", "Leather Armor", "Magic Ring"]
         for i, item in enumerate(items, 2):
             self.inv_win.addstr(i, 2, f"- {item}")
@@ -147,6 +135,13 @@ class GameInterface:
             
         self.cmd_win.refresh()
 
+    # COISAS ACONTECENDO 
+    def show_world_map(self):
+        """Mostra o mapa do mundo na área principal do jogo"""
+        selected_area = show_map(self.game_win)
+        self.game_win.refresh()
+        return selected_area
+
 def main(stdscr):
     # Verifica tamanho mínimo do terminal
     height, width = stdscr.getmaxyx()
@@ -162,11 +157,11 @@ def main(stdscr):
     # Inicializa a interface
     interface = GameInterface(stdscr)
     
-    # Dá inicializar outros módulos
+    # inicializar os outros módulos? talvez fique tudo igual eu coloquei o mapa
     # player = Player("Hero", 1)
     # world = World()
-    # game_map = generate_map(80, 24)
     # inventory = Inventory()
+    # sei lá, algo assim
     
     # Atualiza todas as áreas
     interface.update_game_area()
@@ -182,14 +177,37 @@ def main(stdscr):
             
             if key == ord('q'):
                 break
-            
-            # Como interagir com outros módulos (pensando sobre aquele código que eu tinha feito antes)
-            # if key in [ord('w'), ord('s'), ord('a'), ord('d')]:
-            #     player.move(key)
-            #     world.update()
-            #     interface.update_game_area(world.get_current_map())
-            #     interface.update_character(player.name, player.level, player.hp)
-            
+            elif key == ord('m') or key == ord('M'):
+                selected_area = interface.show_world_map()
+
+                #talvez tenha que mudar pq vão ter outras partes que vão ser com número, tipo o menu principal ou o combate, veremos
+                if selected_area == 1:
+                    #carregar montanha
+                    interface.update_game_area()
+
+                elif selected_area == 2:
+                    # Carregar floresta
+                    interface.update_game_area()
+
+                elif selected_area == 3:
+                    # Carregar planícies
+                    interface.update_game_area()
+
+                elif selected_area == 4:
+                    # Carregar água
+                    interface.update_game_area()
+
+                elif selected_area == 5:
+                    # carregar deserto
+                    interface.update_game_area()
+
+                elif selected_area == 6:
+                    # carregar magma
+                    interface.update_game_area()
+
+                else:  # selected_area == 7 ou inválido
+                    interface.update_game_area()
+
         except KeyboardInterrupt:
             break
 
@@ -198,6 +216,3 @@ if __name__ == "__main__":
         curses.wrapper(main)
     except curses.error as e:
         print(f"Erro ao inicializar curses: {e}")
-
-# Não faço a menor ideia de como ligar todas as coisas :D
-# Hoje farei a parte da loja que ficou comigo 
