@@ -1,7 +1,16 @@
 from character import *
 from item import * 
+from inventario import *
 import os
 import time
+import random
+
+'''
+def drop_item(drop, drop_gold):
+        drop = random.choice() #lista de itens de cada fase
+        drop_gold = random.randint(5,50)
+        print(f"O inimigo dropou {drop_gold} moedas e um/uma {drop}.")
+'''
 
 def combat_encounter(player, enemy):
     while True:
@@ -26,16 +35,7 @@ def combat_encounter(player, enemy):
                 break
             elif enemy.hp==0:
                 print("Batalha vencida.")
-                #definir drop items para cada fase e fazer condicional com randint
-                '''
-                    drop_items_1 = []
-                    if fase 1:
-                        roll = random.randint(1,100) 
-                            if roll <= drop_chance:
-                            drop_item = random.choice(drop_items_1)
-                    else:
-                        print("O inimigo não dropou loot.")
-                '''
+                drop_item()
                 break
             time.sleep(1) 
             continue
@@ -43,7 +43,7 @@ def combat_encounter(player, enemy):
             player.defend(enemy)
             time.sleep(1)
         elif opt==3: 
-            self.use_item()
+            #self.use_item()
         elif opt == 4:
             print("Você fugiu da batalha.")
             break
