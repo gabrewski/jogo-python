@@ -15,16 +15,16 @@ class Character:
     def attack(self, target):
         roll = random.randint(1,100) #determina se o ataque vai ser crítico
         if roll <= self.crit_chance:
-            damage = int(round(self.atk + self.weapon.atk) * self.crit_damage)
+            damage = int(round(self.atk + self.weapon.atk_value) * self.crit_damage)
             print("\nAtaque crítico!")
         else:
-            damage = self.atk + self.weapon.atk
+            damage = self.atk + self.weapon.atk_value
         target.hp -= damage
         target.hp = max(target.hp, 0)
         print(f"\n{self.name} deu {damage} de dano ao {target.name}.")
 
     def defend(self, target):
-        damage = target.atk - self.armor.value
+        damage = target.atk - self.armor.def_value
         self.hp -= damage
         self.hp = max(self.hp, 0)
         print(f"\n{self.name} defendeu o ataque, mas levou {damage} de dano.")
@@ -35,7 +35,7 @@ class Player (Character):
         super().__init__(name = name, hp = hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = espada
         self.armor = armor
-        self.inventory = Inventario(slots=inventory_slots, gold=0, player_items=[])
+        self.inventory = player_inventory
 
     def display_info(self):
         print(f"Nome: {self.name}")
@@ -52,14 +52,31 @@ class Player (Character):
         self.armor = armor
         print(f"'{armor.name}' foi equipado como armadura.")
 
-    def use_item(self, item: Item):
-        if item in self.inventory:
+    def use_item(self):
+        print("Item utilizado.") #placeholder
 
 #Classe para inimigos
 class Enemy(Character):
     def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float):
         super().__init__(name=name, hp=hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = porrete
+
+    def drop_item(self, player):
+        drop = random.choice(drop_items_1) #lista de itens de cada fase
+        drop_gold = random.randint(5,50)
+        print(f"O inimigo dropou {drop_gold} moedas e {drop}.")
+        player.inventory.gold += drop_gold
+        while True:
+            opt = input("Adicionar item ao inventário?  Sim (S) / Não (N): ").strip().lower()
+            if opt == "s":
+                player.inventory.player_items.append(drop)
+                print("O item foi adicionado ao iventário.")
+                break
+            elif opt == "n":
+                    break
+            else:
+                print("Digite uma opção válida.")
+
         
 #Lista de inimigos segmentada por fases
 enemy_list_fase_1 = [ #Floresta dos Ecos

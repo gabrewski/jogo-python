@@ -1,6 +1,7 @@
 from character import *
 from item import *
 from combat import *
+from inventario import *
 import os
 
 

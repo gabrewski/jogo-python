@@ -5,12 +5,6 @@ import os
 import time
 import random
 
-'''
-def drop_item(drop, drop_gold):
-        drop = random.choice() #lista de itens de cada fase
-        drop_gold = random.randint(5,50)
-        print(f"O inimigo dropou {drop_gold} moedas e um/uma {drop}.")
-'''
 
 def combat_encounter(player, enemy):
     while True:
@@ -18,10 +12,10 @@ def combat_encounter(player, enemy):
         print("Batalha em andamento!\n") 
         print(f"Vida de {player.name}: {player.hp}")
         print(f"Vida de {enemy.name}: {enemy.hp}")
-        print("\nAtacar (1)\nDefender (2)\nUsar item (3)\nFugir(4)")
+        print("\nAtacar (1)\nDefender (2)\nUsar item (3)\nFugir (4)")
         
         try: #safeguard contra input que não pode ser convertido em int
-            opt = int(input("O que deseja fazer? "))
+            opt = int(input("\nO que deseja fazer? "))
         except ValueError:
             print("Opção inválida. Tente novamente.")
             time.sleep(1)
@@ -31,11 +25,11 @@ def combat_encounter(player, enemy):
             player.attack(enemy)
             enemy.attack(player)
             if player.hp==0: 
-                print ("Batalha perdida.")
+                print ("\nBatalha perdida.")
                 break
             elif enemy.hp==0:
-                print("Batalha vencida.")
-                drop_item()
+                print("\nBatalha vencida.")
+                enemy.drop_item(player)
                 break
             time.sleep(1) 
             continue
@@ -43,7 +37,8 @@ def combat_encounter(player, enemy):
             player.defend(enemy)
             time.sleep(1)
         elif opt==3: 
-            #self.use_item()
+            player.use_item()
+            time.sleep(1)
         elif opt == 4:
             print("Você fugiu da batalha.")
             break
