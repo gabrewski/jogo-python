@@ -22,3 +22,4 @@ if __name__ == "__main__":
 #>Revelar mapa aos poucos com um sistema de FOV (Field of View)
 #>Implementar legenda de mapa
 #Implementar interface de combate
+#Segmentar algoritmo de geração de mapa entre fases
