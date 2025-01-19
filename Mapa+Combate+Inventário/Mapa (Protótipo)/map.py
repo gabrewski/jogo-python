@@ -28,7 +28,7 @@ class Map:
                 init_start_x=randint(3, self.largura-max_size)
             
 #debug de posicionamento dos terrenos
-            print(f"Terreno'{tile.symbol}' criado em ({start_x}, {start_y}) com largura {largura} e altura {altura}.")
+            print(f"terreno'{tile.symbol}' criado em ({start_x}, {start_y}) com largura {largura} e altura {altura}.")
 
             for i in range(altura):
                 if imperfeito:
