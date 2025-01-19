@@ -1,31 +1,43 @@
-from tile import *
+from tile import Tile, planicie, floresta, montanha, agua
 from random import randint
 
 class Map:
     def __init__(self, largura: int, altura: int) -> None:
         self.largura = largura
         self.altura = altura
-        self.map_info: list[list[str]] = []
+        
+        self.map_info: list[list[Tile]]
+        
         self.create_map()
+        self.gerar_terreno(floresta, 2, 5, 5)
+        self.gerar_terreno(planicie, 2, 2, 5)
+        self.gerar_terreno(montanha, 3, 5, 7)
+        self.gerar_terreno(agua, 1, 10, 12)
         
     def create_map(self) -> None:
-        self.map_info=[]
-        for fila in range(self.altura):
-            fila_info = []
-            for coluna in range(self.largura):
-                fila_info.append(planice)
-            self.map_info.append(fila_info)
+        self.map_info = [[planicie for _ in range(self.largura)] for _ in range(self.altura)]
             
-    def gerar_terreno(self, tile: Tile, num_terrenos: int, min_size:int, max_size:int ) -> None:
-        largura=randint(min_size, max_size)
-        altura = randint(min_size, max_size)
-        start_x = randint(1, self.largura - largura - 1)
-        start_y = randint(1, self.largura - altura - 1)
-        
-        for i in range(altura):
-            for j in range(largura):
-                self.map_info[start_y + start_x]
+    def gerar_terreno(self, tile: Tile, num_terrenos: int, min_size:int, max_size:int, imperfeito: bool = True) -> None:
+        for _ in range(num_terrenos):
+            largura = randint(min_size, max_size)
+            altura = randint(min_size, max_size)
+            start_x = randint(0, self.largura - largura)
+            start_y = randint(0, self.largura - altura)
             
+            if imperfeito:
+                init_start_x=randint(3, self.largura-max_size)
+            
+#debug de posicionamento dos terrenos
+            print(f"Gerando terreno '{tile.symbol}' em ({start_x}, {start_y}) com largura {largura} e altura {altura}.")
+
+            for i in range(altura):
+                if imperfeito:
+                    largura = randint(int(0.7 * max_size), max_size)
+                    start_x = init_start_x - randint(1, 2)
+                for j in range(largura):
+                    if 0 <= start_y + i < self.altura and 0 <= start_x + j < self.largura:
+                        self.map_info[start_y + i][start_x + j] = tile
+
     def display_map(self)-> None:
         frame = "X" + self.largura * "=" + "X"
         print(frame)

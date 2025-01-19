@@ -15,9 +15,9 @@ class Tile:
             self.symbol=symbol
 
 #Tipos de terreno usados nas diversas fases
-planice = Tile("_", ANSI_GREEN)
-floresta = Tile("♣", ANSI_GREEN)
-montanha = Tile("▲", ANSI_WHITE)
+planicie = Tile("_", ANSI_GREEN)
+floresta = Tile("Y", ANSI_GREEN)
+montanha = Tile("A", ANSI_WHITE)
 agua = Tile("≈", ANSI_CYAN)
 areia = Tile("~", ANSI_YELLOW)
 tundra = Tile ("‗", ANSI_WHITE)
