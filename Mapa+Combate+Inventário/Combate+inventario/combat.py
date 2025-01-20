@@ -5,34 +5,45 @@ import os
 import time
 import random
 
+def display_stats(player, enemy):
+    print(f"Vida de {player.name}: {player.hp}")
+    print(f"Vida de {enemy.name}: {enemy.hp}")
+
+def get_player_choice():
+    try:
+        opt = int(input("\nO que deseja fazer? "))
+        return opt
+    except ValueError:
+        print("Opção inválida. Tente novamente.")
+        time.sleep(1)
+        return None
+    
+def atk_action(player, enemy):
+    player.attack(enemy)
+    enemy.attack(player)
+    if player.hp == 0:
+        print("\nBatalha perdida.")
+        return False
+    elif enemy.hp == 0:
+        print("\nBatalha vencida.")
+        enemy.drop_item(player)
+        return False
+    return True
 
 def combat_encounter(player, enemy):
     while True:
         os.system("cls")
         print("Batalha em andamento!\n") 
-        print(f"Vida de {player.name}: {player.hp}")
-        print(f"Vida de {enemy.name}: {enemy.hp}")
+        display_stats(player, enemy)
         print("\nAtacar (1)\nDefender (2)\nUsar item (3)\nFugir (4)")
         
-        try: #safeguard contra input que não pode ser convertido em int
-            opt = int(input("\nO que deseja fazer? "))
-        except ValueError:
-            print("Opção inválida. Tente novamente.")
-            time.sleep(1)
-            continue
+        opt = get_player_choice()
+        if opt is None:
+            continue #input inválido, reinicia o loop
 
         if opt==1:
-            player.attack(enemy)
-            enemy.attack(player)
-            if player.hp==0: 
-                print ("\nBatalha perdida.")
-                break
-            elif enemy.hp==0:
-                print("\nBatalha vencida.")
-                enemy.drop_item(player)
-                break
-            time.sleep(1) 
-            continue
+            if not atk_action(enemy):
+                break #termina o combate ao fim da batalha
         elif opt==2:
             player.defend(enemy)
             time.sleep(1)

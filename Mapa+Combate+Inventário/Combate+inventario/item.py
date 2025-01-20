@@ -17,7 +17,13 @@ class Armor(Item):
         self.equipable = equipable
         self.def_value = def_value
 
-armor = Armor(name = "Armadura de Ferro", gold_value = 5, equipable = True, def_value = 2)
+armor1 = Armor(name = "Armadura de Ferro", gold_value = 15, equipable = True, def_value = 5)
+
+armor2 = Armor(name = "Armadura de Aço", gold_value = 30, equipable = True, def_value = 15)
+
+armor3 = Armor(name = "Armadura de Platina", gold_value = 80, equipable = True, def_value = 40)
+
+armor4 = Armor(name = "Armadura Divina", gold_value = 120, equipable = True, def_value = 80)
 
 #subclasse: armas
 class Weapon(Item):
@@ -28,17 +34,19 @@ class Weapon(Item):
         self.equipable = equipable
         self.atk_value = atk_value
 
-espada = Weapon(name="Espada de Ferro", gold_value = 5, equipable = True, atk_value=5)
+espada1 = Weapon(name="Espada de Ferro", gold_value = 5, equipable = True, atk_value=5)
+
+espada2 = Weapon(name="Espada de Aço", gold_value = 5, equipable = True, atk_value=5)
+
+espada3 = Weapon(name="Espada Longa", gold_value = 5, equipable = True, atk_value=5)
 
 porrete = Weapon(name="Porrete de Madeira", gold_value = 5, equipable = True, atk_value=2)
 
-adaga = Weapon(name="Adaga", gold_value = 5, equipable = True, atk_value=3)                                
+adaga = Weapon(name="Adaga de Aço", gold_value = 5, equipable = True, atk_value=3)                                
 
-arco = Weapon(name="Arco", gold_value = 5, equipable = True, atk_value=4)
+arco = Weapon(name="Arco e Flecha", gold_value = 5, equipable = True, atk_value=4)
 
-grimório = Weapon(name="Grimório", gold_value = 5, equipable = True, atk_value=4)
-
-punhos = Weapon(name="Punhos", gold_value = 5, equipable = True, atk_value=2)
+machado = Weapon(name="Machado", gold_value = 5, equipable = True, atk_value=5)
 
 #subclasse: itens de cura
 class ItemCura(Item):
@@ -49,7 +57,13 @@ class ItemCura(Item):
         self.equipable = equipable
         self.hp_value = hp_value
 
-maça = ItemCura(name = "Maçã", gold_value = 2, equipable = False, hp_value = 2)
+potion1 = ItemCura(name = "Poção Revigorante", gold_value = 8, equipable = False, hp_value = 8)
+
+potion2 = ItemCura(name = "Poção de Cura Leve", gold_value = 15, equipable = False, hp_value = 15)
+
+potion3 = ItemCura(name = "Poção de Cura Poderosa", gold_value = 30, equipable = False, hp_value = 30)
+
+potion4 = ItemCura(name = "Poção de Cura Suprema", gold_value = 60, equipable = False, hp_value = 60)
 
 #subclasse: ouro
 class Ouro(Item):
@@ -63,7 +77,10 @@ ouro = Ouro(name = "Ouro", gold_value = 1, equipable = False)
 
 
 #listas de drop items por fase
-drop_items_1 = [espada, porrete, adaga, maça]
+drop_items_1 = [espada1, porrete, armor1, armor2, potion1]
+drop_items_2 = [espada2, adaga, armor2, armor3, potion2]
+drop_items_3 = [espada3, arco, armor2, armor3, potion3]
+drop_items_4 = [espada3, machado, armor3, armor4, potion4]
 
 #itens de quest
 item_quest_1 = "Amuleto da Floresta" #amuleto mágico protegido pelos espíritos da floresta, abre um portal que conecta a floresta ao deserto

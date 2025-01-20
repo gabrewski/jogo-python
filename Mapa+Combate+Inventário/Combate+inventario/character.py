@@ -4,7 +4,7 @@ import random
 
 #Classe para todos os personagens
 class Character:
-    def __init__(self, name: str, hp: int, atk: int, crit_chance: int, crit_damage: float):
+    def __init__(self, name: str, hp: int, atk: int, crit_chance: float, crit_damage: float):
         self.name = name
         self.hp = hp
         self.hp_max = hp
@@ -13,8 +13,7 @@ class Character:
         self.crit_damage = crit_damage
 
     def attack(self, target):
-        roll = random.randint(1,100) #determina se o ataque vai ser crítico
-        if roll <= self.crit_chance:
+        if random.random() <= self.crit_chance:
             damage = int(round(self.atk + self.weapon.atk_value) * self.crit_damage)
             print("\nAtaque crítico!")
         else:
@@ -28,6 +27,10 @@ class Character:
         self.hp -= damage
         self.hp = max(self.hp, 0)
         print(f"\n{self.name} defendeu o ataque, mas levou {damage} de dano.")
+    
+    def is_alive(self):
+        return self.hp > 0
+
 
 #Classe do jogador
 class Player (Character):
@@ -40,8 +43,11 @@ class Player (Character):
     def display_info(self):
         print(f"Nome: {self.name}")
         print(f"HP: {self.hp}")
-        print(f"Ataque: {self.atk}")
-        print(f"Chance de Crítico: {self.crit_chance}%")
+        if self.weapon is None:
+            print(f"Ataque: {self.atk}")
+        else:
+            print(f"Ataque: {self.atk + self.weapon.atk_value}")
+        print(f"Chance de Crítico: {self.crit_chance*10}%")
         print(f"Dano Crítico: {self.crit_damage}x")
 
     def equip_weapon(self, weapon: Item):
