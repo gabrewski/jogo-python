@@ -36,8 +36,8 @@ class Character:
 class Player (Character):
     def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float):
         super().__init__(name = name, hp = hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
-        self.weapon = espada
-        self.armor = armor
+        self.weapon = espada1
+        self.armor = armor1
         self.inventory = player_inventory
 
     def display_info(self):

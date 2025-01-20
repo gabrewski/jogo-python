@@ -1,29 +1,37 @@
 from tile import Tile, planicie, floresta, montanha, agua
 from random import randint
 
+#Criação da classe mapa e configuração dos terrenos
 class Map:
-    def __init__(self, largura: int, altura: int) -> None:
+    def __init__(self, 
+                 largura: int, 
+                 altura: int) -> None:
         self.largura = largura
         self.altura = altura
         
         self.map_info: list[list[Tile]]
         
         self.create_map()
-        self.gerar_terreno(floresta, 2, 5, 5)
-        self.gerar_terreno(planicie, 2, 2, 5)
-        self.gerar_terreno(montanha, 3, 5, 7)
-        self.gerar_terreno(agua, 1, 10, 12)
+        self.gerar_terreno(floresta, 20, 5, 15)
+        self.gerar_terreno(montanha, 5, 5, 7)
+        self.gerar_terreno(agua, 10, 10, 10)
         
     def create_map(self) -> None:
         self.map_info = [[planicie for _ in range(self.largura)] for _ in range(self.altura)]
-            
-    def gerar_terreno(self, tile: Tile, num_terrenos: int, min_size:int, max_size:int, imperfeito: bool = True) -> None:
+
+#Geraçao de segmentos de terreno           
+    def gerar_terreno(self, 
+                      tile: Tile, 
+                      num_terrenos: int, 
+                      min_size:int, 
+                      max_size:int, 
+                      imperfeito: bool = True) -> None:
         for _ in range(num_terrenos):
             largura = randint(min_size, max_size)
             altura = randint(min_size, max_size)
             start_x = randint(0, self.largura - largura)
             start_y = randint(0, self.largura - altura)
-            
+#Atributo usado para deixar terrenos mais naturais causando leves variações ao redor da mesma area da altura e largura onde os terrenos surgem.         
             if imperfeito:
                 init_start_x=randint(3, self.largura-max_size)
             
@@ -47,10 +55,11 @@ class Map:
         print(frame)
 
 
-game_map = [
+#implementação anterior
+'''game_map = [
     [Tile(...), Tile(...), Tile(...)],
     [Tile(...), Tile(...), Tile(...)],
     [Tile(...), Tile(...), Tile(...)],
     [Tile(...), Tile(...), Tile(...)],
     [Tile(...), Tile(...), Tile(...)],
-]
+]'''

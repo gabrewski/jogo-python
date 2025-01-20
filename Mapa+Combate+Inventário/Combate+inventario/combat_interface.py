@@ -28,7 +28,7 @@ def combat(stdscr, player, enemy):
             win.addstr(8, 0, "You attacked")
         elif opt == ord('2'):
             win.addstr(9, 0, "You defended")
-        if opt == ord('3'):
+        elif opt == ord('3'):
             win.addstr(10, 0, "You fled")
             break
         else:

@@ -30,7 +30,7 @@ def atk_action(player, enemy):
         return False
     return True
 
-def combat_encounter(player, enemy):
+'''def combat_encounter(player, enemy):
     while True:
         os.system("cls")
         print("Batalha em andamento!\n") 
@@ -55,7 +55,7 @@ def combat_encounter(player, enemy):
             break
         else:
             print("Opção inválida. Tente novamente.")
-            time.sleep(1)
+            time.sleep(1)'''
         
 
 #To do list:
