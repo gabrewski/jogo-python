@@ -9,11 +9,16 @@ class Map:
         self.map_info: list[list[Tile]]
         
         self.create_map()
-        self.gerar_terreno(floresta, 2, 5, 5)
-        self.gerar_terreno(planicie, 2, 2, 5)
-        self.gerar_terreno(montanha, 3, 5, 7)
-        self.gerar_terreno(agua, 1, 10, 12)
-        
+        self.gerar_terreno(floresta, 12, 5, 15)
+        self.gerar_terreno(agua, 10, 6, 12)
+        self.gerar_terreno(montanha, 10, 3, 6)
+#Opções de movimento      
+        self.move_opt = {
+            "up": "[W] - UP",
+            "down": "[S] - DOWN",
+            "left": "[A] - LEFT",
+            "right": "[D] - RIGHT"
+        }
     def create_map(self) -> None:
         self.map_info = [[planicie for _ in range(self.largura)] for _ in range(self.altura)]
             
@@ -46,11 +51,10 @@ class Map:
             print("|" + "".join(fila_tiles) + "|")
         print(frame)
 
-
-game_map = [
+'''game_map = [
     [Tile(...), Tile(...), Tile(...)],
     [Tile(...), Tile(...), Tile(...)],
     [Tile(...), Tile(...), Tile(...)],
     [Tile(...), Tile(...), Tile(...)],
     [Tile(...), Tile(...), Tile(...)],
-]
+]'''

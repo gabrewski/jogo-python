@@ -8,7 +8,7 @@ def run() -> None:
         input("> ")
 
 if __name__ == "__main__":
-    map_larg, map_alt = 30, 20
+    map_larg, map_alt = 60, 15
     game_map = Map(map_larg, map_alt)
     run()
 
