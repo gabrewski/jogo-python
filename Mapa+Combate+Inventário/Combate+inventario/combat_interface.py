@@ -87,9 +87,14 @@ def combat(stdscr, player, enemy):
 
         #checha se o inimigo está morto
         if enemy.hp == 0:
-            win.addstr(13, 0, f"{player.name} venceu a batalha.")            
+            win.addstr(13, 0, f"{player.name} venceu a batalha.")
             win.refresh()
-            time.sleep(1) 
+
+            # ganhar EXP e Gold 
+            player.gain_exp(enemy.exp_range)
+            player.gain_gold(enemy.gold_range)
+
+            time.sleep(1)
             break
 
         #ações do inimigo  
@@ -141,7 +146,7 @@ def combat(stdscr, player, enemy):
     win.refresh()
     time.sleep(1)
 
-player = Player(name="Dargia", hp=1000, atk=50, crit_chance=0.4, crit_damage=2.0, xp = 0)
+player = Player(name="Dargia", hp=1000, atk=50, crit_chance=0.4, crit_damage=2.0)
 enemy = yeti
 
 if __name__ == "__main__":
