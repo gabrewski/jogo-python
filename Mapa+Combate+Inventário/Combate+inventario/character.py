@@ -13,24 +13,24 @@ class Character:
         self.crit_damage = crit_damage
 
     def attack(self, target):
-        if random.random() <= self.crit_chance:
-            damage = int(round(self.atk + self.weapon.atk_value) * self.crit_damage)
-            print("\nAtaque crítico!")
-        else:
-            damage = self.atk + self.weapon.atk_value
-        target.hp -= damage
+        crit = random.random() <= self.crit_chance
+        atk_damage = int(round(self.atk + self.weapon.atk_value) * self.crit_damage) if crit else (self.atk + self.weapon.atk_value)
+        target.hp -= atk_damage
         target.hp = max(target.hp, 0)
-        print(f"\n{self.name} deu {damage} de dano ao {target.name}.")
+        return atk_damage, crit
 
     def defend(self, target):
-        damage = target.atk - self.armor.def_value
-        self.hp -= damage
+        defend = random.random() <= 0.6
+        if self.armor == None:
+            self.armor.def_value = 0
+        def_damage = target.atk - self.armor.def_value if defend else target.atk
+        self.hp -= def_damage
         self.hp = max(self.hp, 0)
-        print(f"\n{self.name} defendeu o ataque, mas levou {damage} de dano.")
-    
-    def is_alive(self):
-        return self.hp > 0
+        return def_damage, defend
 
+    def flee(self):
+        flee = random.random() <= 0.7
+        return flee        
 
 #Classe do jogador
 class Player (Character):
@@ -63,9 +63,16 @@ class Player (Character):
 
 #Classe para inimigos
 class Enemy(Character):
-    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float):
+    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float, weapon: Weapon, armor: Armor = None):
         super().__init__(name=name, hp=hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
-        self.weapon = porrete
+        self.weapon = weapon
+        self.armor = None
+
+    def take_action(self, player):
+        atk = random.random() <= 0.5
+        if atk:
+            self.attack(player)
+        return atk
 
     def drop_item(self, player):
         drop = random.choice(drop_items_1) #lista de itens de cada fase
@@ -83,40 +90,79 @@ class Enemy(Character):
             else:
                 print("Digite uma opção válida.")
 
+#inimigos da fase 1
+goblin = Enemy(name="Goblin", hp=30, atk=15, crit_chance=0.2, crit_damage=1.5, weapon="Adaga")
+lobo = Enemy(name="Lobo", hp=50, atk=20, crit_chance=0.15, crit_damage=1.8, weapon="Garras")
+pixie = Enemy(name="Pixie", hp=20, atk=10, crit_chance=0.3, crit_damage=2.0, weapon="Magia")
+aranha_gigante = Enemy(name="Aranha Gigante", hp=70, atk=25, crit_chance=0.1, crit_damage=2.5, weapon="Veneno")
+mestre_aranhas = Enemy(name="Mestre das Aranhas", hp=150, atk=35, crit_chance=0.2, crit_damage=2.0, weapon="Machado")
+
+#atribuição de weapon
+goblin.weapon = adaga
+lobo.weapon = garras
+pixie.weapon = magia
+aranha_gigante.weapon = veneno
+mestre_aranhas.weapon = machado
+
+#inimigos da fase 2
+escorpiao_gigante = Enemy(name="Escorpião Gigante", hp=100, atk=30, crit_chance=0.25, crit_damage=2.2, weapon="Cauda de Veneno")
+reptiliano = Enemy(name="Reptiliano", hp=120, atk=40, crit_chance=0.18, crit_damage=1.8, weapon="Lâmina de Escama")
+bandido_deserto = Enemy(name="Bandido do Deserto", hp=80, atk=25, crit_chance=0.2, crit_damage=2.0, weapon="Cimitarra")
+golem_areia = Enemy(name="Golem de Areia", hp=150, atk=50, crit_chance=0.15, crit_damage=2.5, weapon="Areia Sólida")
+farao_esquecido = Enemy(name="Faraó Esquecido", hp=300, atk=70, crit_chance=0.1, crit_damage=3.0, weapon="Golpes de Areia")
+
+#atribuição de weapon
+escorpiao_gigante.weapon = cauda_veneno
+reptiliano.weapon = lamina_escama
+bandido_deserto.weapon = cimitarra
+golem_areia.weapon = areia_solida
+farao_esquecido.weapon = golpes_areia
+
+#inimigos da fase 3
+troll_gelo = Enemy(name="Troll de Gelo", hp=150, atk=40, crit_chance=0.2, crit_damage=2.0, weapon="Clava de Gelo")
+urso_polar = Enemy(name="Urso Polar", hp=90, atk=35, crit_chance=0.15, crit_damage=1.8, weapon="Garras Gigantes")
+yeti = Enemy(name="Yeti", hp=120, atk=45, crit_chance=0.18, crit_damage=2.2, weapon="Garras de Gelo")
+espirito_nevasca = Enemy(name="Espírito de Nevasca", hp=200, atk=55, crit_chance=0.12, crit_damage=2.8, weapon="Garras Gigantes")
+wendigo_congelado = Enemy(name="Wendigo Congelado", hp=350, atk=80, crit_chance=0.1, crit_damage=3.0, weapon="Garras Gigantes")
+
+#atribuição de weapon
+troll_gelo.weapon = clava_gelo
+urso_polar.weapon = garras_gigantes
+yeti.weapon = garras_gelo
+espirito_nevasca.weapon = garras_gigantes
+wendigo_congelado.weapon = garras_gigantes
+
+#inimigos da fase 4
+crocodilo_gigante = Enemy(name="Crocodilo Gigante", hp=250, atk=60, crit_chance=0.15, crit_damage=2.5, weapon="Mandíbulas")
+golem_pantano = Enemy(name="Golem do Pântano", hp=200, atk=55, crit_chance=0.12, crit_damage=2.2, weapon="Raízes")
+hidra = Enemy(name="Hidra", hp=300, atk=80, crit_chance=0.1, crit_damage=2.8, weapon="Veneno")
+yeti_pantano = Enemy(name="Yeti", hp=250, atk=70, crit_chance=0.18, crit_damage=2.5, weapon="Garras de Gelo")
+vidente_pantano = Enemy(name="Vidente do Pântano", hp=500, atk=100, crit_chance=0.05, crit_damage=3.5, weapon="Magia")
+
+#atribuição de weapon
+crocodilo_gigante.weapon = mandibulas
+golem_pantano.weapon = raizes
+hidra.weapon = cabecas_veneno
+yeti_pantano.weapon = garras_gelo
+vidente_pantano.weapon = magia
+
+#inimigos da fase 5
+salamandra_vulcanica = Enemy(name="Salamandra Vulcânica", hp=350, atk=90, crit_chance=0.2, crit_damage=2.5, weapon="Chamas Incandescentes")
+cultistas_fogo = Enemy(name="Cultistas do Fogo", hp=200, atk=60, crit_chance=0.18, crit_damage=2.2, weapon="Magia de Fogo")
+elemental_magma = Enemy(name="Elemental de Magma", hp=400, atk=110, crit_chance=0.15, crit_damage=3.0, weapon="Erupções de Lava")
+cavaleiro_inferno = Enemy(name="Cavaleiro do Inferno", hp=500, atk=130, crit_chance=0.1, crit_damage=3.5, weapon="Espada Flamejante")
+dragao_magma = Enemy(name="Dragão de Magma", hp=800, atk=150, crit_chance=0.05, crit_damage=4.0, weapon="Sopro de Lava")
+
+#atribuição de weapon
+salamandra_vulcanica.weapon = chamas_incandescentes
+cultistas_fogo.weapon = magia_fogo
+elemental_magma.weapon = erupcoes_lava
+cavaleiro_inferno.weapon = espada_flamejante
+dragao_magma.weapon = sopro_lava
         
-#Lista de inimigos segmentada por fases
-enemy_list_fase_1 = [ #Floresta dos Ecos
-    {"name": "Goblin", "hp": 30, "def": 5, "Weapon": "Adaga", "tiles": "Floresta", "xp-range": "10-15", "gold-range": "5-10"},
-    {"name": "Lobo", "hp": 50, "def": 10, "Weapon": "Garras", "tiles": "Floresta", "xp-range": "15-25", "gold-range": "7-12"},
-    {"name": "Pixie", "hp": 20, "def": 3, "Weapon": "Magia", "tiles": "Floresta", "xp-range": "8-12", "gold-range": "4-6"},
-    {"name": "Aranha Gigante", "hp": 70, "def": 15, "Weapon": "Veneno", "tiles": "Floresta", "xp-range": "20-30", "gold-range": "10-15"},
-    {"name": "Mestre das Aranhas", "hp": 150, "def": 20, "Weapon": "Machado", "tiles": "Floresta", "xp-range": "50-75", "gold-range": "20-30"} #mini boss
-]
-enemy_list_fase_2 = [ #Dunas do Desolado
-    {"name": "Escorpião Gigante", "hp": 100, "def": 20, "Weapon": "Cauda de Veneno", "tiles": "Deserto", "xp-range": "30-50", "gold-range": "15-20"},
-    {"name": "Reptiliano", "hp": 120, "def": 25, "Weapon": "Lâmina de Escama", "tiles": "Deserto", "xp-range": "40-60", "gold-range": "18-25"},
-    {"name": "Bandido do Deserto", "hp": 80, "def": 15, "Weapon": "Cimitarra", "tiles": "Deserto", "xp-range": "25-40", "gold-range": "12-18"},
-    {"name": "Golem de Areia", "hp": 150, "def": 40, "Weapon": "Areia Sólida", "tiles": "Deserto", "xp-range": "50-75", "gold-range": "20-35"},
-    {"name": "Faraó Esquecido", "hp": 300, "def": 50, "Weapon": "Golpes de Areia", "tiles": "Deserto", "xp-range": "100-150", "gold-range": "40-60"} #mini boss
-]
-enemy_list_fase_3 = [ #Terra Congelada
-    {"name": "Troll de Gelo", "hp": 150, "def": 30, "Weapon": "Clava de Gelo", "tiles": "Tundra", "xp-range": "50-75", "gold-range": "25-30"},
-    {"name": "Urso Polar", "hp": 90, "def": 20, "Weapon": "Gélido", "tiles": "Tundra", "xp-range": "30-50", "gold-range": "15-20"},
-    {"name": "Yeti", "hp": 120, "def": 25, "Weapon": "Garras de Gelo", "tiles": "Tundra", "xp-range": "40-60", "gold-range": "20-30"},
-    {"name": "Espírito de Nevasca", "hp": 200, "def": 40, "Weapon": "Garras Gigantes", "tiles": "Tundra", "xp-range": "60-90", "gold-range": "30-40"},
-    {"name": "Wendigo Congelado", "hp": 350, "def": 60, "Weapon": "Garras Gigantes", "tiles": "Tundra", "xp-range": "120-180", "gold-range": "50-70"} #mini boss
-]
-enemy_list_fase_4 = [ #Pântano das Àguas Místicas
-    {"name": "Crocodilo Gigante", "hp": 250, "def": 35, "Weapon": "Mandíbulas", "tiles": "Pântano", "xp-range": "80-120", "gold-range": "35-50"},
-    {"name": "Golem do Pântano", "hp": 200, "def": 45, "Weapon": "Raízes", "tiles": "Pântano", "xp-range": "70-100", "gold-range": "30-45"},
-    {"name": "Hidra", "hp": 300, "def": 50, "Weapon": "Cabeças de Veneno", "tiles": "Pântano", "xp-range": "100-150", "gold-range": "40-60"},
-    {"name": "Yeti", "hp": 250, "def": 40, "Weapon": "Garras de Gelo", "tiles": "Pântano", "xp-range": "80-120", "gold-range": "35-50"},
-    {"name": "Vidente do Pântano", "hp": 500, "def": 70, "Weapon": "Cabeças Múltiplas", "tiles": "Pântano", "xp-range": "150-250", "gold-range": "70-100"} #mini boss
-]
-enemy_list_fase_5 = [ #Fornalha do Apocalipse
-    {"name": "Salamandra Vulcânica", "hp": 350, "def": 60, "Weapon": "Chamas Incandescentes", "tiles": "Vulcão", "xp-range": "150-200", "gold-range": "50-80"},
-    {"name": "Cultistas do Fogo", "hp": 200, "def": 40, "Weapon": "Magia de Fogo", "tiles": "Vulcão", "xp-range": "100-150", "gold-range": "30-50"},
-    {"name": "Elemental de Magma", "hp": 400, "def": 70, "Weapon": "Erupções de Lava", "tiles": "Vulcão", "xp-range": "200-250", "gold-range": "60-90"},
-    {"name": "Cavaleiro do Inferno", "hp": 500, "def": 90, "Weapon": "Espada Flamejante", "tiles": "Vulcão", "xp-range": "250-300", "gold-range": "80-120"},
-    {"name": "Dragão de Magma", "hp": 800, "def": 100, "Weapon": "Sopro de Lava", "tiles": "Vulcão", "xp-range": "500-750", "gold-range": "150-200"} #boss final
-]
+#lista de inimigos por fase sem mini bosses
+enemy_list1 = [goblin , lobo, pixie, aranha_gigante]
+enemy_list2 = [escorpiao_gigante, reptiliano, bandido_deserto, golem_areia]
+enemy_list3 = [troll_gelo, urso_polar, yeti, espirito_nevasca]
+enemy_list4 = [crocodilo_gigante, golem_pantano, hidra, yeti_pantano]
+enemy_list5 = [salamandra_vulcanica, cultistas_fogo, elemental_magma, cavaleiro_inferno]
