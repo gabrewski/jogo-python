@@ -16,8 +16,8 @@ class Tile:
 
 #Tipos de terreno usados nas diversas fases
 planicie = Tile("_", ANSI_GREEN)
-floresta = Tile("Y", ANSI_GREEN)
-montanha = Tile("A", ANSI_WHITE)
+floresta = Tile("♠", ANSI_GREEN)
+montanha = Tile("▲", ANSI_WHITE)
 agua = Tile("≈", ANSI_CYAN)
 areia = Tile("~", ANSI_YELLOW)
 player_marker = Tile("X", "player", ANSI_RED)

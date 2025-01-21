@@ -14,11 +14,9 @@ if __name__ == "__main__":
 
 
 #To do list:
-#Gerar segmentos de terrenos aleatórios
 #Ser capaz de movimentar personagem pelo mapa
 #Ser capaz de iniciar combate com uma chance aleatória no mundo aberto
 #Implementar modelo de exploração:
 #>Revelar mapa aos poucos com um sistema de FOV (Field of View)
 #>Implementar legenda de mapa
-#Implementar interface de combate
 #Segmentar algoritmo de geração de mapa entre fases
