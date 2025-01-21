@@ -101,8 +101,8 @@ class Player (Character):
         self.armor = armor
         print(f"'{armor.name}' foi equipado como armadura.")
 
-    def use_item(self, player_inventory):
-        potions = [item for item in player_inventory.player_items if item.hp_value > 0]
+    def use_item(self):
+        potions = [item for item in self.inventory.player_items if item.consumable]
         return potions
     
 
