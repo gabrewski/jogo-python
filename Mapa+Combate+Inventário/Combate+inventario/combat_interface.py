@@ -91,8 +91,8 @@ def combat(stdscr, player, enemy):
             win.refresh()
 
             # ganhar EXP e Gold 
-            player.gain_exp(enemy.exp_range)
-            player.gain_gold(enemy.gold_range)
+            lvl_up, exp_ganho = player.gain_exp(enemy.exp_range)
+            gold_ganho = player.gain_gold(enemy.gold_range)
 
             time.sleep(1)
             break

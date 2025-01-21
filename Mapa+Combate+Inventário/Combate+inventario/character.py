@@ -52,7 +52,7 @@ class Player (Character):
                           9:2500}
 
 
-    def gain_exp(self, exp_range:tuple[int, int]):
+    def gain_exp(self, exp_range:tuple[int, int]) -> tuple[bool, int] | None:
         '''
         Incrementa o exp do jogador.\n
         Ao atingir o limite de exp definido em 'level_exp', chama a função level_up().\n
@@ -61,10 +61,14 @@ class Player (Character):
         if self.level == 10: # nível max
             return
 
-        self.exp += random.randint(*exp_range)
+        exp_ganho = random.randint(*exp_range)
+        self.exp += exp_ganho
         if self.exp >= self.level_exp[self.level]:
             self.exp = 0
             self.level_up()
+            return (True, exp_ganho)
+        else:
+            return (False, exp_ganho)
 
 
     def level_up(self):
@@ -75,12 +79,14 @@ class Player (Character):
         self.crit_chance += 0.1
 
 
-    def gain_gold(self, gold_range:tuple[int, int]):
+    def gain_gold(self, gold_range:tuple[int, int]) -> int:
         '''
         Incrementa o gold do jogador.\n
         Chamar esta função ao finalizar o combate, e inserir o valor de 'gold_range' no formato (int, int)
         '''
-        self.inventory.gold += random.randint(*gold_range)
+        gold_ganho = random.randint(*gold_range)
+        self.inventory.gold += gold_ganho
+        return gold_ganho
 
 
     def display_info(self):
