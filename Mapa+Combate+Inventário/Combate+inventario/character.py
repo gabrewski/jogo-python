@@ -39,6 +39,43 @@ class Player (Character):
         self.inventory = player_inventory
         self.xp = xp
 
+        # progressão
+        self.exp = 0
+        self.level = 1
+        self.level_exp = {1:100, # exp necessário em cada nível
+                          2:200, 
+                          3:400, 
+                          4:600, 
+                          5:900, 
+                          6:1200, 
+                          7:1600, 
+                          8:2000, 
+                          9:2500}
+
+
+    def gain_exp(self, exp_range:tuple[int, int]):
+        '''
+        Incrementa o exp do jogador.\n
+        Ao atingir o limite de exp definido em 'level_exp', chama a função level_up().\n
+        Chamar esta função ao finalizar o combate, e inserir o valor de 'exp_range' no formato (int, int)
+        '''
+        if self.level == 10: # nível max
+            return
+
+        self.exp += random.randint(*exp_range)
+        if self.exp >= self.level_exp[self.level]:
+            self.exp = 0
+            self.level_up()
+
+
+    def level_up(self):
+        '''Incrementa os atributos base do jogador.'''
+        self.level += 1
+        self.hp_max += 25
+        self.atk += 10
+        self.crit_chance += 0.1
+
+
     def display_info(self):
         print(f"Nome: {self.name}")
         print(f"HP: {self.hp}")
