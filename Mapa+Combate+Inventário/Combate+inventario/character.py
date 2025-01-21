@@ -21,8 +21,6 @@ class Character:
 
     def defend(self, target):
         defend = random.random() <= 0.6
-        if self.armor == None:
-            self.armor.def_value = 0
         def_damage = target.atk - self.armor.def_value if defend else target.atk
         self.hp -= def_damage
         self.hp = max(self.hp, 0)
@@ -34,11 +32,12 @@ class Character:
 
 #Classe do jogador
 class Player (Character):
-    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float):
+    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float, xp: int):
         super().__init__(name = name, hp = hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = espada1
         self.armor = armor1
         self.inventory = player_inventory
+        self.xp = xp
 
     def display_info(self):
         print(f"Nome: {self.name}")
@@ -58,20 +57,20 @@ class Player (Character):
         self.armor = armor
         print(f"'{armor.name}' foi equipado como armadura.")
 
-    def use_item(self):
-        print("Item utilizado.") #placeholder
+    def use_item(self, player_inventory):
+        potions = [item for item in player_inventory.player_items if item.hp_value > 0]
+        return potions
+    
 
 #Classe para inimigos
 class Enemy(Character):
-    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float, weapon: Weapon, armor: Armor = None):
+    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float, weapon: Weapon):
         super().__init__(name=name, hp=hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = weapon
-        self.armor = None
+        self.armor = no_armor
 
     def take_action(self, player):
         atk = random.random() <= 0.5
-        if atk:
-            self.attack(player)
         return atk
 
     def drop_item(self, player):

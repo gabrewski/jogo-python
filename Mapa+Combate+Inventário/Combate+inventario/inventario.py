@@ -55,4 +55,4 @@ class Inventario:
     def options(self):
         print("O que deseja fazer")
     
-player_inventory = Inventario()
+player_inventory = Inventario(slots = 15, gold = 0, player_items = [])

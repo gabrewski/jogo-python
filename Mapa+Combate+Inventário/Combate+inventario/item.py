@@ -21,7 +21,7 @@ armor1 = Armor(name = "Armadura de Ferro", gold_value = 15, equipable = True, de
 armor2 = Armor(name = "Armadura de Aço", gold_value = 30, equipable = True, def_value = 15)
 armor3 = Armor(name = "Armadura de Platina", gold_value = 80, equipable = True, def_value = 40)
 armor4 = Armor(name = "Armadura Divina", gold_value = 120, equipable = True, def_value = 80)
-
+no_armor = Armor(name = "none", gold_value = 0, equipable = False, def_value = 0)
 
 #subclasse: armas
 class Weapon(Item):
