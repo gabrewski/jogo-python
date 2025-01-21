@@ -32,12 +32,11 @@ class Character:
 
 #Classe do jogador
 class Player (Character):
-    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float, xp: int):
+    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float):
         super().__init__(name = name, hp = hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = espada1
         self.armor = armor1
         self.inventory = player_inventory
-        self.xp = xp
 
         # progressão
         self.exp = 0
@@ -74,6 +73,14 @@ class Player (Character):
         self.hp_max += 25
         self.atk += 10
         self.crit_chance += 0.1
+
+
+    def gain_gold(self, gold_range:tuple[int, int]):
+        '''
+        Incrementa o gold do jogador.\n
+        Chamar esta função ao finalizar o combate, e inserir o valor de 'gold_range' no formato (int, int)
+        '''
+        self.inventory.gold += random.randint(*gold_range)
 
 
     def display_info(self):
