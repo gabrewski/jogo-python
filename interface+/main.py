@@ -1,5 +1,6 @@
 import curses
 from map_module import show_map
+from progression import ProgressionSystem
 
 # fazer os imports aqui
 # Importar os coisos do jogador (nome e level) do sistema de progresso
@@ -9,6 +10,8 @@ from map_module import show_map
 
 class GameInterface:
     def __init__(self, stdscr):
+        # Inicializa o sistema de progressão
+        self.progression_system = ProgressionSystem()
         self.stdscr = stdscr
         curses.start_color()
         curses.use_default_colors()
@@ -91,23 +94,34 @@ class GameInterface:
         self.char_win.addstr(2, 2, f"Level: {level}")
         self.char_win.addstr(3, 2, f"HP: {hp}/{max_hp}")
         self.char_win.refresh()
-    
+
+    #mudei essa parte //// gabi    
     def update_stats(self, stats=None):
         """Atualiza status do personagem"""
         self.stats_win.clear()
         self.stats_win.box()
         
-        # Por enquanto, valores de exemplo, tem que pegar do sistema de progressão
+        #obtem os stats do personagem
+        player_stats = self.progression_system.get_stats()
+        
+        #valores dinâmicos pra barrinha
+        exp_bar = int((player_stats["exp"] / player_stats["exp_to_next_level"]) * 10)   #barrinha de xp com 10 blocos
+        exp_display = f"EXP: {'█' * exp_bar}{'─' * (10 - exp_bar)} {player_stats['exp']}/{player_stats['exp_to_next_level']}"
+        
+        #stats do personagem
         stats = [
-            "MP: ████████── 80/100",
-            "STR: 15",
-            "DEX: 12",
-            "INT: 10",
-            "DEF: 8"
+            exp_display,
+            f"HP: {player_stats['hp']}",
+            f"ATK: {player_stats['atk']}",
+            f"DEF: {player_stats['defense']}",
         ]
+        
+        #isso atualiza o negocio mas tem que testar ainda
         for i, stat in enumerate(stats, 1):
             self.stats_win.addstr(i, 2, stat)
         self.stats_win.refresh()
+
+    # ~~~~ fim da mudança ~~~~
     
     def update_inventory(self, inventory=None):
         """Atualiza o inventário"""
@@ -126,9 +140,9 @@ class GameInterface:
         self.cmd_win.clear()
         self.cmd_win.box()
         commands = [
-            "   W          ↑                   |        Q - Quit             |        P - Pause ",
-            "                    - Move        |                             |                  ",
-            "A  S  D    ←  ↓  →                |        I - Inventory        |        M - Map   "
+            "   W          ↑                  |        Q - Quit             |       P - Pause ",
+            "                    - Move       |                             |                 ",
+            "A  S  D    ←  ↓  →               |        I - Inventory        |       M - Map   "
             ]
         for i, command in enumerate(commands, 1):
             self.cmd_win.addstr(i, 2, command)
