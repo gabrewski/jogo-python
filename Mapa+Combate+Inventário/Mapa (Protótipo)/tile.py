@@ -1,5 +1,4 @@
-#Tile.py (Funcionalidade de cores e tiles)
-
+#Tile.py (Funcionalidade de tiles)
 ANSI_RESET = "\033[0m"
 ANSI_YELLOW = "\033[33m"
 ANSI_GREEN = "\033[32m"
@@ -22,7 +21,7 @@ floresta = Tile("♠", ANSI_GREEN)
 montanha = Tile("▲", ANSI_WHITE)
 agua = Tile("≈", ANSI_CYAN)
 areia = Tile("~", ANSI_YELLOW)
-player_marker = Tile("X", "player", ANSI_RED)
+player_marker = Tile("X", color=ANSI_RED)
 tundra = Tile ("‗", ANSI_WHITE)
 pantano = Tile("#", ANSI_GREEN)
 magma= Tile("≋", ANSI_RED)

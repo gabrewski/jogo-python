@@ -1,15 +1,23 @@
-#main.py:
+#main.py
 
+import os
 from map import *
-import os 
+from tile import *
+from player_map import *
 
-os.system("cls")
-def run() -> None:
+os.system("cls") 
+
+
+map_larg, map_alt = 60, 15
+game_map = Map(map_larg, map_alt)
+player = Player_map()
+
+
+def map_loop():
     while True:
+        os.system("cls")  
         game_map.display_map()
-        input("> ")
+        player.get_movement_input(game_map.largura, game_map.altura)
+        game_map.update_map(player.pos, player.marker)
 
-if __name__ == "__main__":
-    map_larg, map_alt = 60, 15
-    game_map = Map(map_larg, map_alt)
-    run()
+map_loop()
