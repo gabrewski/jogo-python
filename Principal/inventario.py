@@ -52,6 +52,24 @@ class Inventario:
         print("Itens no inventário: ")
         return self.player_items
     
+
+    def get_consumables(self) -> list[tuple['Item', int]]:
+        '''Retorna uma lista com todos os itens consumíveis (poções) do inventário e suas quantidades.'''
+        count = dict()
+        for item in self.player_items:
+            if item.consumable:
+                if item not in count:
+                    count[item] = 1
+                else:
+                    count[item] += 1
+
+        return [(item, count[item]) for item in count]
+
+
+    def remove(self, item: 'Item'):
+        self.player_items.remove(item)
+
+
     def options(self):
         print("O que deseja fazer")
     

@@ -48,9 +48,9 @@ def combat(stdscr, player, enemy):
                 win.addstr(10, 0, f"{player.name} não conseguiu defender o ataque e levou {def_damage} de dano.")
 
         elif opt == ord('3'): #curar
-            potions = player.use_item()
+            potions = player.inventory.get_consumables()
             if potions:
-                win.addstr(8, 0, f"Qual poção deseja usar? Inventário: {', '.join([f'{i + 1}: {item.name} ({item.quantity})' for i, item in enumerate(potions)])}")
+                win.addstr(8, 0, f"Qual poção deseja usar? Inventário: {', '.join([f'{i + 1}: {item[0].name} ({item[1]})' for i, item in enumerate(potions)])}")
                 win.refresh()
                 win.addstr(8, 0, f"{player.name} utilizou um item.")
                 win.refresh()
@@ -59,16 +59,14 @@ def combat(stdscr, player, enemy):
                     item_choice = win.getch()
                     choice_index = item_choice - ord('1')  #converte para index
                     if 0 <= choice_index < len(potions):
-                        selected_item = potions[choice_index]
-                        heal_amount = selected_item.healing_points
-                        player.hp = min(player.hp + heal_amount, player.hp_max)  #limita heal para hp_max
-                        selected_item.quantity -= 1
+                        selected_item = potions[choice_index][0]
+                        player.hp = min(player.hp + selected_item.hp_value, player.hp_max)  #limita heal para hp_max
+                        player.inventory.remove(selected_item)
 
-                        if selected_item.quantity <= 0: #remove o item se a quantidade chegar a 0
-                            player.inventory.remove(selected_item)
                         time.sleep(2) 
-                        win.addstr(10, 0, f"Você usou {selected_item.name} e recuperou {heal_amount} HP!")
+                        win.addstr(10, 0, f"Você usou {selected_item.name} e recuperou {selected_item.hp_value} HP!")
                         win.refresh()
+                        break
             else:
                 win.addstr(8, 0, f"{player.name} não tem itens para utilizar.")
 
