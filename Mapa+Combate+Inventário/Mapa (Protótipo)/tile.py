@@ -1,3 +1,5 @@
+#Tile.py (Funcionalidade de cores e tiles)
+
 ANSI_RESET = "\033[0m"
 ANSI_YELLOW = "\033[33m"
 ANSI_GREEN = "\033[32m"

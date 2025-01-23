@@ -1,11 +1,13 @@
+#Map.py (Para funcionalidade do mapa)
+
 from tile import Tile, planicie, floresta, montanha, agua
 from random import randint
 
 #Criação da classe mapa e configuração dos terrenos
 class Map:
     def __init__(self, 
-                 largura: int, 
-                 altura: int) -> None:
+                largura: int, 
+                altura: int) -> None:
         self.largura = largura
         self.altura = altura
         
@@ -27,11 +29,11 @@ class Map:
 
 #Geraçao de segmentos de terreno           
     def gerar_terreno(self, 
-                      tile: Tile, 
-                      num_terrenos: int, 
-                      min_size:int, 
-                      max_size:int, 
-                      imperfeito: bool = True) -> None:
+                    tile: Tile, 
+                    num_terrenos: int, 
+                    min_size:int, 
+                    max_size:int, 
+                    imperfeito: bool = True) -> None:
         for _ in range(num_terrenos):
             largura = randint(min_size, max_size)
             altura = randint(min_size, max_size)
@@ -59,16 +61,3 @@ class Map:
             fila_tiles = [tile.symbol for tile in fila]
             print("|" + "".join(fila_tiles) + "|")
         print(frame)
-
-<<<<<<< HEAD
-=======
-
-#implementação anterior
->>>>>>> 2aaefe2420acd0793489af42cc9f546175da86b3
-'''game_map = [
-    [Tile(...), Tile(...), Tile(...)],
-    [Tile(...), Tile(...), Tile(...)],
-    [Tile(...), Tile(...), Tile(...)],
-    [Tile(...), Tile(...), Tile(...)],
-    [Tile(...), Tile(...), Tile(...)],
-]'''

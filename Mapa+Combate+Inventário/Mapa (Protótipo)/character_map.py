@@ -28,3 +28,4 @@ def get_movement_input(self) -> None:
             self.pos[0] -= 1
         elif self.movement_options["right"] and choice in ("d", "D"):
             self.pos[0] += 1
+            
