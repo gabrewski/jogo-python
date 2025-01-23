@@ -2,7 +2,6 @@
 
 from tile import *
 import msvcrt
-from player_map import *
 from random import randint
 
 #Criação da classe mapa e configuração dos terrenos
@@ -15,15 +14,7 @@ class Map:
         self.init_map_info: list[list[Tile]] = []
         self.full_map_info: list[[Tile]] = []
         self.map_info: list[list[Tile]] = []
-        self.explore_process: list[list[int]] = []
-        
-        self.movement_options = {
-            "up": "[W] - UP",
-            "down": "[S] - DOWN",
-            "left": "[A] - LEFT",
-            "right": "[D] - RIGHT"
-        }
-        
+        self.explore_process: list[list[int]] = []     
         self.explored_tiles = [player_marker]
         self.create_map()
         self.gerar_terreno(floresta, 4, 5, 15)
@@ -58,15 +49,19 @@ class Map:
             altura = randint(min_size, max_size)
             start_x = randint(0, max(0, self.largura - largura))
             start_y = randint(0, max(0, self.altura - altura))
-        
-            #Debug
-            print(f"terreno '{tile.symbol}' criado em ({start_x}, {start_y}) com largura {largura} e altura {altura}.")
+            
+            if imperfeito:
+                raw_start_x = randint(3, self.largura - max_size)   
 
             for i in range(altura):
+                if imperfeito: #Gera imperfeições na geração de terrenos para que sejam mais naturais
+                    size_x = randint(int(0.7 * max_size), max_size)  
+                    start_x = raw_start_x - randint(1, 2)
                 for j in range(largura):
                 # Checagem de limites
                     if 0 <= start_y + i < self.altura and 0 <= start_x + j < self.largura:
                         self.init_map_info[start_y + i][start_x + j] = tile
+                        
 
     def reveal_map(self, pos: list[int]) -> None:
         x, y = pos
@@ -96,8 +91,8 @@ class Map:
         self.reveal_map(pos)  #Revela as tiles ao redor do jogador
         self.map_info[y][x] = marker  # Posiciona o marker do jogador no mapa
 
-    def display_movement_options(self, options: dict[str, bool]) -> None:
-        for direction, value in self.movement_options.items():
+    def display_move_opt(self, options: dict[str, bool]) -> None:
+        for direction, value in self.move_opt.items():
             if options.get(direction):
                 print(value)
 

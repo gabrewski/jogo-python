@@ -3,7 +3,6 @@
 import os
 from map import *
 from tile import *
-from player_map import *
 
 os.system("cls") 
 
