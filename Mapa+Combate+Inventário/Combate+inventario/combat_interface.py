@@ -48,7 +48,7 @@ def combat(stdscr, player, enemy):
                 win.addstr(10, 0, f"{player.name} não conseguiu defender o ataque e levou {def_damage} de dano.")
 
         elif opt == ord('3'): #curar
-            potions = player.use_item()
+            potions = player.inventory.get_consumables()
             if potions:
                 win.addstr(8, 0, f"Qual poção deseja usar? Inventário: {', '.join([f'{i + 1}: {item.name} ({item.quantity})' for i, item in enumerate(potions)])}")
                 win.refresh()

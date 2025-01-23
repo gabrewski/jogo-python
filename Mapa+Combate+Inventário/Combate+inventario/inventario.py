@@ -52,6 +52,12 @@ class Inventario:
         print("Itens no inventário: ")
         return self.player_items
     
+
+    def get_consumables(self) -> list['Item']:
+        '''Retorna uma lista com todos os itens consumíveis (poções) do inventário.'''
+        return [item for item in self.player_items if item.consumable]
+
+    
     def options(self):
         print("O que deseja fazer")
     

@@ -106,10 +106,6 @@ class Player (Character):
     def equip_armor(self, armor: Item):
         self.armor = armor
         print(f"'{armor.name}' foi equipado como armadura.")
-
-    def use_item(self):
-        potions = [item for item in self.inventory.player_items if item.consumable]
-        return potions
     
 
 #Classe para inimigos
