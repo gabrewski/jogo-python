@@ -54,7 +54,8 @@ class GameInterface:
         self.inv_win = curses.newwin(inv_height, side_width, 11, game_width)
 
         # Área de comandos
-        self.cmd_win = curses.newwin(7, side_width, 34, game_width)
+        cmd_y = self.max_y - 7
+        self.cmd_win = curses.newwin(7, side_width, cmd_y, game_width)
 
         # Área de narração (mesma largura da área do jogo)
         self.txt_win = curses.newwin(7, game_width, game_height, 0)
