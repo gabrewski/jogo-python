@@ -70,24 +70,41 @@ def show_map(window):
                 pass
 
     # legenda
-    legends = [
-        "1. ⌂ - Vila do Alvorecer", curses.color_pair(7),
-        "2. ♣ - Floresta dos Ecos", curses.color_pair(2),
-        ("3. _ - Plains", curses.color_pair(3)),
-        ("4. ≈ - Water", curses.color_pair(1)),
-        ("5. ∼ - Desert", curses.color_pair(6)),
-        ("6. ≋ - Magma", curses.color_pair(4))
+    captions = [
+        ("1. ⌂ - Vila do Alvorecer", curses.color_pair(7)),
+        ("2. ♣ - Floresta dos Ecos", curses.color_pair(2)),
+        ("3. ∼ - Dunas do Desolado", curses.color_pair(6)),
+        ("4. ▲ - Terra Congelada", curses.color_pair(5)),
+        ("5. ≈ - Pântano das Águas Místicas", curses.color_pair(1)),
+        ("6. ≋ - Fornalha do Apocalipse", curses.color_pair(4)),
+        ("7. a - Fortaleza de...", curses.color_pair(7))
     ]
 
-    # Verificar se há espaço suficiente para a legenda
-    longest_legend = max(len(text) for text, _ in legends)
-    if legend_x + longest_legend < max_x - 2:  # -2 para margem da borda
-        for i, (text, color) in enumerate(legends):
-            try:
-                window.addstr(legend_y + i, legend_x, text, color)
-            except curses.error:
-                pass
-    
+    #configurações da legenda
+    caption_y = start_y + len(ascii_map) - 2
+    caption_x = start_x
+    per_rows = 2 # 3 itens por linha
+
+    # tamanho máximo da legenda
+    max_lenght = max(len(text) for text in captions)
+    column_width = max_lenght
+
+    # desenhar legenda
+    for i, (text, color) in enumerate(captions):
+        row = i // per_rows
+        col = i % per_rows
+
+        pos_y = caption_y + row
+        pos_x = caption_x + (col * column_width)
+
+    # verificação de espaço
+    if pos_y < max_y - 2 and pos_x + len(text) < max_x - 2:
+        try:
+            window.addstr(pos_y, pos_x, text, color)
+        except curses.error:
+            pass
+
+
     # Atualizar a janela
     window.refresh()
 
@@ -95,11 +112,11 @@ def show_map(window):
     while True:
         try:
             key = window.getch()
-            if key in [ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6')]:
+            if key in [ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6'), ord('7')]:
                 return int(chr(key))
             elif key in [27, ord('q'), ord('Q')]:  # ESC ou Q para sair
-                return 6  # Retorna como se tivesse selecionado "Return"
+                return 7  # Retorna como se tivesse selecionado "Return"
         except curses.error:
             continue
     
-    return 0  # Retorno padrão se algo der errado
+    return 0 
