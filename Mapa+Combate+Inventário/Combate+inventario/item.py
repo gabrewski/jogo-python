@@ -1,5 +1,3 @@
-
-
 class Item:
     '''
     Classe base para todos os itens.
@@ -23,8 +21,9 @@ class Armor(Item):
 
 class Weapon(Item):
     def __init__(self, name: str, gold_value: int, atk_value: int):
-        super().__init__(name = name, gold_value = gold_value, equipable = True, consumable = False, tradable = True)
+        super().__init__(name = name, gold_value = gold_value, equipable = True, consumable = False, tradable = bool)
         self.atk_value = atk_value
+        self.tradable = tradable
 
 
 class Healing(Item):
@@ -40,47 +39,47 @@ class QuestItem(Item):
 
 
 #armaduras
-armor1 = Armor(name = "Armadura de Ferro", gold_value = 15, def_value = 5)
-armor2 = Armor(name = "Armadura de Aço", gold_value = 30, def_value = 15)
-armor3 = Armor(name = "Armadura de Platina", gold_value = 80, def_value = 40)
-armor4 = Armor(name = "Armadura Divina", gold_value = 120, def_value = 80)
-no_armor = Armor(name = "none", gold_value = 0, def_value = 0)
+armor1 = Armor(name = "Armadura de Ferro", gold_value = 15, def_value = 5, tradable = True)
+armor2 = Armor(name = "Armadura de Aço", gold_value = 30, def_value = 15, tradable = True)
+armor3 = Armor(name = "Armadura de Platina", gold_value = 80, def_value = 40, tradable = True)
+armor4 = Armor(name = "Armadura Divina", gold_value = 120, def_value = 80, tradable = True)
+no_armor = Armor(name = "none", gold_value = 0, def_value = 0, tradable = True)
 
 #armas equipáveis
-espada1 = Weapon(name="Espada de Ferro", gold_value = 5, atk_value=5)
-espada2 = Weapon(name="Espada de Aço", gold_value = 5, atk_value=5)
-espada3 = Weapon(name="Espada Longa", gold_value = 5, atk_value=5)
-porrete = Weapon(name="Porrete de Madeira", gold_value = 5, atk_value=2)
-adaga = Weapon(name="Adaga de Aço", gold_value = 5, atk_value=3)                                
-arco = Weapon(name="Arco e Flecha", gold_value = 5, atk_value=4)
-machado = Weapon(name="Machado", gold_value = 5, atk_value=5)
-cimitarra = Weapon(name="Cimitarra", gold_value=30, atk_value=25)
-clava_gelo = Weapon(name="Clava de Gelo", gold_value=30, atk_value=40)
-espada_flamejante = Weapon(name="Espada Flamejante", gold_value=150, atk_value=120)
+espada1 = Weapon(name="Espada de Ferro", gold_value = 5, atk_value=5, tradable = True)
+espada2 = Weapon(name="Espada de Aço", gold_value = 5, atk_value=5, tradable = True)
+espada3 = Weapon(name="Espada Longa", gold_value = 5, atk_value=5, tradable = True)
+porrete = Weapon(name="Porrete de Madeira", gold_value = 5, atk_value=2, tradable = True)
+adaga = Weapon(name="Adaga de Aço", gold_value = 5, atk_value=3, tradable = True)                                
+arco = Weapon(name="Arco e Flecha", gold_value = 5, atk_value=4, tradable = True)
+machado = Weapon(name="Machado", gold_value = 5, atk_value=5, tradable = True)
+cimitarra = Weapon(name="Cimitarra", gold_value=30, atk_value=25, tradable = True)
+clava_gelo = Weapon(name="Clava de Gelo", gold_value=30, atk_value=40, tradable = True)
+espada_flamejante = Weapon(name="Espada Flamejante", gold_value=150, atk_value=120, tradable = True)
 
 #armas de inimigos
-garras = Weapon(name="Garras", gold_value=None, atk_value=15)
-magia = Weapon(name="Magia", gold_value=None, atk_value=12)
+garras = Weapon(name="Garras", gold_value=None, atk_value=15, tradable = False)
+magia = Weapon(name="Magia", gold_value=None, atk_value=12), tradable = False
 veneno = Weapon(name="Veneno", gold_value=None, atk_value=20)
-cauda_veneno = Weapon(name="Cauda de Veneno", gold_value=None, atk_value=30)
-lamina_escama = Weapon(name="Lâmina de Escama", gold_value=None, atk_value=35)
-areia_solida = Weapon(name="Areia Sólida", gold_value=None, atk_value=40)
-golpes_areia = Weapon(name="Golpes de Areia", gold_value=None, atk_value=45)
-garras_gelo = Weapon(name="Garras de Gelo", gold_value=None, atk_value=45)
-garras_gigantes = Weapon(name="Garras Gigantes", gold_value=None, atk_value=50)
-mandibulas = Weapon(name="Mandíbulas", gold_value=None, atk_value=60)
-raizes = Weapon(name="Raízes", gold_value=None, atk_value=55)
-cabecas_veneno = Weapon(name="Cabeças de Veneno", gold_value=None, atk_value=70)
-chamas_incandescentes = Weapon(name="Chamas Incandescentes", gold_value=None, atk_value=90)
-magia_fogo = Weapon(name="Magia de Fogo", gold_value=None, atk_value=75)
-erupcoes_lava = Weapon(name="Erupções de Lava", gold_value=None, atk_value=100)
-sopro_lava = Weapon(name="Sopro de Lava", gold_value=None, atk_value=150)
+cauda_veneno = Weapon(name="Cauda de Veneno", gold_value=None, atk_value=30, tradable = False)
+lamina_escama = Weapon(name="Lâmina de Escama", gold_value=None, atk_value=35, tradable = False)
+areia_solida = Weapon(name="Areia Sólida", gold_value=None, atk_value=40, tradable = False)
+golpes_areia = Weapon(name="Golpes de Areia", gold_value=None, atk_value=45, tradable = False)
+garras_gelo = Weapon(name="Garras de Gelo", gold_value=None, atk_value=45, tradable = False)
+garras_gigantes = Weapon(name="Garras Gigantes", gold_value=None, atk_value=50, tradable = False)
+mandibulas = Weapon(name="Mandíbulas", gold_value=None, atk_value=60, tradable = False)
+raizes = Weapon(name="Raízes", gold_value=None, atk_value=55, tradable = False)
+cabecas_veneno = Weapon(name="Cabeças de Veneno", gold_value=None, atk_value=70, tradable = False)
+chamas_incandescentes = Weapon(name="Chamas Incandescentes", gold_value=None, atk_value=90, tradable = False)
+magia_fogo = Weapon(name="Magia de Fogo", gold_value=None, atk_value=75, tradable = False)
+erupcoes_lava = Weapon(name="Erupções de Lava", gold_value=None, atk_value=100, tradable = False)
+sopro_lava = Weapon(name="Sopro de Lava", gold_value=None, atk_value=150, tradable = False)
 
 #itens de cura
-potion1 = Healing(name = "Poção Revigorante", gold_value = 8, hp_value = 8)
-potion2 = Healing(name = "Poção de Cura Leve", gold_value = 15, hp_value = 15)
-potion3 = Healing(name = "Poção de Cura Poderosa", gold_value = 30, hp_value = 30)
-potion4 = Healing(name = "Poção de Cura Suprema", gold_value = 60, hp_value = 60)
+potion1 = Healing(name = "Poção Revigorante", gold_value = 8, hp_value = 8, tradable = False)
+potion2 = Healing(name = "Poção de Cura Leve", gold_value = 15, hp_value = 15, tradable = False)
+potion3 = Healing(name = "Poção de Cura Poderosa", gold_value = 30, hp_value = 30, tradable = False)
+potion4 = Healing(name = "Poção de Cura Suprema", gold_value = 60, hp_value = 60, tradable = False)
 
 #listas de drop items por fase
 drop_items_1 = [espada1, porrete, armor1, armor2, potion1]

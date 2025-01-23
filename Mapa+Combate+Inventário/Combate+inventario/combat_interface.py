@@ -152,10 +152,3 @@ enemy = yeti
 if __name__ == "__main__":
     curses.wrapper(combat, player, enemy)
     
-#to do:
-#arrumar flee (mensagem não aparece) x
-#adicionar ação de usar item x
-#checar se função defend funciona corretamente (inimigos não tem armor, logo não tem armor.def_value) x
-#melhorar lógica do combate: escolhas primeiro, depois mensagem de dano
-#adicionar mensagem caso player ganhe (ouro, xp e drop)
-#tentar fazer animação
