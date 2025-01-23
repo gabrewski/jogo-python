@@ -24,103 +24,110 @@ def main(stdscr):
     curses.curs_set(0)
 
     # primeiro texto ASCII
-    title_ascii1 = [
-        "▄▄▄▄▄ ▄· ▄▌ ▄▄▄·▄▄▄ .    .▄▄ ·       • ▌ ▄ ·. ▄▄▄ .▄▄▄▄▄ ▄ .▄▪   ▐ ▄  ▄▄ • ",
-        "•██  ▐█▪██▌▐█ ▄█▀▄.▀·    ▐█ ▀. ▪     ·██ ▐███▪▀▄.▀·•██  ██▪▐███ •█▌▐█▐█ ▀ ▪",
-        " ▐█.▪▐█▌▐█▪ ██▀·▐▀▀▪▄    ▄▀▀▀█▄ ▄█▀▄ ▐█ ▌▐▌▐█·▐▀▀▪▄ ▐█.▪██▀▐█▐█·▐█▐▐▌▄█ ▀█▄",
-        " ▐█▌· ▐█▀·.▐█▪·•▐█▄▄▌    ▐█▄▪▐█▐█▌.▐▌██ ██▌▐█▌▐█▄▄▌ ▐█▌·██▌▐▀▐█▌██▐█▌▐█▄▪▐█",
-        " ▀▀▀   ▀ • .▀    ▀▀▀      ▀▀▀▀  ▀█▄▀▪▀▀  █▪▀▀▀ ▀▀▀  ▀▀▀ ▀▀▀ ·▀▀▀▀▀ █▪·▀▀▀▀ "
+    title_ascii = [
+        "▄▄▄▄ . ▄▄·       .▄▄ ·      ·▄▄▄▄   ▄▄▄·      ▄▄▌  ▄• ▄▌ ▄▄▄· ",
+        "█▄.▀·▐█ ▌▪▪     ▐█ ▀.      ██▪ ██ ▐█ ▀█      ██•  █▪ █▌▐█ ▀█  ",
+        "▐▀▀▪▄██ ▄▄ ▄█▀▄ ▄▀▀▀█▄     ▐█· ▐█▌▄█▀▀█      ██▪  █▌▐█▌▄█▀▀█  ",
+        "▐█▄▄▌▐███▌▐█▌.▐▌▐█▄▪▐█     ██. ██ ▐█ ▪▐▌     ▐█▌▐▌▐█▄█▌▐█ ▪▐▌ ",
+        " ▀▀▀ ·▀▀▀  ▀█▄▀▪ ▀▀▀▀      ▀▀▀▀▀•  ▀  ▀      .▀▀▀  ▀▀▀  ▀  ▀  "
     ]
 
     # segundo texto ASCII
-    title_ascii2 = [
-        "1 ➣ Novo jogo",
-        "     2 ➣ Continuar",
-        "          3 ➣ Créditos",
-        "               4 ➣ Sair"
+    menu_ascii = [
+        "                                            ┳┓        •             ",
+        "                                        1 ➣ ┃┃┏┓┓┏┏┓  ┓┏┓┏┓┏┓       ",
+        "                                            ┛┗┗┛┗┛┗┛  ┃┗┛┗┫┗┛       ",
+        "                                                      ┛   ┛         ",
+        "                                                                    ",
+        "                                                 ┏┓     •           ",
+        "                                             2 ➣ ┃ ┏┓┏┓╋┓┏┓┓┏┏┓┏┓   ",
+        "                                                 ┗┛┗┛┛┗┗┗┛┗┗┻┗┻┛    ",
+        "                                                                    ",
+        "                                                      ┏┓   / ┓•     ",
+        "                                                  3 ➣ ┃ ┏┓┏┓┏┫┓╋┏┓┏ ",
+        "                                                      ┗┛┛ ┗ ┗┻┗┗┗┛┛ ",
+        "                                                                    ",
+        "                                                           ┏┓  •    ",
+        "                                                       4 ➣ ┗┓┏┓┓┏┓  ",
+        "                                                           ┗┛┗┻┗┛   ",
     ]
 
     # obter dimensões da tela
     height, width = stdscr.getmaxyx()
     
     # criar pads
-    pad1 = curses.newpad(len(title_ascii1) + 1, len(title_ascii1[0]) + 1)
-    pad2 = curses.newpad(len(title_ascii2) + 1, len(title_ascii2[0]) + 1)
+    pad1 = curses.newpad(len(title_ascii) + 1, len(title_ascii[0]) + 1)
+    pad2 = curses.newpad(len(menu_ascii) + 1, len(menu_ascii[0]) + 1)
     
     # adicionar os textos ASCII aos pads
-    for i, line in enumerate(title_ascii1):
-        pad1.addstr(i, 0, line, YELLOW)
-    for i, line in enumerate(title_ascii2):
-        pad2.addstr(i, 0, line, CYAN)
-
+    for i, line in enumerate(title_ascii):
+        pad1.addstr(i, 0, line, WHITE)
+    
     # calcular posições finais (centro da tela)
-    final_y1 = max(0, (height - len(title_ascii1)) // 2 - 4)  # primeiro texto fica um pouco acima
-    final_y2 = final_y1 + len(title_ascii1) + 2  # segundo texto fica abaixo do primeiro
-    start_x1 = max(0, (width - len(title_ascii1[0])) // 2)
-    start_x2 = max(0, (width - len(title_ascii2[0])) // 2)
+    final_y1 = max(0, (height - len(title_ascii)) // 2 - 4)  # primeiro texto fica um pouco acima
+    final_y2 = final_y1 + len(title_ascii) + 3  # segundo texto fica abaixo do primeiro
+    start_x1 = max(0, (width - len(title_ascii[0])) // 2)
+    start_x2 = max(0, (width - len(menu_ascii[0])) // 2)
 
     # começar da parte inferior da tela
     current_y1 = height
-    current_y2 = height + 6  # começa um pouco depois do primeiro
     
     try:
-        # movimento suave para cima dos dois textos
-        while current_y2 > final_y2:
+        # movimento suave para cima do título
+        while current_y1 > final_y1:
             stdscr.clear()
             stdscr.refresh()
             
-            # atualizar primeiro pad se ainda estiver em movimento
-            if current_y1 > final_y1:
-                screen_start_y1 = max(0, int(current_y1))
-                screen_end_y1 = min(height - 1, screen_start_y1 + len(title_ascii1))
-                screen_end_x1 = min(width - 1, start_x1 + len(title_ascii1[0]))
-                
-                try:
-                    pad1.refresh(0, 0, screen_start_y1, start_x1, screen_end_y1, screen_end_x1)
-                except curses.error:
-                    pass
-
-                current_y1 -= 0.5
-            else:
-                # manter primeiro pad na posição final
-                try:
-                    pad1.refresh(0, 0, final_y1, start_x1,
-                               min(height - 1, final_y1 + len(title_ascii1)),
-                               min(width - 1, start_x1 + len(title_ascii1[0])))
-                except curses.error:
-                    pass
-
-            # atualizar segundo pad
-            screen_start_y2 = max(0, int(current_y2))
-            screen_end_y2 = min(height - 1, screen_start_y2 + len(title_ascii2))
-            screen_end_x2 = min(width - 1, start_x2 + len(title_ascii2[0]))
+            screen_start_y1 = max(0, int(current_y1))
+            screen_end_y1 = min(height - 1, screen_start_y1 + len(title_ascii))
+            screen_end_x1 = min(width - 1, start_x1 + len(title_ascii[0]))
             
             try:
-                pad2.refresh(0, 0, screen_start_y2, start_x2, screen_end_y2, screen_end_x2)
+                pad1.refresh(0, 0, screen_start_y1, start_x1, screen_end_y1, screen_end_x1)
             except curses.error:
                 pass
 
-            current_y2 -= 0.5
+            current_y1 -= 0.5
             time.sleep(0.2)
 
-        # manter os textos na posição final
+        # Aguardar 1 segundos
+        time.sleep(1)
+
+        # Adicionar instrução de seleção
+        instruction1 = " Pressione ENTER ↲ para continuar"
+        instruction1_x = (width - len(instruction1)) // 2
+        instruction1_y = final_y1 + len(title_ascii) + 1
+        stdscr.addstr(instruction1_y, instruction1_x, instruction1, YELLOW)
+        stdscr.refresh()
+
+        # Aguardar pressionamento de ENTER
         while True:
-            try:
-                pad1.refresh(0, 0, final_y1, start_x1,
-                           min(height - 1, final_y1 + len(title_ascii1)),
-                           min(width - 1, start_x1 + len(title_ascii1[0])))
-                pad2.refresh(0, 0, final_y2, start_x2,
-                           min(height - 1, final_y2 + len(title_ascii2)),
-                           min(width - 1, start_x2 + len(title_ascii2[0])))
-            except curses.error:
-                pass
+            key = stdscr.getch()
+            if key == 10:  # Código para tecla ENTER
+                instruction2 = "Selecione uma opção para continuar"
+                instruction2_x = (width - len(instruction2)) // 2
+                instruction2_y = final_y1 + len(title_ascii) + 1
+                stdscr.addstr(instruction2_y, instruction2_x, instruction2, YELLOW)
+                stdscr.refresh()
                 
-            # verificar se uma tecla foi pressionada
+                break
+
+        # Adicionar menu
+        for i, line in enumerate(menu_ascii):
+            pad2.addstr(i, 0, line, CYAN)
+
+        # Mostrar menu na posição final
+        pad2.refresh(0, 0, final_y2, start_x2,
+                     min(height - 1, final_y2 + len(menu_ascii)),
+                     min(width - 1, start_x2 + len(menu_ascii[0])))
+        stdscr.refresh()
+
+        # Aguardar seleção
+        while True:
             key = stdscr.getch()
             if key != -1:
                 break
-            time.sleep(0.02)
-            
+
     except KeyboardInterrupt:
         pass
 
