@@ -1,12 +1,18 @@
-#Tile.py (Funcionalidade de tiles)
+#Tile.py (Funcionalidade de tiles e cores)
 ANSI_RESET = "\033[0m"
 ANSI_YELLOW = "\033[33m"
 ANSI_GREEN = "\033[32m"
+ANSI_LIGHT_GREEN = "\033[1;32m"
 ANSI_BLUE = "\033[34m"
+ANSI_LIGHT_BLUE = "\033[1;34m"
 ANSI_RED = "\033[31m"
+ANSI_LIGHT_RED = "\033[1;31m"
 ANSI_WHITE = "\033[97m"
 ANSI_MAGENTA = "\033[35m"
 ANSI_CYAN = "\033[36m"
+ANSI_LIGHT_GRAY = "\033[0;37m"
+ANSI_DARK_GRAY = "\033[1;30m"
+ANSI_BROWN = "\033[0;33m"
 
 class Tile:
     def __init__(self, symbol: str, color:str = ANSI_RESET, colored: bool = True):
@@ -17,11 +23,18 @@ class Tile:
 
 #Tipos de terreno usados nas diversas fases
 planicie = Tile("_", ANSI_GREEN)
-floresta = Tile("♠", ANSI_GREEN)
-montanha = Tile("▲", ANSI_WHITE)
-agua = Tile("≈", ANSI_CYAN)
+floresta = Tile("Y", ANSI_GREEN)
+montanha = Tile("A", ANSI_DARK_GRAY)
+flores = Tile("*", ANSI_MAGENTA)
+tronco = Tile("|", ANSI_BROWN)
+lagoa = Tile("@", ANSI_LIGHT_BLUE)
+terra = Tile("_", ANSI_BROWN)
+arbusto = Tile("w", ANSI_LIGHT_GREEN)
+montanha_gelo = Tile("▲", ANSI_WHITE)
+agua = Tile("~", ANSI_CYAN)
 areia = Tile("~", ANSI_YELLOW)
 player_marker = Tile("X", color=ANSI_RED)
 tundra = Tile ("‗", ANSI_WHITE)
 pantano = Tile("#", ANSI_GREEN)
 magma= Tile("≋", ANSI_RED)
+pedra_vulc=Tile("_", ANSI_DARK_GRAY)
