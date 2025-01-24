@@ -1,10 +1,11 @@
-from item import *
+from Item.category import *
 
-class Inventario:
-    def __init__(self, slots: int = 15, gold: int = 0, player_items: list = None):
+
+class Inventory:
+    def __init__(self, slots: int = 15, gold: int = 0, player_items: list = []):
         self.slots = slots
         self.gold = gold
-        self.player_items = player_items if player_items is not None else []
+        self.player_items = player_items
     
     def add_item(self,item) -> None:
         if self.slots > len(self.player_items):
@@ -60,5 +61,3 @@ class Inventario:
     
     def options(self):
         print("O que deseja fazer")
-    
-player_inventory = Inventario(slots = 15, gold = 0, player_items = [])

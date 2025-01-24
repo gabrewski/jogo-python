@@ -1,7 +1,8 @@
 import curses
 import time
-from character import *
-from item import *
+from Entity.player import Player
+from Entity.enemy_list import yeti
+
 
 def combat(stdscr, player, enemy):
     curses.curs_set(0) #esconde o cursor
@@ -146,9 +147,8 @@ def combat(stdscr, player, enemy):
     win.refresh()
     time.sleep(1)
 
+# test
 player = Player(name="Dargia", hp=1000, atk=50, crit_chance=0.4, crit_damage=2.0)
-enemy = yeti
 
-if __name__ == "__main__":
+def start_combat(enemy):
     curses.wrapper(combat, player, enemy)
-    

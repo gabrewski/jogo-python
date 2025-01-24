@@ -1,12 +1,13 @@
 #map_stages.py (Modularização de fases diferentes)
 
-from map import Map
-from tile import *
+from Mapa.map import Map
+from Mapa.tile import *
 
 class ForestMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
+        
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_GREEN) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
@@ -25,6 +26,7 @@ class DesertMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
+
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_YELLOW) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
@@ -45,6 +47,7 @@ class SnowMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
+
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_WHITE) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
@@ -64,6 +67,7 @@ class SwampMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
+
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_GREEN) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
@@ -81,6 +85,7 @@ class FireMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
+
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_DARK_GRAY) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()

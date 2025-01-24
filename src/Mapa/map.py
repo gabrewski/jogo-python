@@ -1,6 +1,6 @@
 #Map.py (Para funcionalidade do mapa)
 
-from tile import *
+from Mapa.tile import *
 import msvcrt
 from random import randint
 

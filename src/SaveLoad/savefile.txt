@@ -1,0 +1,10 @@
+PlayerName:Hero
+Level:1
+HP:1/1
+EXP:0
+Gold:0
+Inventory:
+Health Potion,10,False,True,True
+Iron Sword,50,True,False,True
+Leather Armor,30,True,False,True
+Magic Ring,100,True,False,True

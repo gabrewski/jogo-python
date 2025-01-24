@@ -1,5 +1,6 @@
 from random import randint, choices
-from character import Enemy, enemy_list1, enemy_list2, enemy_list3, enemy_list4, enemy_list5
+from Entity.enemy import Enemy
+from Entity.enemy_list import enemy_list1, enemy_list2, enemy_list3, enemy_list4, enemy_list5
 
 
 def roll_encounter(stage:int, chance:int) -> 'Enemy':
@@ -17,7 +18,7 @@ def roll_encounter(stage:int, chance:int) -> 'Enemy':
                 enemy_list = enemy_list5
 
         enemies, weigths = zip(*enemy_list)
-        return choices(enemies, weigths)
+        return choices(enemies, weigths).pop()
 
 
 if __name__ == '__main__':
