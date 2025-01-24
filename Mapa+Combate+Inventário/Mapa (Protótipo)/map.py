@@ -122,7 +122,7 @@ class Player_map:
             "right": self.pos[0]< largura - 1
         }
 
-    def get_movement_input(self, map_largura, map_altura) -> None:
+    def get_movement_input(self, map_largura, map_altura) -> bool:
         move_opt = self.calc_move_opt(map_largura, map_altura)
         choice = msvcrt.getch().decode('utf-8')
         
@@ -134,3 +134,5 @@ class Player_map:
             self.pos[0] -= 1
         elif move_opt["right"] and choice in ("d", "D"):
             self.pos[0] += 1
+
+        return choice in ("w", "W", "s", "S", "a", "A", "d", "D")
