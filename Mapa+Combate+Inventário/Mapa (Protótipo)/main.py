@@ -9,23 +9,20 @@ import msvcrt
 os.system("cls")
 map_larg, map_alt = 60, 15
 
-
-stage = 2
-if stage == 1:
-    game_map = ForestMap(60, 15)
-elif stage == 2:
-    game_map = DesertMap(60, 15)
-elif stage == 3:
-    game_map = SnowMap(60, 15)
-elif stage == 4:
-    game_map = SwampMap(60, 15)
-elif stage == 5:
-    game_map = FireMap(60, 15)
-
-game_map.setup_terreno()
 player = Player_map()
 
 def map_loop():
+    stage_choice = input("Escolha a fase: 1 - Floresta, 2 - Deserto, 3 - Neve, 4 - Pântano, 5 - Fogo: ")
+    if stage_choice == "1":
+        game_map = ForestMap(60, 15)
+    elif stage_choice == "2":
+        game_map = DesertMap(60, 15)
+    elif stage_choice == "3":
+        game_map = SnowMap(60, 15)
+    elif stage_choice == "4":   
+        game_map = SwampMap(60, 15)
+    elif stage_choice == "5":
+        game_map = FireMap(60, 15)
     while True:
         os.system("cls") 
         game_map.display_map()  

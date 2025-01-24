@@ -6,7 +6,7 @@ from tile import *
 class ForestMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
-    
+        self.setup_terreno()
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_GREEN) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
@@ -24,7 +24,7 @@ class ForestMap(Map):
 class DesertMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
-    
+        self.setup_terreno()
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_YELLOW) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
@@ -42,7 +42,7 @@ class DesertMap(Map):
 class SnowMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
-    
+        self.setup_terreno()
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_WHITE) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
@@ -50,6 +50,7 @@ class SnowMap(Map):
 
     def setup_terreno(self):
         self.gerar_terreno(montanha_gelo, 4, 3, 7)
+        self.gerar_terreno(arbusto, 4, 2, 5)
         self.gerar_terreno(tundra, 5, 5, 12)
         self.gerar_terreno(agua, 3, 4, 6)
         self.gerar_terreno(floresta, 2, 3, 5)
@@ -57,7 +58,7 @@ class SnowMap(Map):
 class SwampMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
-    
+        self.setup_terreno()
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_GREEN) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
@@ -71,7 +72,7 @@ class SwampMap(Map):
 class FireMap(Map):
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
-    
+        self.setup_terreno()
     def create_map(self):
         self.init_map_info = [[Tile("_", ANSI_DARK_GRAY) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
