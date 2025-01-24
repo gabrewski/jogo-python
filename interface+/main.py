@@ -42,8 +42,8 @@ class GameInterface:
         self.max_y, self.max_x = self.stdscr.getmaxyx()
         
         # Área principal do jogo (70% da largura)
-        game_width = int(self.max_x * 0.7)
-        game_height = self.max_y - 5  # Altura total menos área de comandos
+        game_width = int(self.max_x * 0.75)
+        game_height = self.max_y - 7  # Altura total menos área de comandos
         self.game_win = curses.newwin(game_height, game_width, 0, 0)
         
         # Largura dos painéis laterais
@@ -53,19 +53,23 @@ class GameInterface:
         self.char_win = curses.newwin(5, side_width, 0, game_width)
         
         # Status do personagem
-        self.stats_win = curses.newwin(8, side_width, 5, game_width)
+        self.stats_win = curses.newwin(6, side_width, 5, game_width)
         
-        # Inventário (ocupa o resto do espaço vertical)
-        inv_height = self.max_y - 13 
-        self.inv_win = curses.newwin(inv_height, side_width, 13, game_width)
-        
-        # Área de comandos (mesma largura da área do jogo)
-        self.cmd_win = curses.newwin(5, game_width, game_height, 0)
+        # Inventário (área vertical menos os comandos)
+        inv_height = self.max_y - 18
+        self.inv_win = curses.newwin(inv_height, side_width, 11, game_width)
+
+        # Área de comandos
+        cmd_y = self.max_y - 7
+        self.cmd_win = curses.newwin(7, side_width, cmd_y, game_width)
+
+        # Área de narração (mesma largura da área do jogo)
+        self.txt_win = curses.newwin(7, game_width, game_height, 0)
         
         self.draw_borders()
     
     def draw_borders(self):
-        for win in [self.game_win, self.char_win, self.stats_win, self.inv_win, self.cmd_win]:
+        for win in [self.game_win, self.char_win, self.stats_win, self.inv_win, self.txt_win]:
             win.box()
     
     def refresh_all(self):
@@ -75,6 +79,7 @@ class GameInterface:
         self.stats_win.refresh()
         self.inv_win.refresh()
         self.cmd_win.refresh()
+        self.txt_win.refresh()
     
     #ATUALIZAÇÕES DE INFORMAÇÕES
     def update_game_area(self, game_map=None):
@@ -131,6 +136,7 @@ class GameInterface:
         
         # Por enquanto, itens de exemplo, tem que pegar do inventario
         items = ["Health Potion", "Iron Sword", "Leather Armor", "Magic Ring"]
+        
         for i, item in enumerate(items, 2):
             self.inv_win.addstr(i, 2, f"- {item}")
         self.inv_win.refresh()
@@ -140,14 +146,25 @@ class GameInterface:
         self.cmd_win.clear()
         self.cmd_win.box()
         commands = [
-            "   W          ↑                  |        Q - Quit             |       P - Pause ",
-            "                    - Move       |                             |                 ",
-            "A  S  D    ←  ↓  →               |        I - Inventory        |       M - Map   "
+            "    W         ↑    | P - Pause    ",
+            "                   | Q - Quit     ",
+            " A  S  D   ←  ↓  → | I - Inventory",
+            "                   | M - Map      ",
+            "       Move        | ↲ - Confirm  "
             ]
         for i, command in enumerate(commands, 1):
             self.cmd_win.addstr(i, 2, command)
             
         self.cmd_win.refresh()
+
+    def update_text(self):
+        """Atualiza a área de narração"""
+        self.txt_win.clear()
+        self.txt_win.box()
+
+        # Por enquanto, apenas um exemplo
+        self.txt_win.addstr(1, 1, "Narração")
+        self.txt_win.refresh()        
 
     # COISAS ACONTECENDO 
     def show_world_map(self):
@@ -183,6 +200,7 @@ def main(stdscr):
     interface.update_stats()
     interface.update_inventory()
     interface.update_commands()
+    interface.update_text()
     
     # Loop principal
     while True:
