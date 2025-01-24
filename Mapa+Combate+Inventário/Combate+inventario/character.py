@@ -126,6 +126,11 @@ class Enemy(Character):
         self.exp_range = exp_range
         self.gold_range = gold_range
 
+
+    def __repr__(self):
+        return self.name
+
+
     def take_action(self, player):
         atk = random.random() <= 0.5
         return atk
@@ -377,8 +382,8 @@ dragao_magma = Enemy(name="Dragão de Magma",
                      gold_range=(150,200))
 
 #lista de inimigos por fase sem mini bosses
-enemy_list1 = [goblin , lobo, pixie, aranha_gigante]
-enemy_list2 = [escorpiao_gigante, reptiliano, bandido_deserto, golem_areia]
-enemy_list3 = [troll_gelo, urso_polar, yeti, espirito_nevasca]
-enemy_list4 = [crocodilo_gigante, golem_pantano, hidra, yeti_pantano]
-enemy_list5 = [salamandra_vulcanica, cultistas_fogo, elemental_magma, cavaleiro_inferno]
+enemy_list1 = [(goblin, 0.8) , (lobo, 0.8), (pixie, 1.0), (aranha_gigante, 0.4), (mestre_aranhas, 0.1)]
+enemy_list2 = [(escorpiao_gigante, 0.8), (reptiliano, 0.6), (bandido_deserto, 0.8), (golem_areia, 0.4), (farao_esquecido, 0.1)]
+enemy_list3 = [(troll_gelo, 0.6), (urso_polar, 0.8), (yeti, 0.8), (espirito_nevasca, 0.4), (wendigo_congelado, 0.1)]
+enemy_list4 = [(crocodilo_gigante, 0.8), (golem_pantano, 0.6), (hidra, 0.4), (yeti_pantano, 0.8), (vidente_pantano, 0.1)]
+enemy_list5 = [(salamandra_vulcanica, 0.6), (cultistas_fogo, 0.8), (elemental_magma, 0.6), (cavaleiro_inferno, 0.4), (dragao_magma, 0.1)]
