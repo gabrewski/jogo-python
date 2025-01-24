@@ -32,3 +32,5 @@ def map_loop():
         game_map.update_map(player.pos, player.marker)
 
 map_loop()
+
+#Inserir chance de iniciar loop de combate

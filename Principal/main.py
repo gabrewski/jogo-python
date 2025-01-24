@@ -180,7 +180,7 @@ def main(stdscr):
     
     # Inicializa a interface
     interface = GameInterface(stdscr)
-       
+
     # inicializar os outros módulos? talvez fique tudo igual eu coloquei o mapa
     # player = Player("Hero", 1)
     # world = World()
