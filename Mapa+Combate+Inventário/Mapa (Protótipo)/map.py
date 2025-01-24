@@ -19,21 +19,12 @@ class Map:
         self.create_map()
         self.gerar_terreno(montanha, 3, 3, 6)
         self.gerar_terreno(floresta, 4, 5, 12)
-        self.gerar_terreno(agua, 4, 5, 8)
         self.gerar_terreno(terra, 3, 2, 5)
         self.gerar_terreno(tronco, 6, 1, 1)
         self.gerar_terreno(flores, 4, 3, 6)
-        self.gerar_terreno(lagoa, 4, 1, 1)
         self.gerar_terreno(arbusto, 6, 1, 5)
+        self.gerar_terreno(agua, 4, 5, 8)
         self.copy_map()
-        
-#Opções de movimento      
-        self.move_opt = {
-            "up": "[W] - UP",
-            "down": "[S] - DOWN",
-            "left": "[A] - LEFT",
-            "right": "[D] - RIGHT"
-        }
         
     def create_map(self) -> None:
     # Inicia o mapa com tiles de planicie padrões
@@ -67,7 +58,7 @@ class Map:
                     if 0 <= start_y + i < self.altura and 0 <= start_x + j < self.largura:
                         self.init_map_info[start_y + i][start_x + j] = tile
                         
-
+    #Função para definir o FOV do jogador, que é usado para gradualmente revelar o mapa, convertendo as tiles não exploradas em exploradas
     def reveal_map(self, pos: list[int]) -> None:
         x, y = pos
         sight_range = range(-2, 3)
@@ -77,7 +68,6 @@ class Map:
             [1, 1, 1, 1, 1],
             [1, 1, 1, 1, 1],
             [0, 1, 1, 1, 0],
-
         ]
         for y_index in sight_range:
             tile_y = y + y_index
@@ -95,11 +85,6 @@ class Map:
         self.copy_map()  # Reinicia o mapa pra estado inicial
         self.reveal_map(pos)  #Revela as tiles ao redor do jogador
         self.map_info[y][x] = marker  # Posiciona o marker do jogador no mapa
-
-    def display_move_opt(self, options: dict[str, bool]) -> None:
-        for direction, value in self.move_opt.items():
-            if options.get(direction):
-                print(value)
 
     def display_map(self) -> None:
         frame = "X" + self.largura * "=" + "X"
@@ -124,10 +109,18 @@ class Player_map:
         self.pos=[0, 0]
         self.marker = player_marker
         
+        #Opções de movimento      
+        self.move_opt = {
+            "up": "[W] - UP",
+            "down": "[S] - DOWN",
+            "left": "[A] - LEFT",
+            "right": "[D] - RIGHT"
+        }
+
     def move(self, x: int, y:int):
         self.pos[0]+= x
         self.pos[1]+= y
-        
+
     def calc_move_opt(self, largura, altura) -> dict[str, bool]:
         return {
             "up": self.pos[1] > 0,
@@ -137,10 +130,9 @@ class Player_map:
         }
 
     def get_movement_input(self, map_largura, map_altura) -> None:
-
         move_opt = self.calc_move_opt(map_largura, map_altura)
         choice = msvcrt.getch().decode('utf-8')
-
+        
         if move_opt["up"] and choice in ("w", "W"):
             self.pos[1] -= 1
         elif move_opt["down"] and choice in ("s", "S"):

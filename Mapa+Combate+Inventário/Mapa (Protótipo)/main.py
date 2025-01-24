@@ -17,6 +17,7 @@ def map_loop():
         os.system("cls") 
         game_map.display_map()  
         print("\nPressione [W] para mover para cima, [S] para baixo, [A] para esquerda e [D] para direita.")
+        print("\nPressione [1] para voltar ao mapa principal")
         player.get_movement_input(game_map.largura, game_map.altura)
         game_map.update_map(player.pos, player.marker)
 
