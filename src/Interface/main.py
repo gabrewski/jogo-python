@@ -1,6 +1,5 @@
 import curses
-from map_module import show_map
-from progression import ProgressionSystem
+from Interface.map_module import show_map
 
 # fazer os imports aqui
 # Importar os coisos do jogador (nome e level) do sistema de progresso
@@ -9,9 +8,8 @@ from progression import ProgressionSystem
 # Importar o combate
 
 class GameInterface:
-    def __init__(self, stdscr):
-        # Inicializa o sistema de progressão
-        self.progression_system = ProgressionSystem()
+    def __init__(self, stdscr, player):
+        self.player = player
 
         self.stdscr = stdscr
         curses.start_color()
@@ -108,7 +106,7 @@ class GameInterface:
         self.stats_win.box()
         
         #obtem os stats do personagem
-        player_stats = self.progression_system.get_stats()
+        player_stats = self.player.get_stats()
         
         #valores dinâmicos pra barrinha
         exp_bar = int((player_stats["exp"] / player_stats["exp_to_next_level"]) * 10)   #barrinha de xp com 10 blocos
@@ -174,7 +172,7 @@ class GameInterface:
         self.game_win.refresh()
         return selected_area
 
-def main(stdscr):
+def main(stdscr, player):
     # Verifica tamanho mínimo do terminal
     height, width = stdscr.getmaxyx()
     if height < 24 or width < 80:
@@ -187,7 +185,7 @@ def main(stdscr):
     stdscr.refresh()
     
     # Inicializa a interface
-    interface = GameInterface(stdscr)
+    interface = GameInterface(stdscr, player)
     
     # inicializar os outros módulos? talvez fique tudo igual eu coloquei o mapa
     # player = Player("Hero", 1)
@@ -244,8 +242,9 @@ def main(stdscr):
         except KeyboardInterrupt:
             break
 
-if __name__ == "__main__":
+
+def run(player):
     try:
-        curses.wrapper(main)
+        curses.wrapper(main, player)
     except curses.error as e:
         print(f"Erro ao inicializar curses: {e}")
