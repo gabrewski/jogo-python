@@ -14,14 +14,14 @@ class Item:
 
 
 class Armor(Item):
-    def __init__(self, name: str, gold_value: int, def_value: int):
-        super().__init__(name = name, gold_value = gold_value, equipable = True, consumable = False, tradable = True)
+    def __init__(self, name: str, gold_value: int, def_value: int, tradable: bool):
+        super().__init__(name = name, gold_value = gold_value, equipable = True, consumable = False, tradable = tradable)
         self.def_value = def_value
 
 
 class Weapon(Item):
-    def __init__(self, name: str, gold_value: int, atk_value: int):
-        super().__init__(name = name, gold_value = gold_value, equipable = True, consumable = False, tradable = bool)
+    def __init__(self, name: str, gold_value: int, atk_value: int, tradable: bool):
+        super().__init__(name = name, gold_value = gold_value, equipable = True, consumable = False, tradable = tradable)
         self.atk_value = atk_value
         self.tradable = tradable
 
@@ -59,8 +59,8 @@ espada_flamejante = Weapon(name="Espada Flamejante", gold_value=150, atk_value=1
 
 #armas de inimigos
 garras = Weapon(name="Garras", gold_value=None, atk_value=15, tradable = False)
-magia = Weapon(name="Magia", gold_value=None, atk_value=12), tradable = False
-veneno = Weapon(name="Veneno", gold_value=None, atk_value=20)
+magia = Weapon(name="Magia", gold_value=None, atk_value=12, tradable = False)
+veneno = Weapon(name="Veneno", gold_value=None, atk_value=20, tradable = False)
 cauda_veneno = Weapon(name="Cauda de Veneno", gold_value=None, atk_value=30, tradable = False)
 lamina_escama = Weapon(name="Lâmina de Escama", gold_value=None, atk_value=35, tradable = False)
 areia_solida = Weapon(name="Areia Sólida", gold_value=None, atk_value=40, tradable = False)
@@ -76,10 +76,10 @@ erupcoes_lava = Weapon(name="Erupções de Lava", gold_value=None, atk_value=100
 sopro_lava = Weapon(name="Sopro de Lava", gold_value=None, atk_value=150, tradable = False)
 
 #itens de cura
-potion1 = Healing(name = "Poção Revigorante", gold_value = 8, hp_value = 8, tradable = False)
-potion2 = Healing(name = "Poção de Cura Leve", gold_value = 15, hp_value = 15, tradable = False)
-potion3 = Healing(name = "Poção de Cura Poderosa", gold_value = 30, hp_value = 30, tradable = False)
-potion4 = Healing(name = "Poção de Cura Suprema", gold_value = 60, hp_value = 60, tradable = False)
+potion1 = Healing(name = "Poção Revigorante", gold_value = 8, hp_value = 8)
+potion2 = Healing(name = "Poção de Cura Leve", gold_value = 15, hp_value = 15)
+potion3 = Healing(name = "Poção de Cura Poderosa", gold_value = 30, hp_value = 30)
+potion4 = Healing(name = "Poção de Cura Suprema", gold_value = 60, hp_value = 60)
 
 #listas de drop items por fase
 drop_items_1 = [espada1, porrete, armor1, armor2, potion1]
