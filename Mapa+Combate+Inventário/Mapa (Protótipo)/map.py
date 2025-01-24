@@ -17,13 +17,6 @@ class Map:
         self.explore_process: list[list[int]] = []     
         self.explored_tiles = [player_marker]
         self.create_map()
-        self.gerar_terreno(montanha, 3, 3, 6)
-        self.gerar_terreno(floresta, 4, 5, 12)
-        self.gerar_terreno(terra, 3, 2, 5)
-        self.gerar_terreno(tronco, 6, 1, 1)
-        self.gerar_terreno(flores, 4, 3, 6)
-        self.gerar_terreno(arbusto, 6, 1, 5)
-        self.gerar_terreno(agua, 4, 5, 8)
         self.copy_map()
         
     def create_map(self) -> None:
@@ -141,25 +134,3 @@ class Player_map:
             self.pos[0] -= 1
         elif move_opt["right"] and choice in ("d", "D"):
             self.pos[0] += 1
-            
-#Modularização de geração de mapa de diferentes fases
-class ForestMap:
-    def __init__(self):
-        pass
-
-class DesertMap:
-    def __init__(self):
-        pass
-
-class SnowMap:
-    def __init__(self):
-        pass
-    
-class SwampMap:
-    def __init__(self):
-        pass
-
-class FireMap:
-    def __init__(self):
-        pass
-            

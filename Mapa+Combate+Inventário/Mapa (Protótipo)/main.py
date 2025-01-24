@@ -1,15 +1,28 @@
-# main.py
+#main.py
 
 import os
-from map import *
+from map_stages import *
 from tile import *
-
+from map import *
 import msvcrt
 
 os.system("cls")
-
 map_larg, map_alt = 60, 15
-game_map = Map(map_larg, map_alt)
+
+
+stage = 2
+if stage == 1:
+    game_map = ForestMap(60, 15)
+elif stage == 2:
+    game_map = DesertMap(60, 15)
+elif stage == 3:
+    game_map = SnowMap(60, 15)
+elif stage == 4:
+    game_map = SwampMap(60, 15)
+elif stage == 5:
+    game_map = FireMap(60, 15)
+
+game_map.setup_terreno()
 player = Player_map()
 
 def map_loop():
