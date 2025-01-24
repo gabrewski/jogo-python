@@ -1,6 +1,6 @@
 import curses
 from map_module import show_map
-from progression import ProgressionSystem
+from character import Player
 
 # fazer os imports aqui
 # Importar os coisos do jogador (nome e level) do sistema de progresso
@@ -11,7 +11,6 @@ from progression import ProgressionSystem
 class GameInterface:
     def __init__(self, stdscr):
         # Inicializa o sistema de progressão
-        self.progression_system = ProgressionSystem()
         self.stdscr = stdscr
         curses.start_color()
         curses.use_default_colors()
@@ -26,13 +25,13 @@ class GameInterface:
         curses.init_pair(6, curses.COLOR_WHITE, curses.COLOR_BLACK)
         curses.init_pair(7, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 
-        BLUE = curses.color_pair(1)
-        CYAN = curses.color_pair(2)
-        GREEN = curses.color_pair(3)
-        MAGENTA = curses.color_pair(4)
-        RED = curses.color_pair(5)
-        WHITE = curses.color_pair(6)
-        YELLOW = curses.color_pair(7)
+        self.BLUE = curses.color_pair(1)
+        self.CYAN = curses.color_pair(2)
+        self.GREEN = curses.color_pair(3)
+        self.MAGENTA = curses.color_pair(4)
+        self.RED = curses.color_pair(5)
+        self.WHITE = curses.color_pair(6)
+        self.YELLOW = curses.color_pair(7)
         
         self.setup_windows()
         self.refresh_all()
@@ -91,42 +90,52 @@ class GameInterface:
         self.game_win.addstr(2, 3, "começa na vila")
         self.game_win.refresh()
 
-    def update_character(self, name="Hero", level=1, hp=100, max_hp=100):
+    def update_character(self, name="Hero", level=1, exp=0, level_exp=100):
         """Atualiza informações do personagem"""
         self.char_win.clear()
         self.char_win.box()
         self.char_win.addstr(1, 2, f"Name: {name}")
         self.char_win.addstr(2, 2, f"Level: {level}")
-        self.char_win.addstr(3, 2, f"HP: {hp}/{max_hp}")
+        
+        # valores dinâmicos para a barra de experiência
+        exp_bar = int((exp / level_exp) * 10)  # barra de xp com 10 blocos
+        exp_display = f"EXP: {'█' * exp_bar}{'─' * (10 - exp_bar)} {exp}/{level_exp}"
+        self.char_win.addstr(3, 2, exp_display)
+        
         self.char_win.refresh()
 
-    #mudei essa parte //// gabi    
-    def update_stats(self, stats=None):
+    # sistema de progressao do leo
+    def update_stats(self, player):
         """Atualiza status do personagem"""
         self.stats_win.clear()
         self.stats_win.box()
         
-        #obtem os stats do personagem
-        player_stats = self.progression_system.get_stats()
+        # valores dinâmicos para a barra de HP
+        hp_bar = int((player.hp / player.hp_max) * 10)  # barra de hp com 10 blocos
+        hp_display = f"HP: "
         
-        #valores dinâmicos pra barrinha
-        exp_bar = int((player_stats["exp"] / player_stats["exp_to_next_level"]) * 10)   #barrinha de xp com 10 blocos
-        exp_display = f"EXP: {'█' * exp_bar}{'─' * (10 - exp_bar)} {player_stats['exp']}/{player_stats['exp_to_next_level']}"
+        # determina a cor da barra de HP baseado na porcentagem de vida
+        if player.hp / player.hp_max >= 0.5:
+            color = self.GREEN  # verde
+        elif player.hp / player.hp_max >= 0.25:
+            color = self.YELLOW  # amarelo
+        else:
+            color = self.RED  # vermelho
         
-        #stats do personagem
+        self.stats_win.addstr(1, 2, hp_display)
+        self.stats_win.addstr(1, 6, f"{'█' * hp_bar}{'─' * (10 - hp_bar)} {player.hp}/{player.hp_max}", color)
+        
+        # stats do personagem
         stats = [
-            exp_display,
-            f"HP: {player_stats['hp']}",
-            f"ATK: {player_stats['atk']}",
-            f"DEF: {player_stats['defense']}",
+            f"ATK: {player.atk + player.weapon.atk_value if player.weapon else player.atk}",
+            f"DEF: {player.armor.def_value if player.armor else 0}",
         ]
         
-        #isso atualiza o negocio mas tem que testar ainda
-        for i, stat in enumerate(stats, 1):
+        # atualiza a janela de status
+        for i, stat in enumerate(stats, 2):
             self.stats_win.addstr(i, 2, stat)
         self.stats_win.refresh()
 
-    # ~~~~ fim da mudança ~~~~
     
     def update_inventory(self, inventory=None):
         """Atualiza o inventário"""
@@ -194,10 +203,13 @@ def main(stdscr):
     # inventory = Inventory()
     # sei lá, algo assim
     
+    # Inicializa o jogador
+    player = Player("Hero", 100, 10, 0.1, 1.5)    # os valores são respectivamente: hp inicial, atk inicial, chance de critico e multiplicador de critico
+
     # Atualiza todas as áreas
     interface.update_game_area()
     interface.update_character()
-    interface.update_stats()
+    interface.update_stats(player)
     interface.update_inventory()
     interface.update_commands()
     interface.update_text()
@@ -248,3 +260,4 @@ if __name__ == "__main__":
         curses.wrapper(main)
     except curses.error as e:
         print(f"Erro ao inicializar curses: {e}")
+        curses.endwin()
