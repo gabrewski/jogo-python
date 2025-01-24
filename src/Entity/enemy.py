@@ -8,14 +8,14 @@ class Enemy(Entity):
     def __init__(self, 
                  name: str, 
                  hp:int, 
-                 atk:int, 
+                 atk_value:int, 
                  crit_chance: int, 
                  crit_damage: float, 
                  weapon: 'Weapon', 
                  exp_range: tuple[int, int] = (0,0), 
                  gold_range: tuple[int, int] = (0,0)):
                  
-        super().__init__(name=name, hp=hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
+        super().__init__(name=name, hp=hp, atk_value=atk_value, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = weapon
         self.armor = no_armor
         self.exp_range = exp_range

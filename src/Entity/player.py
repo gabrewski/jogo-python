@@ -6,8 +6,8 @@ import random
 
 
 class Player (Entity):
-    def __init__(self, name: str, hp:int, atk:int, crit_chance: int, crit_damage: float):
-        super().__init__(name = name, hp = hp, atk=atk, crit_chance = crit_chance, crit_damage = crit_damage)
+    def __init__(self, name: str, hp:int, atk_value:int, crit_chance: int, crit_damage: float):
+        super().__init__(name = name, hp = hp, atk_value=atk_value, crit_chance = crit_chance, crit_damage = crit_damage)
         self.weapon = espada1
         self.armor = armor1
         self.inventory = Inventory()
@@ -49,7 +49,7 @@ class Player (Entity):
         '''Incrementa os atributos base do jogador.'''
         self.level += 1
         self.hp_max += 25
-        self.atk += 10
+        self.atk_value += 10
         self.crit_chance += 0.1
 
 
@@ -67,9 +67,9 @@ class Player (Entity):
         print(f"Nome: {self.name}")
         print(f"HP: {self.hp}")
         if self.weapon is None:
-            print(f"Ataque: {self.atk}")
+            print(f"Ataque: {self.atk_value}")
         else:
-            print(f"Ataque: {self.atk + self.weapon.atk_value}")
+            print(f"Ataque: {self.atk_value + self.weapon.atk_value}")
         print(f"Chance de Crítico: {self.crit_chance*10}%")
         print(f"Dano Crítico: {self.crit_damage}x")
 
@@ -86,6 +86,6 @@ class Player (Entity):
         return {"level": self.level,
                 "hp": self.hp_max,
                 "atk": self.atk_value + self.weapon.atk_value,
-                "defense": self.def_value + self.armor.def_value,
+                "defense": self.armor.def_value,
                 "exp": self.exp,
                 "exp_to_next_level": self.level_exp[self.level] - self.exp}
