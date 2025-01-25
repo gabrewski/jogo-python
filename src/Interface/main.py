@@ -82,13 +82,14 @@ class GameInterface:
         self.txt_win.refresh()
     
     #ATUALIZAÇÕES DE INFORMAÇÕES
-    def update_game_area(self, game_map=None):
+    def update_game_area(self, game_map=[]):
         """Atualiza a área principal do jogo"""
         self.game_win.clear()
         self.game_win.box()
 
         # Por enquanto, apenas um exemplo
-        self.game_win.addstr(1, 1, "começa na vila")
+        for i, row in enumerate(game_map):
+            self.game_win.addstr(i+1, 1, row)
         self.game_win.refresh()
 
     def update_character(self):
@@ -219,10 +220,7 @@ def main(stdscr, player):
 
                 elif selected_area == 2:
                     # Carregar floresta
-                    curses.endwin()
-                    map_loop(player, 1)
-                    start_interface(player)
-                    interface.update_game_area()
+                    map_loop(player, 1, interface.update_game_area)
 
                 elif selected_area == 3:
                     # Carregar planícies
