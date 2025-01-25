@@ -1,5 +1,6 @@
 import curses
 from Interface.map_module import show_map
+from Mapa.main import map_loop
 
 # fazer os imports aqui
 # Importar os coisos do jogador (nome e level) do sistema de progresso
@@ -87,16 +88,16 @@ class GameInterface:
         self.game_win.box()
 
         # Por enquanto, apenas um exemplo
-        self.game_win.addstr(2, 3, "começa na vila")
+        self.game_win.addstr(1, 1, "começa na vila")
         self.game_win.refresh()
 
-    def update_character(self, name="Hero", level=1, hp=100, max_hp=100):
+    def update_character(self):
         """Atualiza informações do personagem"""
         self.char_win.clear()
         self.char_win.box()
-        self.char_win.addstr(1, 2, f"Name: {name}")
-        self.char_win.addstr(2, 2, f"Level: {level}")
-        self.char_win.addstr(3, 2, f"HP: {hp}/{max_hp}")
+        self.char_win.addstr(1, 2, f"Name: {self.player.name}")
+        self.char_win.addstr(2, 2, f"Level: {self.player.level}")
+        self.char_win.addstr(3, 2, f"HP: {self.player.hp}/{self.player.hp_max}")
         self.char_win.refresh()
 
     #mudei essa parte //// gabi    
@@ -127,14 +128,14 @@ class GameInterface:
 
     # ~~~~ fim da mudança ~~~~
     
-    def update_inventory(self, inventory=None):
+    def update_inventory(self):
         """Atualiza o inventário"""
         self.inv_win.clear()
         self.inv_win.box()
         self.inv_win.addstr(1, 2, "Inventory:")
         
         # Por enquanto, itens de exemplo, tem que pegar do inventario
-        items = ["Health Potion", "Iron Sword", "Leather Armor", "Magic Ring"]
+        items = self.player.inventory.player_items
         
         for i, item in enumerate(items, 2):
             self.inv_win.addstr(i, 2, f"- {item}")
@@ -218,22 +219,29 @@ def main(stdscr, player):
 
                 elif selected_area == 2:
                     # Carregar floresta
+                    curses.endwin()
+                    map_loop(player, 1)
+                    start_interface(player)
                     interface.update_game_area()
 
                 elif selected_area == 3:
                     # Carregar planícies
+                    map_loop(player, 2)
                     interface.update_game_area()
 
                 elif selected_area == 4:
                     # Carregar água
+                    map_loop(player, 3)
                     interface.update_game_area()
 
                 elif selected_area == 5:
                     # carregar deserto
+                    map_loop(player, 4)
                     interface.update_game_area()
 
                 elif selected_area == 6:
                     # carregar magma
+                    map_loop(player, 5)
                     interface.update_game_area()
 
                 else:  # selected_area == 7 ou inválido
@@ -243,7 +251,7 @@ def main(stdscr, player):
             break
 
 
-def run(player):
+def start_interface(player):
     try:
         curses.wrapper(main, player)
     except curses.error as e:

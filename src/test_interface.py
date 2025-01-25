@@ -1,4 +1,4 @@
-from Mapa.main import map_loop
+from Interface.main import start_interface
 from Entity.player import Player
 from Item.item_list import potion1, potion2
 
@@ -8,5 +8,4 @@ player.inventory.add_item(potion1)
 player.inventory.add_item(potion1)
 player.inventory.add_item(potion2)
 
-
-map_loop(player)
+start_interface(player)

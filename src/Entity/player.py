@@ -102,7 +102,7 @@ class Player (Entity):
         }
 
 
-    def get_movement_input(self, map_largura, map_altura) -> bool:
+    def get_movement_input(self, map_largura, map_altura) -> str:
         move_opt = self.calc_move_opt(map_largura, map_altura)
         choice = msvcrt.getch().decode('utf-8')
         
@@ -115,4 +115,4 @@ class Player (Entity):
         elif move_opt["right"] and choice in ("d", "D"):
             self.pos[0] += 1
 
-        return choice in ("w", "W", "s", "S", "a", "A", "d", "D")
+        return choice
