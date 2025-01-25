@@ -18,7 +18,7 @@ def combat(player: 'Entity', enemy: 'Entity') -> bool:
                     return stop_combat(victory=True)
             
             case 2: # defender
-                if defend(defender=player, attacker=enemy):
+                if defend(player=player, enemy=enemy):
                     continue
                 else:
                     return stop_combat(victory=False)
@@ -33,7 +33,7 @@ def combat(player: 'Entity', enemy: 'Entity') -> bool:
                     return True
                 else:
                     print('Fuga malsucedida') # placeholder
-                    time.sleep(4)
+                    time.sleep(2)
 
         print() # placeholder
         # ação do inimigo
@@ -81,7 +81,7 @@ def heal(player: 'Entity'):
 
 
 def flee() -> bool:
-    return random.random() <= 0.7
+    return random() <= 0.7
 
 
 def is_dead(entity: 'Entity') -> bool:
