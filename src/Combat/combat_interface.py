@@ -148,7 +148,7 @@ def combat(stdscr, player, enemy):
     time.sleep(1)
 
 # test
-player = Player(name="Dargia", hp=1000, atk=50, crit_chance=0.4, crit_damage=2.0)
+player = Player(name="Dargia", hp=1000, atk_value=50, crit_chance=0.4, crit_damage=2.0)
 
 def start_combat(enemy):
     curses.wrapper(combat, player, enemy)
