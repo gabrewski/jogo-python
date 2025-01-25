@@ -1,3 +1,5 @@
+#main.py
+
 import curses
 from Interface.map_module import show_map
 from Mapa.main import map_loop
@@ -26,14 +28,6 @@ class GameInterface:
         curses.init_pair(7, curses.COLOR_MAGENTA, curses.COLOR_BLACK) 
         curses.init_pair(8, curses.COLOR_CYAN, curses.COLOR_BLACK)  
         curses.init_pair(9, curses.COLOR_BLACK, curses.COLOR_BLACK)
-
-        # BLUE = curses.color_pair(1)
-        # CYAN = curses.color_pair(2)
-        # GREEN = curses.color_pair(3)
-        # MAGENTA = curses.color_pair(4)
-        # RED = curses.color_pair(5)
-        # WHITE = curses.color_pair(6)
-        # YELLOW = curses.color_pair(7)
         
         self.setup_windows()
         self.refresh_all()

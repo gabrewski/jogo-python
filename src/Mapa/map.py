@@ -88,9 +88,3 @@ class Map:
     def copy_map(self) -> None:
         self.map_info = [[tile for tile in row] for row in self.init_map_info]
     
-    def render(self, window) -> None:
-        for y in range(self.altura):
-            for x in range(self.largura):
-                if self.explore_process[y][x]:
-                    tile = self.map_info[y][x]
-                    window.addstr(y, x, tile.symbol, curses.color_pair(tile.color_pair))

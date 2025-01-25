@@ -1,3 +1,5 @@
+#animação_titulo.py
+
 import curses
 from curses import wrapper
 import time

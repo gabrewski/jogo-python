@@ -1,3 +1,5 @@
+#item_list.py
+
 from Item.category import Armor, Weapon, Healing, QuestItem
 
 
@@ -21,22 +23,22 @@ clava_gelo = Weapon(name="Clava de Gelo", gold_value=30, atk_value=40)
 espada_flamejante = Weapon(name="Espada Flamejante", gold_value=150, atk_value=120)
 
 #armas de inimigos
-garras = Weapon(name="Garras", gold_value=None, atk_value=15)
-magia = Weapon(name="Magia", gold_value=None, atk_value=12)
-veneno = Weapon(name="Veneno", gold_value=None, atk_value=20)
-cauda_veneno = Weapon(name="Cauda de Veneno", gold_value=None, atk_value=30)
-lamina_escama = Weapon(name="Lâmina de Escama", gold_value=None, atk_value=35)
-areia_solida = Weapon(name="Areia Sólida", gold_value=None, atk_value=40)
-golpes_areia = Weapon(name="Golpes de Areia", gold_value=None, atk_value=45)
-garras_gelo = Weapon(name="Garras de Gelo", gold_value=None, atk_value=45)
-garras_gigantes = Weapon(name="Garras Gigantes", gold_value=None, atk_value=50)
-mandibulas = Weapon(name="Mandíbulas", gold_value=None, atk_value=60)
-raizes = Weapon(name="Raízes", gold_value=None, atk_value=55)
-cabecas_veneno = Weapon(name="Cabeças de Veneno", gold_value=None, atk_value=70)
-chamas_incandescentes = Weapon(name="Chamas Incandescentes", gold_value=None, atk_value=90)
-magia_fogo = Weapon(name="Magia de Fogo", gold_value=None, atk_value=75)
-erupcoes_lava = Weapon(name="Erupções de Lava", gold_value=None, atk_value=100)
-sopro_lava = Weapon(name="Sopro de Lava", gold_value=None, atk_value=150)
+garras = Weapon(name="Garras", gold_value=0, atk_value=15)
+magia = Weapon(name="Magia", gold_value=0, atk_value=12)
+veneno = Weapon(name="Veneno", gold_value=0, atk_value=20)
+cauda_veneno = Weapon(name="Cauda de Veneno", gold_value=0, atk_value=30)
+lamina_escama = Weapon(name="Lâmina de Escama", gold_value=0, atk_value=35)
+areia_solida = Weapon(name="Areia Sólida", gold_value=0, atk_value=40)
+golpes_areia = Weapon(name="Golpes de Areia", gold_value=0, atk_value=45)
+garras_gelo = Weapon(name="Garras de Gelo", gold_value=0, atk_value=45)
+garras_gigantes = Weapon(name="Garras Gigantes", gold_value=0, atk_value=50)
+mandibulas = Weapon(name="Mandíbulas", gold_value=0, atk_value=60)
+raizes = Weapon(name="Raízes", gold_value=0, atk_value=55)
+cabecas_veneno = Weapon(name="Cabeças de Veneno", gold_value=0, atk_value=70)
+chamas_incandescentes = Weapon(name="Chamas Incandescentes", gold_value=0, atk_value=90)
+magia_fogo = Weapon(name="Magia de Fogo", gold_value=0, atk_value=75)
+erupcoes_lava = Weapon(name="Erupções de Lava", gold_value=0, atk_value=100)
+sopro_lava = Weapon(name="Sopro de Lava", gold_value=0, atk_value=150)
 
 #itens de cura
 potion1 = Healing(name = "Poção Revigorante", gold_value = 8, hp_value = 8)

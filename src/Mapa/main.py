@@ -9,10 +9,10 @@ from Combat.combat_test import combat
 import msvcrt
 
 
-map_larg, map_alt = 60, 15
+map_larg, map_alt = 166, 46
 
 def map_loop(player, stage_choice:int, interface):
-    maps = (ForestMap(60, 15), DesertMap(60, 15), SnowMap(60, 15), SwampMap(60, 15), FireMap(60, 15))
+    maps = (ForestMap(166, 46), DesertMap(166, 46), SnowMap(166, 46), SwampMap(166, 46), FireMap(166, 46))
     game_map = maps[stage_choice-1]
     encounter_chance = 0
 

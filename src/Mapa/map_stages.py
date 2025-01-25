@@ -14,13 +14,13 @@ class ForestMap(Map):
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
 
     def setup_terreno(self):
-        self.gerar_terreno(montanha, 3, 3, 6) #número de terrenos, tamanho mínimo e tamanho máximo
-        self.gerar_terreno(floresta, 4, 5, 12)
-        self.gerar_terreno(areia, 3, 2, 5)
-        self.gerar_terreno(tronco, 6, 1, 1)
-        self.gerar_terreno(flores, 4, 3, 6)
-        self.gerar_terreno(arbusto, 6, 1, 5)
-        self.gerar_terreno(agua, 4, 5, 8)
+        self.gerar_terreno(tronco, 18, 1, 1)
+        self.gerar_terreno(montanha, 12, 3, 6) #número de terrenos, tamanho mínimo e tamanho máximo
+        self.gerar_terreno(floresta, 25, 10, 20)
+        self.gerar_terreno(areia, 9, 6, 13)
+        self.gerar_terreno(flores, 12, 4, 10)
+        self.gerar_terreno(arbusto, 18, 1, 5)
+        self.gerar_terreno(agua, 14, 8, 12)
 
 class DesertMap(Map):
     def __init__(self, largura, altura):

@@ -1,5 +1,6 @@
-import random
+#base_entity.py
 
+import random
 
 class Entity:
     def __init__(self, name: str, hp: int, atk_value: int, crit_chance: float, crit_damage: float):

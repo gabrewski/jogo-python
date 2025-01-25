@@ -1,3 +1,5 @@
+#enemy.py
+
 from Entity.base_entity import Entity
 from Item.category import Weapon
 from Item.item_list import no_armor

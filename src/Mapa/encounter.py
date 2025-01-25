@@ -1,3 +1,5 @@
+#encounter.py
+
 from random import randint, choices
 from Entity.enemy import Enemy
 from Entity.enemy_list import enemy_list1, enemy_list2, enemy_list3, enemy_list4, enemy_list5

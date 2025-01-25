@@ -1,3 +1,5 @@
+#ascii_inicial.py
+
 import curses
 from curses import wrapper
 import time

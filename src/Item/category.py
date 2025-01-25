@@ -1,3 +1,5 @@
+#category.py
+
 class Item:
     '''
     Classe base para todos os itens.

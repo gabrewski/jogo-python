@@ -1,26 +1,28 @@
+#map_module.py
+
 import curses
 from curses import wrapper
 import time
 
 def show_map(window):
     TERRAIN_COLORS = {
-        '≈' : curses.color_pair(1), # lago/rio
+        '≈' : curses.color_pair(3), # lago/rio
         '♣' : curses.color_pair(2), # floresta
-        '_' : curses.color_pair(3), # planicie
-        '≋' : curses.color_pair(4), # magma
-        '▲' : curses.color_pair(5), # montanha
-        '∼' : curses.color_pair(6), # deserto
-        '⌂' : curses.color_pair(7), #vila
-        '|' : curses.color_pair(8), # boss
-        '-' : curses.color_pair(8),
-        '[' : curses.color_pair(8),
-        ']' : curses.color_pair(8),
-        '∖' : curses.color_pair(8),
-        "⁄" : curses.color_pair(8),
-        '`' : curses.color_pair(8),
-        '´' : curses.color_pair(8),
-        '▶' : curses.color_pair(8),
-        '⁂' : curses.color_pair(8)
+        '_' : curses.color_pair(2), # planicie
+        '≋' : curses.color_pair(5), # magma
+        '▲' : curses.color_pair(6), # montanha
+        '∼' : curses.color_pair(1), # deserto
+        '⌂' : curses.color_pair(8), #vila
+        '|' : curses.color_pair(7), # boss
+        '-' : curses.color_pair(7),
+        '[' : curses.color_pair(7),
+        ']' : curses.color_pair(7),
+        '∖' : curses.color_pair(7),
+        "⁄" : curses.color_pair(7),
+        '`' : curses.color_pair(7),
+        '´' : curses.color_pair(7),
+        '▶' : curses.color_pair(7),
+        '⁂' : curses.color_pair(7)
     }
 
     ascii_map = [

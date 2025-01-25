@@ -1,3 +1,5 @@
+#player.py
+
 from Entity.base_entity import Entity
 from Item.inventory import Inventory
 from Item.item_list import espada1, armor1
