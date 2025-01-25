@@ -1,6 +1,7 @@
 import curses
 from map_module import show_map
 from character import Player
+from save_load import SaveLoadSystem
 
 # fazer os imports aqui
 # Importar os coisos do jogador (nome e level) do sistema de progresso
@@ -10,7 +11,7 @@ from character import Player
 
 class GameInterface:
     def __init__(self, stdscr):
-        # Inicializa o sistema de progressão
+        # inicializa o sistema de progressão
         self.stdscr = stdscr
         curses.start_color()
         curses.use_default_colors()
@@ -42,18 +43,18 @@ class GameInterface:
         
         # Área principal do jogo (70% da largura)
         game_width = int(self.max_x * 0.75)
-        game_height = self.max_y - 7  # Altura total menos área de comandos
+        game_height = self.max_y - 7    # Altura total menos área de comandos
         self.game_win = curses.newwin(game_height, game_width, 0, 0)
         
-        # Largura dos painéis laterais
+         # Largura dos painéis laterais
         side_width = self.max_x - game_width
         
         # Informações do personagem (nome, level e HP)
         self.char_win = curses.newwin(5, side_width, 0, game_width)
-        
+
         # Status do personagem
         self.stats_win = curses.newwin(6, side_width, 5, game_width)
-        
+
         # Inventário (área vertical menos os comandos)
         inv_height = self.max_y - 18
         self.inv_win = curses.newwin(inv_height, side_width, 11, game_width)
@@ -82,7 +83,7 @@ class GameInterface:
     
     #ATUALIZAÇÕES DE INFORMAÇÕES
     def update_game_area(self, game_map=None):
-        """Atualiza a área principal do jogo"""
+        # Atualiza a área principal do jogo
         self.game_win.clear()
         self.game_win.box()
 
@@ -91,14 +92,14 @@ class GameInterface:
         self.game_win.refresh()
 
     def update_character(self, name="Hero", level=1, exp=0, level_exp=100):
-        """Atualiza informações do personagem"""
+        # Atualiza informações do personagem
         self.char_win.clear()
         self.char_win.box()
         self.char_win.addstr(1, 2, f"Name: {name}")
         self.char_win.addstr(2, 2, f"Level: {level}")
         
         # valores dinâmicos para a barra de experiência
-        exp_bar = int((exp / level_exp) * 10)  # barra de xp com 10 blocos
+        exp_bar = int((exp / level_exp) * 10)   # barra de xp com 10 blocos
         exp_display = f"EXP: {'█' * exp_bar}{'─' * (10 - exp_bar)} {exp}/{level_exp}"
         self.char_win.addstr(3, 2, exp_display)
         
@@ -106,21 +107,21 @@ class GameInterface:
 
     # sistema de progressao do leo
     def update_stats(self, player):
-        """Atualiza status do personagem"""
+        # atualiza status do personagem
         self.stats_win.clear()
         self.stats_win.box()
         
         # valores dinâmicos para a barra de HP
-        hp_bar = int((player.hp / player.hp_max) * 10)  # barra de hp com 10 blocos
+        hp_bar = int((player.hp / player.hp_max) * 10)
         hp_display = f"HP: "
         
         # determina a cor da barra de HP baseado na porcentagem de vida
         if player.hp / player.hp_max >= 0.5:
-            color = self.GREEN  # verde
+            color = self.GREEN    # verde quando a vida esta acima de 50%
         elif player.hp / player.hp_max >= 0.25:
-            color = self.YELLOW  # amarelo
+            color = self.YELLOW   # amarelo quando a vida esta acima de 25%
         else:
-            color = self.RED  # vermelho
+            color = self.RED   # vermelho quando a vida esta abaixo de 25%
         
         self.stats_win.addstr(1, 2, hp_display)
         self.stats_win.addstr(1, 6, f"{'█' * hp_bar}{'─' * (10 - hp_bar)} {player.hp}/{player.hp_max}", color)
@@ -131,14 +132,14 @@ class GameInterface:
             f"DEF: {player.armor.def_value if player.armor else 0}",
         ]
         
+
         # atualiza a janela de status
         for i, stat in enumerate(stats, 2):
             self.stats_win.addstr(i, 2, stat)
         self.stats_win.refresh()
 
-    
     def update_inventory(self, inventory=None):
-        """Atualiza o inventário"""
+        # atualiza o inventario
         self.inv_win.clear()
         self.inv_win.box()
         self.inv_win.addstr(1, 2, "Inventory:")
@@ -151,7 +152,7 @@ class GameInterface:
         self.inv_win.refresh()
     
     def update_commands(self):
-        """Atualiza a área de comandos"""
+        # atualiza a área dos comandos
         self.cmd_win.clear()
         self.cmd_win.box()
         commands = [
@@ -164,6 +165,18 @@ class GameInterface:
         for i, command in enumerate(commands, 1):
             self.cmd_win.addstr(i, 2, command)
             
+        self.cmd_win.refresh()
+
+    def update_pause_menu(self):
+        # atualiza o menu de pause
+        self.cmd_win.clear()
+        self.cmd_win.box()
+        pause_menu = [
+            " P - Voltar       ",
+            " S - Salvar e sair"
+        ]
+        for i, option in enumerate(pause_menu, 1):
+            self.cmd_win.addstr(i, 2, option)
         self.cmd_win.refresh()
 
     def update_text(self):
@@ -196,15 +209,18 @@ def main(stdscr):
     
     # Inicializa a interface
     interface = GameInterface(stdscr)
-    
+
     # inicializar os outros módulos? talvez fique tudo igual eu coloquei o mapa
     # player = Player("Hero", 1)
     # world = World()
     # inventory = Inventory()
     # sei lá, algo assim
-    
+
     # Inicializa o jogador
-    player = Player("Hero", 100, 10, 0.1, 1.5)    # os valores são respectivamente: hp inicial, atk inicial, chance de critico e multiplicador de critico
+    player = Player("Hero", 100, 10, 0.1, 1.5)      # os valores são respectivamente: hp inicial, atk inicial, chance de critico e multiplicador de critico
+
+    # Inicializa o sistema de save/load
+    save_load_system = SaveLoadSystem("savefile.txt")
 
     # Atualiza todas as áreas
     interface.update_game_area()
@@ -214,6 +230,8 @@ def main(stdscr):
     interface.update_commands()
     interface.update_text()
     
+    paused = False
+
     # Loop principal
     while True:
         try:
@@ -221,36 +239,59 @@ def main(stdscr):
             
             if key == ord('q'):
                 break
-            elif key == ord('m') or key == ord('M'):
-                selected_area = interface.show_world_map()
 
-                #talvez tenha que mudar pq vão ter outras partes que vão ser com número, tipo o menu principal ou o combate, veremos
-                if selected_area == 1:
-                    #carregar montanha
-                    interface.update_game_area()
+            # o menu muda para o de Pause, ainda precisa ver se vai adicionar mais opções
+            elif key == ord('p') or key == ord('P'):
+                paused = not paused
+                if paused:
+                    interface.update_pause_menu()
+                else:
+                    interface.update_commands()
 
-                elif selected_area == 2:
-                    # Carregar floresta
-                    interface.update_game_area()
+            elif paused:
+                # salva o jogo
+                if key == ord('s') or key == ord('S'):
+                    save_load_system.save_game(player, player.inventory)
+                    interface.cmd_win.addstr(5, 2, "Jogo salvo. Pressione qualquer tecla.")
+                    interface.cmd_win.refresh()
+                    stdscr.getch()  # espera por uma tecla
+                    paused = False
+                    interface.update_commands()
+                elif key == ord('p') or key == ord('P'):
+                    paused = False
+                    interface.update_commands()
 
-                elif selected_area == 3:
-                    # Carregar planícies
-                    interface.update_game_area()
+            else:
+                if key == ord('m') or key == ord('M'):
+                    selected_area = interface.show_world_map()
 
-                elif selected_area == 4:
-                    # Carregar água
-                    interface.update_game_area()
+                    #talvez tenha que mudar pq vão ter outras partes que vão ser com número, tipo o menu principal ou o combate, veremos
+                    if selected_area == 1:
+                        # carregar montanha
+                        interface.update_game_area()
 
-                elif selected_area == 5:
-                    # carregar deserto
-                    interface.update_game_area()
+                    elif selected_area == 2:
+                        # carregar floresta
+                        interface.update_game_area()
 
-                elif selected_area == 6:
-                    # carregar magma
-                    interface.update_game_area()
+                    elif selected_area == 3:
+                        # carregar planícies
+                        interface.update_game_area()
 
-                else:  # selected_area == 7 ou inválido
-                    interface.update_game_area()
+                    elif selected_area == 4:
+                        # carregar água
+                        interface.update_game_area()
+
+                    elif selected_area == 5:
+                        # carregar deserto
+                        interface.update_game_area()
+
+                    elif selected_area == 6:
+                        # carregar magma
+                        interface.update_game_area()
+
+                    else:   # selected_area == 7 ou inválido
+                        interface.update_game_area()
 
         except KeyboardInterrupt:
             break
