@@ -19,7 +19,6 @@ def map_loop(player, stage_choice:int, interface):
     while True:
         interface(game_map.display_map())
 
-
         print("\nPressione [W] para mover para cima, [S] para baixo, [A] para esquerda e [D] para direita.")
         print("\nPressione [1] para voltar ao mapa principal")
 

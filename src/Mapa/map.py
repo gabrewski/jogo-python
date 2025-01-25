@@ -79,10 +79,10 @@ class Map:
         self.reveal_map(pos)  #Revela as tiles ao redor do jogador
         self.map_info[y][x] = marker  # Posiciona o marker do jogador no mapa
 
-    def display_map(self) -> list[str]:
+    def display_map(self) -> list:
         str_map = []
         for row, explored_row in zip(self.map_info, self.explore_process):
-            str_map.append("".join([tile.symbol if is_explored else " " for tile, is_explored in zip(row, explored_row)]))
+            str_map.append([tile if is_explored else " " for tile, is_explored in zip(row, explored_row)])
         return str_map
 
     def copy_map(self) -> None:

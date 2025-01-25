@@ -18,21 +18,22 @@ class GameInterface:
         curses.curs_set(0)
         
         # configuração de cores
-        curses.init_pair(1, curses.COLOR_BLUE, curses.COLOR_BLACK)
-        curses.init_pair(2, curses.COLOR_CYAN, curses.COLOR_BLACK)
-        curses.init_pair(3, curses.COLOR_GREEN, curses.COLOR_BLACK)
-        curses.init_pair(4, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
-        curses.init_pair(5, curses.COLOR_RED, curses.COLOR_BLACK)
-        curses.init_pair(6, curses.COLOR_WHITE, curses.COLOR_BLACK)
-        curses.init_pair(7, curses.COLOR_YELLOW, curses.COLOR_BLACK)
+        curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_BLACK) 
+        curses.init_pair(2, curses.COLOR_GREEN, curses.COLOR_BLACK) 
+        curses.init_pair(3, curses.COLOR_BLUE, curses.COLOR_BLACK)  
+        curses.init_pair(5, curses.COLOR_RED, curses.COLOR_BLACK)  
+        curses.init_pair(6, curses.COLOR_WHITE, curses.COLOR_BLACK) 
+        curses.init_pair(7, curses.COLOR_MAGENTA, curses.COLOR_BLACK) 
+        curses.init_pair(8, curses.COLOR_CYAN, curses.COLOR_BLACK)  
+        curses.init_pair(9, curses.COLOR_BLACK, curses.COLOR_BLACK)
 
-        BLUE = curses.color_pair(1)
-        CYAN = curses.color_pair(2)
-        GREEN = curses.color_pair(3)
-        MAGENTA = curses.color_pair(4)
-        RED = curses.color_pair(5)
-        WHITE = curses.color_pair(6)
-        YELLOW = curses.color_pair(7)
+        # BLUE = curses.color_pair(1)
+        # CYAN = curses.color_pair(2)
+        # GREEN = curses.color_pair(3)
+        # MAGENTA = curses.color_pair(4)
+        # RED = curses.color_pair(5)
+        # WHITE = curses.color_pair(6)
+        # YELLOW = curses.color_pair(7)
         
         self.setup_windows()
         self.refresh_all()
@@ -89,7 +90,15 @@ class GameInterface:
 
         # Por enquanto, apenas um exemplo
         for i, row in enumerate(game_map):
-            self.game_win.addstr(i+1, 1, row)
+            col_count = 1
+
+            for tile in row:
+                if tile == " ":
+                    self.game_win.addstr(i+1, col_count, "  ")
+                else:
+                    self.game_win.addstr(i+1, col_count, tile.symbol, curses.color_pair(tile.color_pair))
+                col_count += 1
+
         self.game_win.refresh()
 
     def update_character(self):
@@ -223,24 +232,20 @@ def main(stdscr, player):
                     map_loop(player, 1, interface.update_game_area)
 
                 elif selected_area == 3:
-                    # Carregar planícies
-                    map_loop(player, 2)
-                    interface.update_game_area()
+                    # Carregar deserto
+                    map_loop(player, 2, interface.update_game_area)
 
                 elif selected_area == 4:
-                    # Carregar água
-                    map_loop(player, 3)
-                    interface.update_game_area()
+                    # Carregar neve
+                    map_loop(player, 3, interface.update_game_area)
 
                 elif selected_area == 5:
-                    # carregar deserto
-                    map_loop(player, 4)
-                    interface.update_game_area()
+                    # carregar pântano
+                    map_loop(player, 4, interface.update_game_area)
 
                 elif selected_area == 6:
                     # carregar magma
-                    map_loop(player, 5)
-                    interface.update_game_area()
+                    map_loop(player, 5, interface.update_game_area)
 
                 else:  # selected_area == 7 ou inválido
                     interface.update_game_area()
