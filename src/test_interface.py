@@ -1,3 +1,5 @@
+#test_interface.py (Usada para testar interface)
+
 from Interface.main import start_interface
 from Entity.player import Player
 from Item.item_list import potion1, potion2

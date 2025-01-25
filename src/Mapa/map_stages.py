@@ -9,7 +9,7 @@ class ForestMap(Map):
         self.setup_terreno()
         
     def create_map(self):
-        self.init_map_info = [[Tile("_", ANSI_GREEN) for _ in range(self.largura)] for _ in range(self.altura)]
+        self.init_map_info = [[Tile("_", 2) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
 
@@ -28,7 +28,7 @@ class DesertMap(Map):
         self.setup_terreno()
 
     def create_map(self):
-        self.init_map_info = [[Tile("_", ANSI_YELLOW) for _ in range(self.largura)] for _ in range(self.altura)]
+        self.init_map_info = [[Tile("_", 1) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
 
@@ -49,7 +49,7 @@ class SnowMap(Map):
         self.setup_terreno()
 
     def create_map(self):
-        self.init_map_info = [[Tile("_", ANSI_WHITE) for _ in range(self.largura)] for _ in range(self.altura)]
+        self.init_map_info = [[Tile("_", 8) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
 
@@ -69,7 +69,7 @@ class SwampMap(Map):
         self.setup_terreno()
 
     def create_map(self):
-        self.init_map_info = [[Tile("_", ANSI_GREEN) for _ in range(self.largura)] for _ in range(self.altura)]
+        self.init_map_info = [[Tile("_", 2) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
 
@@ -87,7 +87,7 @@ class FireMap(Map):
         self.setup_terreno()
 
     def create_map(self):
-        self.init_map_info = [[Tile("_", ANSI_DARK_GRAY) for _ in range(self.largura)] for _ in range(self.altura)]
+        self.init_map_info = [[Tile("_", 12) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
 

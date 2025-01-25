@@ -21,7 +21,7 @@ class Map:
         
     def create_map(self) -> None:
     # Inicia o mapa com tiles de planicie padrões
-        self.init_map_info = [[Tile("_", ANSI_GREEN) for _ in range(self.largura)] for _ in range(self.altura)]
+        self.init_map_info = [[Tile("_", 2) for _ in range(self.largura)] for _ in range(self.altura)]
         self.copy_map()
     # Inicializa o processo de exploração da matrix para simular uma névoa de guerra
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
@@ -87,3 +87,10 @@ class Map:
 
     def copy_map(self) -> None:
         self.map_info = [[tile for tile in row] for row in self.init_map_info]
+    
+    def render(self, window) -> None:
+        for y in range(self.altura):
+            for x in range(self.largura):
+                if self.explore_process[y][x]:
+                    tile = self.map_info[y][x]
+                    window.addstr(y, x, tile.symbol, curses.color_pair(tile.color_pair))
