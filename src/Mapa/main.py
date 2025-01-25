@@ -5,14 +5,13 @@ from Mapa.map_stages import *
 from Mapa.tile import *
 from Mapa.map import *
 from Mapa.encounter import roll_encounter
-from Combat.combat_interface import start_combat
+from Combat.combat_test import combat
 import msvcrt
 
 
 map_larg, map_alt = 60, 15
-player = Player_map()
 
-def map_loop():
+def map_loop(player):
     os.system("cls") 
     stage_choice = input("Escolha a fase: 1 - Floresta, 2 - Deserto, 3 - Neve, 4 - Pântano, 5 - Fogo: ")
 
@@ -40,8 +39,8 @@ def map_loop():
             if enemy:
                 encounter_chance = 0
 
-                if start_combat(enemy):
-                    continue
+                os.system("cls") 
+                combat(player, enemy)
 
             else:
                 encounter_chance += 2

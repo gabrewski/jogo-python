@@ -2,7 +2,9 @@ from Entity.base_entity import Entity
 from Item.inventory import Inventory
 from Item.item_list import espada1, armor1
 from Item.category import Weapon, Armor
+from Mapa.tile import player_marker
 import random
+import msvcrt
 
 
 class Player (Entity):
@@ -11,8 +13,6 @@ class Player (Entity):
         self.weapon = espada1
         self.armor = armor1
         self.inventory = Inventory()
-
-        # progressão
         self.exp = 0
         self.level = 1
         self.level_exp = {1:100, # exp necessário em cada nível
@@ -24,6 +24,8 @@ class Player (Entity):
                           7:1600, 
                           8:2000, 
                           9:2500}
+        self.pos = [0, 0]
+        self.marker = player_marker
 
 
     def gain_exp(self, exp_range:tuple[int, int]) -> tuple[bool, int] | None:
@@ -89,3 +91,28 @@ class Player (Entity):
                 "defense": self.armor.def_value,
                 "exp": self.exp,
                 "exp_to_next_level": self.level_exp[self.level] - self.exp}
+
+
+    def calc_move_opt(self, largura, altura) -> dict[str, bool]:
+        return {
+            "up": self.pos[1] > 0,
+            "down": self.pos[1]<altura - 1,
+            "left": self.pos[0] > 0,
+            "right": self.pos[0]< largura - 1
+        }
+
+
+    def get_movement_input(self, map_largura, map_altura) -> bool:
+        move_opt = self.calc_move_opt(map_largura, map_altura)
+        choice = msvcrt.getch().decode('utf-8')
+        
+        if move_opt["up"] and choice in ("w", "W"):
+            self.pos[1] -= 1
+        elif move_opt["down"] and choice in ("s", "S"):
+            self.pos[1] += 1
+        elif move_opt["left"] and choice in ("a", "A"):
+            self.pos[0] -= 1
+        elif move_opt["right"] and choice in ("d", "D"):
+            self.pos[0] += 1
+
+        return choice in ("w", "W", "s", "S", "a", "A", "d", "D")
