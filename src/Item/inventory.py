@@ -57,6 +57,10 @@ class Inventory:
     def get_consumables(self) -> list['Item']:
         '''Retorna uma lista com todos os itens consumíveis (poções) do inventário.'''
         return [item for item in self.player_items if item.consumable]
+    
+
+    def remove_item(self, item: 'Item'):
+        self.player_items.remove(item)
 
     
     def options(self):
