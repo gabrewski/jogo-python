@@ -10,20 +10,23 @@ class Entity:
         self.crit_chance = crit_chance
         self.crit_damage = crit_damage
 
-    def attack(self, target):
+
+    def attack(self, target: 'Entity') -> tuple[int, bool]:
         crit = random.random() <= self.crit_chance
-        atk_damage = int(round(self.atk_value + self.weapon.atk_value) * self.crit_damage) if crit else (self.atk_value + self.weapon.atk_value)
+        atk_damage = int((self.atk_value + self.weapon.atk_value) * (self.crit_damage if crit else 1))
         target.hp -= atk_damage
         target.hp = max(target.hp, 0)
-        return atk_damage, crit
 
-    def defend(self, target):
+        return (atk_damage, crit)
+
+
+    def defend(self, attacker: 'Entity') -> tuple[int, bool]:
         defend = random.random() <= 0.6
-        def_damage = target.atk_value - self.armor.def_value if defend else target.atk_value
-        self.hp -= def_damage
-        self.hp = max(self.hp, 0)
-        return def_damage, defend
+        def_damage = 0
 
-    def flee(self):
-        flee = random.random() <= 0.7
-        return flee       
+        if not defend:
+            def_damage = attacker.atk_value - self.armor.def_value
+            self.hp -= max(def_damage, 0)
+            self.hp = max(self.hp, 0)
+
+        return (def_damage, defend)
