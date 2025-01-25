@@ -102,7 +102,7 @@ def show_map(window):
 
         try:
             window.addstr(caption_y + row,
-                          caption_x + (col * (max_x // 3)) + (col * 1),
+                          caption_x + (col * ((max_x // 4) + 3)),
                           text, color)
         except curses.error:
             break
@@ -114,11 +114,12 @@ def show_map(window):
     while True:
         try:
             key = window.getch()
+            
             if key in [ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6'), ord('7')]:
                 return int(chr(key))
+            
             elif key in [27, ord('q'), ord('Q')]:  # ESC ou Q para sair
                 return 7  # Retorna como se tivesse selecionado "Return"
+            
         except curses.error:
             continue
-    
-    return 0 

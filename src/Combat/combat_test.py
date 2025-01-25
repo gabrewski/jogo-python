@@ -1,8 +1,6 @@
 from Entity.base_entity import Entity
-from Entity.player import Player
 from random import random
 import time
-from Item.item_list import potion1, potion2
 
 
 def combat(player: 'Entity', enemy: 'Entity') -> bool:

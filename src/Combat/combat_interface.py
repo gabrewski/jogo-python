@@ -1,7 +1,6 @@
 import curses
 import time
 from Entity.player import Player
-from Entity.enemy_list import yeti
 
 
 def combat(stdscr, player, enemy):
