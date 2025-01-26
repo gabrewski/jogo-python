@@ -33,15 +33,15 @@ class DesertMap(Map):
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
 
     def setup_terreno(self):
-        self.gerar_terreno(montanha, 2, 3, 6)
-        self.gerar_terreno(areia, 6, 5, 10)
-        self.gerar_terreno(arbusto, 5, 2 ,5)
-        self.gerar_terreno(floresta, 3, 3, 5)
-        self.gerar_terreno(duna, 6, 5, 10)
-        self.gerar_terreno(cacto, 6, 1, 2)
-        self.gerar_terreno(agua, 2, 2, 5) 
-        self.gerar_terreno(pedra_p, 6, 1, 3) 
-        self.gerar_terreno(pedra_p, 7, 1, 3) 
+        self.gerar_terreno(montanha, 8, 9, 18)
+        self.gerar_terreno(areia, 16, 10, 20)
+        self.gerar_terreno(arbusto, 10, 8, 20)
+        self.gerar_terreno(floresta, 9, 9, 15)
+        self.gerar_terreno(duna, 17, 15, 30)
+        self.gerar_terreno(cacto, 15, 1, 7)
+        self.gerar_terreno(agua, 2, 9, 16) 
+        self.gerar_terreno(pedra_p, 12, 1, 3) 
+        self.gerar_terreno(pedra_p, 14, 1, 3) 
 
 class SnowMap(Map):
     def __init__(self, largura, altura):
