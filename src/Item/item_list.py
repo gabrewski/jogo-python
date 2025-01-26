@@ -64,3 +64,8 @@ item_quest_3 = QuestItem(name = "Cristal Congelado",
 
 item_quest_4 = QuestItem(name = "Pergaminho do Fogo Eterno",
                          description = "Revela um mapa secreto para a fase final.")
+
+#itens da loja
+armor_loja = [armor1, armor2, armor3, armor4]
+weapon_loja = [espada1, espada2, espada3, porrete, adaga, arco, machado, cimitarra, clava_gelo, espada_flamejante]
+potion_loja = [potion1, potion2, potion3, potion4]
