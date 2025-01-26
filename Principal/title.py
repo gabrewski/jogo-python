@@ -1,6 +1,7 @@
 import curses
 from curses import wrapper
 import time
+import importlib
 
 def main(stdscr):
     # configuração de cores
@@ -87,7 +88,7 @@ def main(stdscr):
             except curses.error:
                 pass
 
-            current_y1 -= 0.5
+            current_y1 -= 0.9
             time.sleep(0.2)
 
         # Aguardar 1 segundos
@@ -122,10 +123,76 @@ def main(stdscr):
                      min(width - 1, start_x2 + len(menu_ascii[0])))
         stdscr.refresh()
 
+        stdscr.nodelay(False)
+
         # Aguardar seleção
         while True:
             key = stdscr.getch()
-            if key != -1:
+            if key == ord('1'):
+                # Iniciar a história
+                stdscr.clear()
+                stdscr.refresh()
+                story = importlib.import_module('story')
+                story.story(stdscr)
+                break
+
+            elif key == ord('2'):
+                # coisar o negocio de carregar jogo salvo
+                pass
+
+            elif key == ord('3'):
+                # Mostrar nomes do grupo
+                stdscr.clear()
+                group_names = [
+                    "  ╔═══━━━───══━━ • ━━══───━━━═══╗   ",
+                    "                                    ",
+                    "      Beatriz Ivano dos Santos      ",
+                    "                                    ",
+                    "         Fernanda Yumi Tmoi         ",
+                    "                                    ",
+                    "   Gabriela Melissa Ribeiro Porto   ",
+                    "                                    ",
+                    "        Leonardo Kenzo Kishi        ",
+                    "                                    ",
+                    "    Luiz Gustavo Silva Kryszczun    ",
+                    "                                    ",
+                    "  ╚═══━━━───══━━ • ━━══───━━━═══╝   ",
+                    "                                    ",
+                    "                                    ",
+                    "                                    ",
+                    "                                    ",
+                    "                                    ",
+                    "                                    ",
+                    "             Q - voltar             "
+                ]
+
+                start_y = (height - len(group_names)) // 2
+
+                for i, line in enumerate(group_names):
+                    x = (width - len(line)) // 2
+                    try:
+                        stdscr.addstr(start_y + i, x, line)
+                    except curses.error:
+                        pass
+                
+                # Aguardar tecla para voltar
+                back = stdscr.getch()
+                if back == ord('q') or back == ord('Q'):
+                    stdscr.clear()
+                    stdscr.refresh()
+
+                    pad1.refresh(0, 0, final_y1, start_x1,
+                        min(height - 1, final_y2 + len(title_ascii)),
+                        min(width - 1, start_x2 + len(title_ascii[0])))
+                    
+                    stdscr.addstr(instruction2_y, instruction2_x, instruction2, YELLOW)
+
+                    pad2.refresh(0, 0, final_y2, start_x2,
+                        min(height - 1, final_y2 + len(menu_ascii)),
+                        min(width - 1, start_x2 + len(menu_ascii[0])))                
+
+            elif key == ord('4'):
+                # Fechar o jogo
                 break
 
     except KeyboardInterrupt:
