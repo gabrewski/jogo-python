@@ -2,7 +2,9 @@
 
 import curses
 from Interface.map_module import show_map
-from Mapa.main import map_loop
+from Combat.combat_test import CombatSystem
+from Combat.combat_interface import start_combat
+from Mapa.main import Exploration
 
 # fazer os imports aqui
 # Importar os coisos do jogador (nome e level) do sistema de progresso
@@ -159,14 +161,15 @@ class GameInterface:
             
         self.cmd_win.refresh()
 
-    def update_text(self):
+    def update_text(self, pos=(1,1), text=None, clear:bool = True):
         """Atualiza a área de narração"""
-        self.txt_win.clear()
-        self.txt_win.box()
+        if clear:
+            self.txt_win.clear()
+            self.txt_win.box()
 
-        # Por enquanto, apenas um exemplo
-        self.txt_win.addstr(1, 1, "Narração")
-        self.txt_win.refresh()        
+        if pos and text:
+            self.txt_win.addstr(*pos, text)
+        self.txt_win.refresh()
 
     # COISAS ACONTECENDO 
     def show_world_map(self):
@@ -180,6 +183,12 @@ def start_interface(stdscr, player):
     stdscr.clear()
     
     interface = GameInterface(stdscr, player)
+    exploration = Exploration((interface.game_width-3, interface.game_height-2))
+    combat_system = CombatSystem(interface.game_win,
+                                 interface.txt_win, 
+                                 interface.update_text, 
+                                 interface.update_character,
+                                 interface.update_stats)
     
     
     interface.update_game_area()
@@ -207,20 +216,26 @@ def start_interface(stdscr, player):
                 6: 5   # Magma
             }
             
-            if selected_area in stage_mapping:
-            
-                map_loop(
-                    player, 
-                    stage_mapping[selected_area],
-                    (interface.game_width-3, interface.game_height-2),
-                    interface.update_game_area,
-                    stdscr  
-    )
+            if selected_area not in stage_mapping:
+                continue
+        
+            while True:
+
+                if exploration.map_loop(player, 
+                                        stage_mapping[selected_area], 
+                                        interface.update_game_area,
+                                        stdscr):
+                    enemy = combat_system.get_random_enemy(stage_mapping[selected_area])
+
+                    if not combat_system.start_combat(player, enemy):
+                        break
+                else:
+                    break
                 
-                
-                interface.update_game_area([])
-                interface.update_character()
-                interface.update_stats()
-                interface.update_inventory()
-                interface.update_commands()
-                interface.update_text()
+
+            interface.update_game_area([])
+            interface.update_character()
+            interface.update_stats()
+            interface.update_inventory()
+            interface.update_commands()
+            interface.update_text()

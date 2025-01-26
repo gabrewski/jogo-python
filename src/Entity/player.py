@@ -17,8 +17,8 @@ class Player (Entity):
         self.inventory = Inventory()
         self.exp = 0
         self.level = 1
-        self.level_exp = {1:100, # exp necessário em cada nível
-                          2:200, 
+        self.level_exp = {1:50, # exp necessário em cada nível
+                          2:100, 
                           3:400, 
                           4:600, 
                           5:900, 
@@ -92,7 +92,7 @@ class Player (Entity):
                 "atk": self.atk_value + self.weapon.atk_value,
                 "defense": self.armor.def_value,
                 "exp": self.exp,
-                "exp_to_next_level": self.level_exp[self.level] - self.exp}
+                "exp_to_next_level": self.level_exp[self.level]}
 
 
     def calc_move_opt(self, largura, altura) -> dict[str, bool]:

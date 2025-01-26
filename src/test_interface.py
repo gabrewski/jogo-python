@@ -24,8 +24,6 @@ def main(stdscr):
             player.inventory.add_item(potion2)
             player.inventory.add_item(armor1)
             
-            
-            
             start_interface(stdscr, player)
             break
             
