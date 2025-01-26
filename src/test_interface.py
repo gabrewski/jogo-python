@@ -3,7 +3,7 @@ import curses
 from Interface.titulo import *
 from Interface.main import *
 from Entity.player import Player
-from Item.item_list import potion1, potion2
+from Item.item_list import potion1, potion2, armor1
 
 def main(stdscr):
     while True:
@@ -17,10 +17,13 @@ def main(stdscr):
                 atk_value=5,
                 crit_chance=0.4,
                 crit_damage=2.0
+                
             )
             player.inventory.add_item(potion1)
             player.inventory.add_item(potion1)
             player.inventory.add_item(potion2)
+            player.inventory.add_item(armor1)
+            
             
             
             start_interface(stdscr, player)

@@ -8,14 +8,14 @@ from Mapa.encounter import roll_encounter
 from Combat.combat_test import combat
 import msvcrt
 
-def map_loop(player, stage, update_callback):
+'''def map_loop(player, stage):
     maps = (ForestMap(166, 46), DesertMap(166, 46), 
             SnowMap(166, 46), SwampMap(166, 46), FireMap(166, 46))
     game_map = maps[stage-1]
     
     while True:
         
-        update_callback(game_map.display_map())
+        game_map.display_map()
         
         
         key = player.get_movement_input(game_map.largura, game_map.altura)
@@ -29,16 +29,15 @@ def map_loop(player, stage, update_callback):
                 if combat(player, enemy):
                     continue
                 else:
-                    return
+                    return'''
 
-'''def map_loop(player, stage_choice:int, interface):
+def map_loop(player, stage_choice:int):
     maps = (ForestMap(166, 46), DesertMap(166, 46), SnowMap(166, 46), SwampMap(166, 46), FireMap(166, 46))
     game_map = maps[stage_choice-1]
     encounter_chance = 0
 
     while True:
-        interface(game_map.display_map())
-        update_callback(game_map.display_map())
+        game_map.display_map()
 
         print("\nPressione [W] para mover para cima, [S] para baixo, [A] para esquerda e [D] para direita.")
         print("\nPressione [1] para voltar ao mapa principal")
@@ -62,6 +61,6 @@ def map_loop(player, stage, update_callback):
         # elif key == '1':
         #      return
 
-        game_map.update_map(player.pos, player.marker)'''
+        game_map.update_map(player.pos, player.marker)
 
     
