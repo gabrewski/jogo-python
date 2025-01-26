@@ -13,16 +13,16 @@ def show_map(window):
         '▲' : curses.color_pair(6), # montanha
         '∼' : curses.color_pair(1), # deserto
         '⌂' : curses.color_pair(8), #vila
-        '|' : curses.color_pair(7), # boss
-        '-' : curses.color_pair(7),
-        '[' : curses.color_pair(7),
-        ']' : curses.color_pair(7),
-        '∖' : curses.color_pair(7),
-        "⁄" : curses.color_pair(7),
-        '`' : curses.color_pair(7),
-        '´' : curses.color_pair(7),
-        '▶' : curses.color_pair(7),
-        '⁂' : curses.color_pair(7)
+        '|' : curses.color_pair(9), # boss
+        '-' : curses.color_pair(9),
+        '[' : curses.color_pair(9),
+        ']' : curses.color_pair(9),
+        '∖' : curses.color_pair(9),
+        "⁄" : curses.color_pair(9),
+        '`' : curses.color_pair(9),
+        '´' : curses.color_pair(9),
+        '▶' : curses.color_pair(9),
+        '⁂' : curses.color_pair(9)
     }
 
     ascii_map = [
@@ -56,13 +56,13 @@ def show_map(window):
     ]
     # legenda
     captions = [
-        ("1. ⌂ - Vila do Alvorecer", curses.color_pair(7)),
+        ("1. ⌂ - Vila do Alvorecer", curses.color_pair(8)),
         ("2. ♣ - Floresta dos Ecos", curses.color_pair(2)),
-        ("3. ∼ - Dunas do Desolado", curses.color_pair(6)),
-        ("4. ▲ - Terra Congelada", curses.color_pair(5)),
-        ("5. ≈ - Pântano das Águas Místicas", curses.color_pair(1)),
-        ("6. ≋ - Fornalha do Apocalipse", curses.color_pair(4)),
-        ("7. ⁂ - Fortaleza de...", curses.color_pair(8))
+        ("3. ∼ - Dunas do Desolado", curses.color_pair(1)),
+        ("4. ▲ - Terra Congelada", curses.color_pair(6)),
+        ("5. ≈ - Pântano das Águas Místicas", curses.color_pair(2)),
+        ("6. ≋ - Fornalha do Apocalipse", curses.color_pair(5)),
+        ("7. ⁂ - Fortaleza das Trevas", curses.color_pair(9))
     ]
 
     # Obter dimensões da tela
@@ -103,15 +103,12 @@ def show_map(window):
     window.refresh()
 
     # Aguardar input do usuário
+    
     while True:
-        try:
-            key = window.getch()
+        key = window.getch()
+        if key in [ord(str(i)) for i in range(1, 7)]:  # 1-6
+            return int(chr(key))
+        elif key in [27, ord('q'), ord('Q')]:  # ESC ou Q
+            return None
             
-            if key in [ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6'), ord('7')]:
-                return int(chr(key))
-            
-            elif key in [27, ord('q'), ord('Q')]:  # ESC ou Q para sair
-                return 7  # Retorna como se tivesse selecionado "Return"
-            
-        except curses.error:
-            continue
+        

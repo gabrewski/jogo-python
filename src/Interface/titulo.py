@@ -18,53 +18,27 @@ options = [
     "3 ➣ Sair"
 ]
 
+# titulo.py
 def exibir_menu(stdscr):
-    # Limpar a tela
     stdscr.clear()
-    
-    # Posição inicial para centralizar o título
     altura, largura = stdscr.getmaxyx()
     inicio_y = (altura // 2) - (len(title) // 2)
     
-    # Exibe o título
+    # Exibir título
     for i, linha in enumerate(title):
-        inicio_x = (largura // 2) - (len(linha) // 2)  # Centraliza horizontalmente
-        stdscr.addstr(inicio_y + i, inicio_x, linha)  # Adiciona cada linha na posição correta
+        inicio_x = (largura // 2) - (len(linha) // 2)
+        stdscr.addstr(inicio_y + i, inicio_x, linha)
     
-    # Exibe as opções de menu
-    menu_inicio_y = inicio_y + len(title) + 2  # Espaço abaixo do título
+    # Exibir opções
+    menu_inicio_y = inicio_y + len(title) + 2
     for i, option in enumerate(options):
-        inicio_x = (largura // 2) - (len(option) // 2)  # Centraliza horizontalmente
-        stdscr.addstr(menu_inicio_y + i, inicio_x, option)  # Adiciona cada opção no menu
+        inicio_x = (largura // 2) - (len(option) // 2)
+        stdscr.addstr(menu_inicio_y + i, inicio_x, option)
     
-    # Atualiza a tela
     stdscr.refresh()
     
-    # Aguardando a seleção do menu
     while True:
         key = stdscr.getch()
+        if key in [ord('1'), ord('2'), ord('3'), 27]:
+            return key  # Return immediately without extra messages
 
-        # Se pressionar '1', '2', '3' ou '4', escolha do usuário
-        if key == ord('1'):
-            stdscr.clear()
-            stdscr.addstr("Novo jogo selecionado!\n")
-            stdscr.refresh()
-            stdscr.getch()
-            break
-        elif key == ord('2'):
-            stdscr.clear()
-            stdscr.addstr("Continuar selecionado!\n")
-            stdscr.refresh()
-            stdscr.getch()
-            break
-        elif key == ord('3'):
-            stdscr.clear()
-            stdscr.addstr("Saindo do jogo...\n")
-            stdscr.refresh()
-            stdscr.getch()
-            break
-        elif key == 27:  # ESC para sair
-            break
-    return key
-# Inicializa o curses
-curses.wrapper(exibir_menu)

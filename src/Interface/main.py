@@ -150,11 +150,11 @@ class GameInterface:
         self.cmd_win.clear()
         self.cmd_win.box()
         commands = [
-            "    W         ↑    | P - Pause    ",
-            "                   | Q - Quit     ",
-            " A  S  D   ←  ↓  → | I - Inventory",
-            "                   | M - Map      ",
-            "       Move        | ↲ - Confirm  "
+            "        W          | P - Pausar    ",
+            "                   | Q - Sair     ",
+            "     A  S  D       | I - Inventario",
+            "                   | M - Mapa      ",
+            "       Move        | ↲ - Confirmar  "
             ]
         for i, command in enumerate(commands, 1):
             self.cmd_win.addstr(i, 2, command)
@@ -177,28 +177,13 @@ class GameInterface:
         self.game_win.refresh()
         return selected_area
 
-def main(stdscr, player):
-    # Verifica tamanho mínimo do terminal
-    height, width = stdscr.getmaxyx()
-    if height < 24 or width < 80:
-        stdscr.addstr(0, 0, "Terminal muito pequeno! Precisa ser pelo menos 80x24")
-        stdscr.refresh()
-        stdscr.getch()
-        return
-    
+def start_interface(stdscr, player):  
+    curses.curs_set(0)
     stdscr.clear()
-    stdscr.refresh()
     
-    # Inicializa a interface
     interface = GameInterface(stdscr, player)
     
-    # inicializar os outros módulos? talvez fique tudo igual eu coloquei o mapa
-    # player = Player("Hero", 1)
-    # world = World()
-    # inventory = Inventory()
-    # sei lá, algo assim
     
-    # Atualiza todas as áreas
     interface.update_game_area()
     interface.update_character()
     interface.update_stats()
@@ -206,50 +191,36 @@ def main(stdscr, player):
     interface.update_commands()
     interface.update_text()
     
-    # Loop principal
+    
     while True:
-        try:
-            key = stdscr.getch()
-            
-            if key == ord('q'):
-                break
-            elif key == ord('m') or key == ord('M'):
-                selected_area = interface.show_world_map()
-
-                #talvez tenha que mudar pq vão ter outras partes que vão ser com número, tipo o menu principal ou o combate, veremos
-                if selected_area == 1:
-                    #carregar montanha
-                    interface.update_game_area()
-
-                elif selected_area == 2:
-                    # Carregar floresta
-                    map_loop(player, 1, interface.update_game_area)
-
-                elif selected_area == 3:
-                    # Carregar deserto
-                    map_loop(player, 2, interface.update_game_area)
-
-                elif selected_area == 4:
-                    # Carregar neve
-                    map_loop(player, 3, interface.update_game_area)
-
-                elif selected_area == 5:
-                    # carregar pântano
-                    map_loop(player, 4, interface.update_game_area)
-
-                elif selected_area == 6:
-                    # carregar magma
-                    map_loop(player, 5, interface.update_game_area)
-
-                else:  # selected_area == 7 ou inválido
-                    interface.update_game_area()
-
-        except KeyboardInterrupt:
+        key = stdscr.getch()
+        
+        if key in [ord('q'), 27]:  
             break
-
-
-def start_interface(player):
-    try:
-        curses.wrapper(main, player)
-    except curses.error as e:
-        print(f"Erro ao inicializar curses: {e}")
+        elif key in [ord('m'), ord('M')]:  
+            selected_area = interface.show_world_map()
+            
+            stage_mapping = {
+                1: 1,  # Montanha
+                2: 1,  # Floresta
+                3: 2,  # Deserto
+                4: 3,  # Neve
+                5: 4,  # Pântano
+                6: 5   # Magma
+            }
+            
+            if selected_area in stage_mapping:
+                
+                map_loop(
+                    player, 
+                    stage_mapping[selected_area], 
+                    interface.update_game_area
+                )
+                
+                
+                interface.update_game_area([])
+                interface.update_character()
+                interface.update_stats()
+                interface.update_inventory()
+                interface.update_commands()
+                interface.update_text()
