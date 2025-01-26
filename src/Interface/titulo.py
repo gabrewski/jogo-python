@@ -65,6 +65,6 @@ def exibir_menu(stdscr):
             break
         elif key == 27:  # ESC para sair
             break
-
+    return key
 # Inicializa o curses
 curses.wrapper(exibir_menu)
