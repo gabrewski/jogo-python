@@ -1,6 +1,7 @@
 import curses
 from curses import wrapper
 import time
+import interface
 
 def story(stdscr):
     # setando cores
@@ -21,8 +22,6 @@ def story(stdscr):
     YELLOW = curses.color_pair(7)
 
     curses.curs_set(0) # esconde o cursor
-
-    # texto narração 1
 
     # artezinha
     ascii = [
@@ -65,7 +64,7 @@ def story(stdscr):
         ]
     
     phrases1 = [
-        ("Peregrino", WHITE),
+        ("Peregrino↲", WHITE),
         ("Um chamado distante ecoa em sua mente.", YELLOW),
         ("Peregrino, acorde, peregrino.", WHITE),
         ("O brilho prateado da Lua banha sua pele, trazendo uma sensação de urgência.", YELLOW),
@@ -160,12 +159,14 @@ def story(stdscr):
             while True:
                 key = stdscr.getch()
                 if key == 10 or key == 13:  # Códigos para ENTER
-                    break # no lugar do break, trocar para começar o jogo (com a interface ou não, o que decidir)
+                    break
 
     # Exibir segunda sequência de frases
     display_text_with_ascii(phrases2, pad, start_y, start_x)
 
     # Aguardar saída
     stdscr.getch()
+
+    interface.main(stdscr)
 
 wrapper(story)
