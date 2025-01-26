@@ -1,6 +1,7 @@
 #Tile.py (Funcionalidade de tiles e cores)
 import curses
 
+# Inicializa as cores usadas no jogo 
 def init_colors():
     curses.start_color()
     curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_BLACK) 
@@ -12,15 +13,16 @@ def init_colors():
     curses.init_pair(8, curses.COLOR_CYAN, curses.COLOR_BLACK)  
     curses.init_pair(9, curses.COLOR_BLACK, curses.COLOR_BLACK)
 
+# Classe Tile, que representa um tile do mapa com um símbolo e um par de cores associado 
 class Tile:
     def __init__(self, symbol: str, color_pair: int = 0, colored: bool = True):
         self.symbol = symbol
         self.color_pair = color_pair if colored else 0
 
-# Tipos de terreno usados nas diversas fases
+# Definição dos tiles do jogo com seus símbolos e cores associadas 
 planicie = Tile("_", 2)
 floresta = Tile("Y", 2)
-montanha = Tile("A", 9)
+montanha = Tile("▲", 9)
 flores = Tile("*", 7)
 tronco = Tile("|", 1)
 lagoa = Tile("@", 3)
@@ -43,6 +45,10 @@ flores_amarelas = Tile("*", 1)
 arbusto_gelo = Tile("w", 6)
 flores_gelo = Tile("*", 6)
 floresta_gelo = Tile("Y", 6)
+floresta_sombria = Tile("Y", 9)
+arbusto_sombrio = Tile("w", 9)
+flores_sombrias = Tile("*", 9)
+vulcao = Tile("▲", 5)
 cacto = Tile("|", 2)
 
 

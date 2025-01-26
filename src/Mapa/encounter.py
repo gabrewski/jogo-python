@@ -4,8 +4,8 @@ from random import randint, choices
 from Entity.enemy import Enemy
 from Entity.enemy_list import enemy_list1, enemy_list2, enemy_list3, enemy_list4, enemy_list5
 
-
-def roll_encounter(stage:int, chance:int) -> 'Enemy':
+# Função que rola um encontro aleatório
+def roll_encounter(stage:int, chance:int) -> 'Enemy': 
     if randint(1, 1000) <= chance:
         match stage:
             case 1:

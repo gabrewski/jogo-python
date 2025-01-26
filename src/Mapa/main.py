@@ -1,5 +1,5 @@
 #main.py
-
+#
 import os
 from Mapa.map_stages import *
 from Mapa.tile import *
@@ -8,6 +8,7 @@ from Mapa.encounter import roll_encounter
 from Combat.combat_test import combat
 import msvcrt
 
+# Função que roda o loop principal do modo de exploração de mapa aleatório 
 def map_loop(player, stage_choice:int, size:tuple[int, int], interface):
     maps = (ForestMap(*size), DesertMap(*size), SnowMap(*size), SwampMap(*size), FireMap(*size))
     game_map = maps[stage_choice-1]
