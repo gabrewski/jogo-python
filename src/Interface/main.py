@@ -37,29 +37,29 @@ class GameInterface:
         self.max_y, self.max_x = self.stdscr.getmaxyx()
         
         # Área principal do jogo (70% da largura)
-        game_width = int(self.max_x * 0.75)
-        game_height = self.max_y - 7  # Altura total menos área de comandos
-        self.game_win = curses.newwin(game_height, game_width, 0, 0)
+        self.game_width = int(self.max_x * 0.75)
+        self.game_height = self.max_y - 7  # Altura total menos área de comandos
+        self.game_win = curses.newwin(self.game_height, self.game_width, 0, 0)
         
         # Largura dos painéis laterais
-        side_width = self.max_x - game_width
+        side_width = self.max_x - self.game_width
         
         # Informações do personagem (nome, level e HP)
-        self.char_win = curses.newwin(5, side_width, 0, game_width)
+        self.char_win = curses.newwin(5, side_width, 0, self.game_width)
         
         # Status do personagem
-        self.stats_win = curses.newwin(6, side_width, 5, game_width)
+        self.stats_win = curses.newwin(6, side_width, 5, self.game_width)
         
         # Inventário (área vertical menos os comandos)
         inv_height = self.max_y - 18
-        self.inv_win = curses.newwin(inv_height, side_width, 11, game_width)
+        self.inv_win = curses.newwin(inv_height, side_width, 11, self.game_width)
 
         # Área de comandos
         cmd_y = self.max_y - 7
-        self.cmd_win = curses.newwin(7, side_width, cmd_y, game_width)
+        self.cmd_win = curses.newwin(7, side_width, cmd_y, self.game_width)
 
         # Área de narração (mesma largura da área do jogo)
-        self.txt_win = curses.newwin(7, game_width, game_height, 0)
+        self.txt_win = curses.newwin(7, self.game_width, self.game_height, 0)
         
         self.draw_borders()
     
@@ -82,7 +82,6 @@ class GameInterface:
         self.game_win.clear()
         self.game_win.box()
 
-        # Por enquanto, apenas um exemplo
         for i, row in enumerate(game_map):
             col_count = 1
 
@@ -212,7 +211,8 @@ def start_interface(stdscr, player):
                 
                 map_loop(
                     player, 
-                    stage_mapping[selected_area], 
+                    stage_mapping[selected_area],
+                    (interface.game_width-3, interface.game_height-2),
                     interface.update_game_area
                 )
                 
