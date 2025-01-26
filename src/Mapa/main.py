@@ -23,21 +23,7 @@ def map_loop(player, stage_choice:int, size:tuple[int, int], interface, stdscr):
         # Voltar para o mapa principal
         if key_char == 'm':
             return 
-        
-        # Movimentação do jogador
-        if key_char in ('w', 'a', 's', 'd'):
-            
-            new_pos = player.pos.copy()
-            if key_char == 'w': new_pos[1] -= 1
-            elif key_char == 's': new_pos[1] += 1
-            elif key_char == 'a': new_pos[0] -= 1
-            elif key_char == 'd': new_pos[0] += 1
-            
-            
-            if 0 <= new_pos[0] < game_map.largura and 0 <= new_pos[1] < game_map.altura:
-                player.pos = new_pos
 
-        
         game_map.update_map(player.pos, player.marker)
 
 '''# Função que roda o loop principal do modo de exploração de mapa aleatório 
