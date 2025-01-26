@@ -20,11 +20,11 @@ def map_loop(player, stage_choice:int, size:tuple[int, int], interface, stdscr):
         interface(game_map.display_map())
         key = stdscr.getch()
         key_char = chr(key).lower() if key != -1 else ''
-        
+        # Voltar para o mapa principal
         if key_char == 'm':
             return 
         
-    
+        # Movimentação do jogador
         if key_char in ('w', 'a', 's', 'd'):
             
             new_pos = player.pos.copy()

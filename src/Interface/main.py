@@ -208,7 +208,7 @@ def start_interface(stdscr, player):
             }
             
             if selected_area in stage_mapping:
-            # Passe a stdscr como parâmetro
+            
                 map_loop(
                     player, 
                     stage_mapping[selected_area],
