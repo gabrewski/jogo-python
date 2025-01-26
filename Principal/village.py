@@ -1,10 +1,9 @@
 import curses
 import shop
+import map_module
 
-def display_village(stdscr, player_level):
+def village(window):
     village_ascii = [
-        "                                                                                        ",
-        "                                                                                        ",
         "                                      ________                                          ",
         "                                     /--------\                                 (  )    ",
         "                                    /__________\                                ( )     ",
@@ -15,68 +14,65 @@ def display_village(stdscr, player_level):
         " /|  ___ [] |\   | []     ___ |     |  ___     |    /|   ___  |\   |  _____          |  ",
         "  |  |`|    |    |1.Forja |´| |     |  |`|     |     |   |´|  |    |  |´  |   [0]    |  ",
         "__|__|_|____|____|________|_|_|_____|__|_|_____|_____|___|_|__|____|__|___|__________|__",
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                       M - Mapa                                         ",
     ]
     # Limpar tela
-    stdscr.clear()
+    window.clear()
+    window.box()
 
     # Altura e largura da tela
-    height, width = stdscr.getmaxyx()
+    height, width = window.getmaxyx()
+
+    start_y = (height - len(village_ascii)) // 2
+    start_x = (width - len(village_ascii[0])) // 2
 
     # Desenhar vila
     for i, line in enumerate(village_ascii):
-        stdscr.addstr(i, (width - len(line)) // 2, line)
+        window.addstr(start_y + i, start_x, line)
 
-    # Opções do menu
-    menu_options = [
-        "1. Forja",
-        "2. Ferraria", 
-        "3. Poções",
-        "0. Voltar"
-    ]
-
-    # Posicionar opções
-    menu_start_y = len(village_ascii) + 2
-    for i, option in enumerate(menu_options):
-        stdscr.addstr(menu_start_y + i, (width - len(option)) // 2, option)
-
-    stdscr.refresh()
+    window.refresh()
 
     # Loop para capturar teclas
     while True:
-        key = stdscr.getch()
+        key = window.getch()
 
         if key == ord('1'):
             # Chama loja de armas
-            shop.village_menu(player_level)
+            shop.village_menu()
             # Redesenhar vila após retornar da loja
-            stdscr.clear()
+            window.clear()
             for i, line in enumerate(village_ascii):
-                stdscr.addstr(i, (width - len(line)) // 2, line)
-            for i, option in enumerate(menu_options):
-                stdscr.addstr(menu_start_y + i, (width - len(option)) // 2, option)
-            stdscr.refresh()
+                window.addstr(start_y + i, start_x, line)
+            window.refresh()
         
         elif key == ord('2'):
             # Chama loja de armaduras
-            shop.village_menu(player_level)
+            shop.village_menu()
             # Redesenhar vila após retornar da loja
-            stdscr.clear()
+            window.clear()
             for i, line in enumerate(village_ascii):
-                stdscr.addstr(i, (width - len(line)) // 2, line)
-            for i, option in enumerate(menu_options):
-                stdscr.addstr(menu_start_y + i, (width - len(option)) // 2, option)
-            stdscr.refresh()
+                window.addstr(start_y + i, start_x, line)
+            window.refresh()
         
         elif key == ord('3'):
             # Chama loja de poções
-            shop.village_menu(player_level)
+            shop.village_menu()
             # Redesenhar vila após retornar da loja
-            stdscr.clear()
+            window.clear()
             for i, line in enumerate(village_ascii):
-                stdscr.addstr(i, (width - len(line)) // 2, line)
-            for i, option in enumerate(menu_options):
-                stdscr.addstr(menu_start_y + i, (width - len(option)) // 2, option)
-            stdscr.refresh()
+                window.addstr(start_y + i, start_x, line)
+            window.refresh()
         
-        elif key == ord('0'):
-            break
+        elif key == ord('m') or key == ord('M'):
+            map_module.show_map(window)
+            window.clear()
+            window.box()
+            for i, line in enumerate(village_ascii):
+                window.addstr(start_y + i, start_x, line)
+            window.refresh()
+        
+        elif key == ord('q') or key == ord('Q'):
+            return 'village'
