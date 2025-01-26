@@ -1,4 +1,4 @@
-#main.py
+#main.py (Map Main)
 #
 import os
 from Mapa.map_stages import *

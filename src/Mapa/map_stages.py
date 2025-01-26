@@ -21,7 +21,7 @@ class ForestMap(Map): #Mapa de floresta
         self.gerar_terreno(areia, 9, 6, 13)
         self.gerar_terreno(flores, 10, 4, 12)
         self.gerar_terreno(arbusto, 18, 1, 5)
-        self.gerar_terreno(agua, 14, 8, 20)
+        self.gerar_terreno(agua, 9, 8, 15)
 
 class DesertMap(Map): #Mapa de deserto
     def __init__(self, largura, altura):
