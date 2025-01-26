@@ -161,7 +161,7 @@ class GameInterface:
             
         self.cmd_win.refresh()
 
-    def update_text(self, pos=(1,1), text=None, clear:bool = True):
+    def update_text(self, pos=(1,2), text=None, clear:bool = True):
         """Atualiza a área de narração"""
         if clear:
             self.txt_win.clear()

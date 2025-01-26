@@ -22,8 +22,8 @@ class CombatSystem:
     def start_combat(self, player: 'Entity', enemy: 'Entity') -> bool:
         while True:
             self.update_enemy(enemy)
-            self.add_text(pos=(1,1), text=f'Turno de {player.name}:')
-            self.add_text(pos=(2,1), text=f'[1] Atacar     [2] Defender     [3] Curar     [4] Fugir', clear=False)
+            self.add_text(pos=(1,2), text=f'Turno de {player.name}:')
+            self.add_text(pos=(2,2), text=f'[1] Atacar     [2] Defender     [3] Curar     [4] Fugir', clear=False)
 
             while True:
                 option = self.text_window.getch()
@@ -64,11 +64,11 @@ class CombatSystem:
     def attack(self, attacker: 'Entity', target: 'Entity') -> bool:
         atk_damage, crit = attacker.attack(target)
 
-        self.add_text(pos=(1,1), text=f'Turno de {attacker.name}:')
-        self.add_text((2, 1), f'{attacker.name} deu {atk_damage} de dano', clear=False)
+        self.add_text(pos=(1,2), text=f'Turno de {attacker.name}:')
+        self.add_text((2, 2), f'{attacker.name} deu {atk_damage} de dano', clear=False)
 
         if crit:
-            self.add_text((3,1), f'{attacker.name} acertou dano crítico!', clear=False)
+            self.add_text((3,2), f'{attacker.name} acertou dano crítico!', clear=False)
 
         self.update_char()
         time.sleep(2.5)
@@ -93,7 +93,7 @@ class CombatSystem:
         self.add_text(clear=True)
 
         for i, pot in enumerate(potions):
-            self.add_text(pos=(i+1, 1), text=f'[{i+1}] {pot.name}: +{pot.hp_value} HP', clear=False)
+            self.add_text(pos=(i+1, 2), text=f'[{i+1}] {pot.name}: +{pot.hp_value} HP', clear=False)
 
         while True:
             option = self.text_window.getch()
@@ -130,10 +130,10 @@ class CombatSystem:
             lvl_up, exp_ganho = player.gain_exp(enemy.exp_range)
 
             self.add_text(text=f'{player.name} venceu o combate!')
-            self.add_text(pos=(2,1), text=f'{player.name} ganhou {exp_ganho} de exp', clear=False)
+            self.add_text(pos=(2,2), text=f'{player.name} ganhou {exp_ganho} de exp', clear=False)
 
             if lvl_up:
-                self.add_text(pos=(3,1), text=f'{player.name} subiu de nível!', clear=False)
+                self.add_text(pos=(3,2), text=f'{player.name} subiu de nível!', clear=False)
 
         else:
             self.add_text(text=f'{enemy.name} venceu o combate...')
