@@ -63,7 +63,7 @@ class GameInterface:
         self.draw_borders()
     
     def draw_borders(self):
-        for win in [self.game_win, self.char_win, self.stats_win, self.inv_win, self.cmd_win]:
+        for win in [self.game_win, self.char_win, self.stats_win, self.inv_win, self.cmd_win, self.txt_win]:
             win.box()
     
     def refresh_all(self):
@@ -161,8 +161,7 @@ class GameInterface:
     # COISAS ACONTECENDO 
     def show_world_map(self):
         """Mostra o mapa do mundo na área principal do jogo"""
-        result = show_map(self.game_win)
-        selected_area = result  # Adjust this based on the actual return values of show_map
+        selected_area = show_map(self.game_win)
         self.game_win.refresh()
         return selected_area
 
