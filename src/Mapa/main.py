@@ -8,8 +8,8 @@ from Mapa.encounter import roll_encounter
 from Combat.combat_test import combat
 import msvcrt
 
-def map_loop(player, stage_choice:int, interface):
-    maps = (ForestMap(166, 46), DesertMap(166, 46), SnowMap(166, 46), SwampMap(166, 46), FireMap(166, 46))
+def map_loop(player, stage_choice:int, size:tuple[int, int], interface):
+    maps = (ForestMap(*size), DesertMap(*size), SnowMap(*size), SwampMap(*size), FireMap(*size))
     game_map = maps[stage_choice-1]
     encounter_chance = 0
 
