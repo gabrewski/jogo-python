@@ -28,9 +28,10 @@ class Weapon(Item):
 
 
 class Healing(Item):
-    def __init__(self, name: str, gold_value: int, hp_value: int):
+    def __init__(self, name: str, gold_value: int, hp_value: int, quantity: int = 1):
         super().__init__(name = name, gold_value = gold_value, equipable = False, consumable = True, tradable = True)
         self.hp_value = hp_value
+        self.quantity = quantity
 
 
 class QuestItem(Item):

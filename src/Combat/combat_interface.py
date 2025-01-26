@@ -1,155 +1,183 @@
-#combat_interface.py
-
+# combat_interface.py
 import curses
 import time
 from Entity.player import Player
 
+def safe_addstr(win, y, x, text, max_width=None):
+    """Adiciona texto de forma segura na janela com verificação de limites"""
+    if max_width is None:
+        max_width = win.getmaxyx()[1] - x - 1
+    try:
+        win.addstr(y, x, text[:max_width])
+    except curses.error:
+        pass
 
 def combat(stdscr, player, enemy):
-    curses.curs_set(0) #esconde o cursor
-    stdscr.clear() #limpa a tela
-    height, width = stdscr.getmaxyx() #tamanho do terminal
+    # Configurações iniciais do curses
+    curses.curs_set(0)  # Esconde o cursor
+    stdscr.clear()
+    stdscr.refresh()
+    
+    # Cria a janela principal
+    height, width = stdscr.getmaxyx()
     win = curses.newwin(height, width, 0, 0)
-        
-    while True:
-        
-        player_text = f"Jogador: {player.name} | HP: {player.hp}/{player.hp_max}"
-        enemy_text = f"Inimigo: {enemy.name} | HP: {enemy.hp}/{enemy.hp_max}"
+    win.keypad(True)    # Habilita teclas especiais
+    win.nodelay(False)  # Entrada bloqueante
+    win.leaveok(False)  # Mantém a posição do cursor
 
-        win.clear()
-        win.addstr(0, 0, player_text)
-        start_x = width - len(enemy_text) - 1
-        win.addstr(0, start_x, enemy_text)
-        win.addstr(2, 0, "O que deseja fazer?")
-        win.addstr(3, 0, "1. Atacar")
-        win.addstr(4, 0, "2. Defender")
-        win.addstr(5, 0, "3. Curar")
-        win.addstr(6, 0, "4. Fugir")
+    # Posições fixas para as mensagens
+    ACAO_LINHA = 8
+    RESULTADO_LINHA = 10
+    INIMIGO_ACAO_LINHA = 9
+    INIMIGO_RESULTADO_LINHA = 11
+    FIM_BATALHA_LINHA = 13
+
+    def limpar_linhas():
+        """Limpa as linhas de mensagens de ação"""
+        for linha in [ACAO_LINHA, RESULTADO_LINHA, INIMIGO_ACAO_LINHA, INIMIGO_RESULTADO_LINHA]:
+            try:
+                win.move(linha, 0)
+                win.clrtoeol()
+            except curses.error:
+                pass
+
+    while True:
+        # Obtém o tamanho atual do terminal
+        height, width = stdscr.getmaxyx()
+        
+        # Desenha a interface básica
+        win.erase()
+        safe_addstr(win, 0, 0, f"Jogador: {player.name} | HP: {player.hp}/{player.hp_max}")
+        safe_addstr(win, 0, width-30, f"Inimigo: {enemy.name} | HP: {enemy.hp}/{enemy.hp_max}")
+        
+        # Desenha o menu de opções
+        opcoes = [
+            "O que deseja fazer?",
+            "1. Atacar",
+            "2. Defender",
+            "3. Curar",
+            "4. Fugir"
+        ]
+        for i, texto in enumerate(opcoes):
+            safe_addstr(win, 2+i, 0, texto)
+
         win.refresh()
 
-        #ações do jogador
-        opt = win.getch()
-        if opt == ord('1'): #atacar
-            win.addstr(8, 0, f"{player.name} atacou.")
-            atk_damage, crit = player.attack(enemy)
-            if crit:
-                time.sleep(2) 
-                win.addstr(10, 0, f"Ataque crítico! {player.name} deu {atk_damage} de dano ao {enemy.name}.")
+        # Obtém a entrada do jogador
+        while True:
+            try:
+                tecla = win.getch()
+                if tecla in [ord('1'), ord('2'), ord('3'), ord('4')]:
+                    break
+            except:
+                tecla = -1
+        
+        limpar_linhas()
+        
+        # Lida com a ação do jogador
+        if tecla == ord('1'):  # Atacar
+            safe_addstr(win, ACAO_LINHA, 0, f"{player.name} atacou!")
+            dano_ataque, critico = player.attack(enemy)
+            if critico:
+                safe_addstr(win, RESULTADO_LINHA, 0, f"Ataque crítico! {dano_ataque} de dano!")
             else:
-                time.sleep(2) 
-                win.addstr(10, 0, f"{player.name} atacou e deu {atk_damage} de dano ao {enemy.name}.")
+                safe_addstr(win, RESULTADO_LINHA, 0, f"Causou {dano_ataque} de dano!")
 
-        elif opt == ord('2'): #defender
-            win.addstr(8, 0, f"{player.name} defendeu.")
-            def_damage, defend = player.defend(enemy)
-            if defend:
-                time.sleep(2) 
-                win.addstr(10, 0, f"{player.name} defendeu o ataque mas levou {def_damage} de dano.")
+        elif tecla == ord('2'):  # Defender
+            safe_addstr(win, ACAO_LINHA, 0, f"{player.name} defendeu!")
+            dano_defesa, defendeu = player.defend(enemy)
+            if defendeu:
+                safe_addstr(win, RESULTADO_LINHA, 0, f"Defendeu o ataque! Levou {dano_defesa} de dano.")
             else:
-                time.sleep(2) 
-                win.addstr(10, 0, f"{player.name} não conseguiu defender o ataque e levou {def_damage} de dano.")
+                safe_addstr(win, RESULTADO_LINHA, 0, f"Não conseguiu defender! Levou {dano_defesa} de dano.")
 
-        elif opt == ord('3'): #curar
-            potions = player.inventory.get_consumables()
-            if potions:
-                win.addstr(8, 0, f"Qual poção deseja usar? Inventário: {', '.join([f'{i + 1}: {item.name} ({item.quantity})' for i, item in enumerate(potions)])}")
-                win.refresh()
-                win.addstr(8, 0, f"{player.name} utilizou um item.")
+        elif tecla == ord('3'):  # Curar
+            pocoes = player.inventory.get_consumables()
+            if pocoes:
+            # Limpa e mostra a lista de poções
+                limpar_linhas()
+                safe_addstr(win, ACAO_LINHA, 0, "Escolha uma poção:")
+                for i, poco in enumerate(pocoes):
+                    safe_addstr(win, ACAO_LINHA+i+1, 0, f"{i+1}. {poco.name} ({poco.quantity})")
                 win.refresh()
 
+        # Loop de seleção corrigido
                 while True:
-                    item_choice = win.getch()
-                    choice_index = item_choice - ord('1')  #converte para index
-                    if 0 <= choice_index < len(potions):
-                        selected_item = potions[choice_index]
-                        heal_amount = selected_item.healing_points
-                        player.hp = min(player.hp + heal_amount, player.hp_max)  #limita heal para hp_max
-                        selected_item.quantity -= 1
+                    try:
+                        key = win.getch()
+                # Tecla ESC (27) para cancelar
+                        if key == 27:
+                            limpar_linhas()
+                            safe_addstr(win, RESULTADO_LINHA, 0, "Seleção cancelada!")
+                            break
+                
+                # Converter para número
+                        escolha = key - ord('1')
+                        if 0 <= escolha < len(pocoes):
+                            selecionada = pocoes[escolha]
+                            if selecionada.quantity > 0:
+                                # Aplica cura
+                                cura = selecionada.healing_points
+                                player.hp = min(player.hp + cura, player.hp_max)
+                                selecionada.quantity -= 1
 
-                        if selected_item.quantity <= 0: #remove o item se a quantidade chegar a 0
-                            player.inventory.remove(selected_item)
-                        time.sleep(2) 
-                        win.addstr(10, 0, f"Você usou {selected_item.name} e recuperou {heal_amount} HP!")
+                                # Atualiza interface
+                                limpar_linhas()
+                                safe_addstr(win, RESULTADO_LINHA, 0, f"Recuperou {cura} HP!")
+                                win.refresh()
+
+                                # Remove se acabou
+                                if selecionada.quantity <= 0:
+                                    player.inventory.remove(selecionada)
+                                break
+                            else:
+                                safe_addstr(win, RESULTADO_LINHA, 0, "Poção esgotada!")
+                        else:
+                            safe_addstr(win, RESULTADO_LINHA, 0, "Opção inválida!")
+                
                         win.refresh()
+                    except:
+                        pass
+                break  # Sai do loop de seleção de poção
             else:
-                win.addstr(8, 0, f"{player.name} não tem itens para utilizar.")
+                safe_addstr(win, RESULTADO_LINHA, 0, "Não há poções disponíveis!")
 
-
-        elif opt == ord('4'): #fugir
-            flee = player.flee()
-            if flee:
-                win.addstr(8, 0, f"{player.name} fugiu da batalha.")
+        elif tecla == ord('4'):  # Fugir
+            if player.flee():
+                safe_addstr(win, ACAO_LINHA, 0, "Fugiu com sucesso!")
                 win.refresh()
                 time.sleep(1)
                 break
             else:
-                win.addstr(8, 0, "Fuga malsucedida.")
-        else:
-            win.addstr(14, 0, "Opção inválida, escolha 1, 2, 3 ou 4.")
+                safe_addstr(win, RESULTADO_LINHA, 0, "Fuga malsucedida!")
 
-        #checha se o inimigo está morto
-        if enemy.hp == 0:
-            win.addstr(13, 0, f"{player.name} venceu a batalha.")
-            win.refresh()
-
-            # ganhar EXP e Gold 
-            lvl_up, exp_ganho = player.gain_exp(enemy.exp_range)
-            gold_ganho = player.gain_gold(enemy.gold_range)
-
-            time.sleep(1)
-            break
-
-        #ações do inimigo  
-        time.sleep(1) #retarda a ação do inimigo
-        if opt == ord('3'): #se o jogador curar, inimigo pode apenas atacar
-            win.addstr(9, 0, f"{enemy.name} atacou.")
-            atk_damage, crit = enemy.attack(player)
-            if crit:
-                time.sleep(3) 
-                win.addstr(11, 0, f"Ataque crítico! {enemy.name} deu {atk_damage} de dano ao {player.name}.")
-            else:
-                time.sleep(3) 
-                win.addstr(11, 0, f"{enemy.name} atacou e deu {atk_damage} de dano ao {player.name}.")
-            player_text = f"Player: {player.name} | HP: {player.hp}/{player.hp_max}"
-        else:
-            atk = enemy.take_action(player)
-            if atk: #se o jogador atacar ou defender, inimigo pode fazer o mesmo
-                atk_damage, crit = enemy.attack(player)
-                win.addstr(9, 0, f"{enemy.name} atacou.")
-                if crit:
-                    time.sleep(3) 
-                    win.addstr(11, 0, f"Ataque crítico! {enemy.name} deu {atk_damage} de dano ao {player.name}.")
-                else:
-                    time.sleep(3) 
-                    win.addstr(11, 0, f"{enemy.name} atacou e deu {atk_damage} de dano ao {player.name}.")
-                player_text = f"Player: {player.name} | HP: {player.hp}/{player.hp_max}"
-            else:
-                def_damage, defend = enemy.defend(player)
-                if defend:
-                    win.addstr(9, 0, f"{enemy.name} defendeu.")
-                    time.sleep(3) 
-                    win.addstr(11, 0, f"{enemy.name} defendeu o ataque mas levou {def_damage} de dano.")
-                else:
-                    time.sleep(3) 
-                    win.addstr(11, 0, f"{enemy.name} não conseguiu defender o ataque e levou {def_damage} de dano.")
-
-        #checha se o jogador está morto
-        if player.hp == 0:
-            win.addstr(12, 0, f"{enemy.name} venceu a batalha.")
-            win.refresh()
-            time.sleep(1) 
-            break
-        
         win.refresh()
         time.sleep(1)
-        
-    win.clear()
-    win.addstr(height // 2, width //2 - len("A batalha terminou."), "A batalha terminou.")
+
+        # Turno do inimigo
+        if enemy.hp > 0:
+            safe_addstr(win, INIMIGO_ACAO_LINHA, 0, f"{enemy.name} está atacando!")
+            dano_ataque, critico = enemy.attack(player)
+            if critico:
+                safe_addstr(win, INIMIGO_RESULTADO_LINHA, 0, f"Ataque crítico! Levou {dano_ataque} de dano!")
+            else:
+                safe_addstr(win, INIMIGO_RESULTADO_LINHA, 0, f"Levou {dano_ataque} de dano!")
+            win.refresh()
+            time.sleep(1)
+
+        # Verifica condições de fim de batalha
+        if enemy.hp <= 0:
+            safe_addstr(win, FIM_BATALHA_LINHA, 0, f"Vitória! {enemy.name} foi derrotado!")
+            break
+        elif player.hp <= 0:
+            safe_addstr(win, FIM_BATALHA_LINHA, 0, f"Derrota! {player.name} foi derrotado!")
+            break
+
+    # Mensagem final da batalha
+    win.erase()
+    safe_addstr(win, height//2, (width-20)//2, "A batalha terminou!")
     win.refresh()
-    time.sleep(1)
+    time.sleep(2)
 
-# test
-player = Player(name="Dargia", hp=1000, atk_value=50, crit_chance=0.4, crit_damage=2.0)
-
-def start_combat(enemy):
+def start_combat(player, enemy):
     curses.wrapper(combat, player, enemy)

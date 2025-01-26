@@ -5,9 +5,7 @@ from random import random
 import time
 
 
-def combat(player: 'Entity', enemy: 'Entity') -> bool:
-
-
+def combat(player: 'Entity', enemy: 'Entity', interface) -> bool:
     while True:
         print()
         option = int(input('ação -> ')) # placeholder (input do jogador)
