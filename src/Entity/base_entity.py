@@ -21,13 +21,8 @@ class Entity:
         return (atk_damage, crit)
 
 
-    def defend(self, attacker: 'Entity') -> tuple[int, bool]:
-        defend = random.random() <= 0.6
+    def defend(self: 'Entity') -> int:
         def_damage = 0
 
-        if not defend:
-            def_damage = attacker.atk_value - self.armor.def_value
-            self.hp -= max(def_damage, 0)
-            self.hp = max(self.hp, 0)
-
-        return (def_damage, defend)
+        return (def_damage)
+    

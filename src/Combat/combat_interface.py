@@ -48,7 +48,7 @@ def combat(stdscr, player, enemy):
         # Desenha a interface básica
         win.erase()
         safe_addstr(win, 0, 0, f"Jogador: {player.name} | HP: {player.hp}/{player.hp_max}")
-        safe_addstr(win, 0, width-30, f"Inimigo: {enemy.name} | HP: {enemy.hp}/{enemy.hp_max}")
+        safe_addstr(win, 0, width-30, f"Inimigo: {enemy.name} | HP: {enemy.hp}/{enemy.hp_max}") #não aparece inteiro dependendo do tamanho do nome
         
         # Desenha o menu de opções
         opcoes = [
@@ -85,11 +85,8 @@ def combat(stdscr, player, enemy):
 
         elif tecla == ord('2'):  # Defender
             safe_addstr(win, ACAO_LINHA, 0, f"{player.name} defendeu!")
-            dano_defesa, defendeu = player.defend(enemy)
-            if defendeu:
-                safe_addstr(win, RESULTADO_LINHA, 0, f"Defendeu o ataque! Levou {dano_defesa} de dano.")
-            else:
-                safe_addstr(win, RESULTADO_LINHA, 0, f"Não conseguiu defender! Levou {dano_defesa} de dano.")
+            player.defend(enemy)
+            safe_addstr(win, RESULTADO_LINHA, 0, f"Defendeu o ataque e não levou dano!")
 
         elif tecla == ord('3'):  # Curar
             pocoes = player.inventory.get_consumables()
@@ -112,7 +109,7 @@ def combat(stdscr, player, enemy):
                             break
                 
                 # Converter para número
-                        escolha = key - ord('1')
+                        escolha = key - ord('1') #nada acontece
                         if 0 <= escolha < len(pocoes):
                             selecionada = pocoes[escolha]
                             if selecionada.quantity > 0:
@@ -123,7 +120,7 @@ def combat(stdscr, player, enemy):
 
                                 # Atualiza interface
                                 limpar_linhas()
-                                safe_addstr(win, RESULTADO_LINHA, 0, f"Recuperou {cura} HP!")
+                                safe_addstr(win, 13, 0, f"Recuperou {cura} HP!")
                                 win.refresh()
 
                                 # Remove se acabou
@@ -133,7 +130,7 @@ def combat(stdscr, player, enemy):
                             else:
                                 safe_addstr(win, RESULTADO_LINHA, 0, "Poção esgotada!")
                         else:
-                            safe_addstr(win, RESULTADO_LINHA, 0, "Opção inválida!")
+                            safe_addstr(win, 13, 0, "Opção inválida!") #se usar resultado_linha a mensagem não aparece
                 
                         win.refresh()
                     except:
@@ -143,13 +140,10 @@ def combat(stdscr, player, enemy):
                 safe_addstr(win, RESULTADO_LINHA, 0, "Não há poções disponíveis!")
 
         elif tecla == ord('4'):  # Fugir
-            if player.flee():
-                safe_addstr(win, ACAO_LINHA, 0, "Fugiu com sucesso!")
-                win.refresh()
-                time.sleep(1)
-                break
-            else:
-                safe_addstr(win, RESULTADO_LINHA, 0, "Fuga malsucedida!")
+            safe_addstr(win, ACAO_LINHA, 0, f"{player.name} fugiu da batalha.")
+            win.refresh()
+            time.sleep(1)
+            break
 
         win.refresh()
         time.sleep(1)
@@ -158,12 +152,15 @@ def combat(stdscr, player, enemy):
         if enemy.hp > 0:
             safe_addstr(win, INIMIGO_ACAO_LINHA, 0, f"{enemy.name} está atacando!")
             dano_ataque, critico = enemy.attack(player)
-            if critico:
-                safe_addstr(win, INIMIGO_RESULTADO_LINHA, 0, f"Ataque crítico! Levou {dano_ataque} de dano!")
+            if tecla == 2:
+                dano_ataque = 0
             else:
-                safe_addstr(win, INIMIGO_RESULTADO_LINHA, 0, f"Levou {dano_ataque} de dano!")
-            win.refresh()
-            time.sleep(1)
+                if critico:
+                    safe_addstr(win, INIMIGO_RESULTADO_LINHA, 0, f"Ataque crítico! Levou {dano_ataque} de dano!")
+                else:
+                    safe_addstr(win, INIMIGO_RESULTADO_LINHA, 0, f"Levou {dano_ataque} de dano!")
+                win.refresh()
+                time.sleep(1)
 
         # Verifica condições de fim de batalha
         if enemy.hp <= 0:
