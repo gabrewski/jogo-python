@@ -160,7 +160,7 @@ def story(stdscr):
             while True:
                 key = stdscr.getch()
                 if key == 10 or key == 13:  # Códigos para ENTER
-                    break
+                    break # no lugar do break, trocar para começar o jogo (com a interface ou não, o que decidir)
 
     # Exibir segunda sequência de frases
     display_text_with_ascii(phrases2, pad, start_y, start_x)
