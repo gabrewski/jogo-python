@@ -208,13 +208,14 @@ def start_interface(stdscr, player):
             }
             
             if selected_area in stage_mapping:
-                
+            # Passe a stdscr como parâmetro
                 map_loop(
                     player, 
                     stage_mapping[selected_area],
                     (interface.game_width-3, interface.game_height-2),
-                    interface.update_game_area
-                )
+                    interface.update_game_area,
+                    stdscr  
+    )
                 
                 
                 interface.update_game_area([])

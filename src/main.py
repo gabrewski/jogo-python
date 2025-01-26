@@ -28,6 +28,7 @@ def main(stdscr):
             
             
             start_interface(stdscr, player)
+            
             break
             
         elif key in [ord('3'), 27]:
