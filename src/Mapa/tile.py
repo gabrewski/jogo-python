@@ -1,7 +1,7 @@
 #Tile.py (Funcionalidade de tiles e cores)
 import curses
 
-# Inicializa as cores usadas no jogo 
+# Inicializa as cores usadas no jogo (biblioteca curses)
 def init_colors():
     curses.start_color()
     curses.init_pair(1, curses.COLOR_YELLOW, curses.COLOR_BLACK) 
@@ -49,7 +49,7 @@ floresta_sombria = Tile("Y", 9)
 arbusto_sombrio = Tile("w", 9)
 flores_sombrias = Tile("*", 9)
 vulcao = Tile("▲", 5)
-cacto = Tile("|", 2)
+cacto = Tile("|", 2) 
 
 
 

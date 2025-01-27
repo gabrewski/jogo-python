@@ -6,7 +6,7 @@ from Mapa.tile import *
 from Mapa.map import *
 import msvcrt
 
-
+#Classe que gerencia a exploração do mapa e a movimentação do jogador
 class Exploration:
     def __init__(self, size:tuple[int, int]) -> bool:
         self.maps = (ForestMap(*size), DesertMap(*size), SnowMap(*size), SwampMap(*size), FireMap(*size))
@@ -36,9 +36,9 @@ class Exploration:
                 if 0 <= new_pos[0] < game_map.largura and 0 <= new_pos[1] < game_map.altura:
                     player.pos = new_pos
 
-                if randint(1, 1000) <= encounter_chance:
+                if randint(1, 1000) <= encounter_chance: # Chance de encontro com inimigos 
                     return True
                 else:
-                    encounter_chance += 2
+                    encounter_chance += 2 # Aumenta a chance de encontro com inimigos a cada movimento 
             
             game_map.update_map(player.pos, player.marker)

@@ -4,7 +4,7 @@ from Mapa.map import Map
 from Mapa.tile import *
 
 #Cada classe de mapa é uma subclasse de Map, e cada uma tem um método setup_terreno() que define os tipos de terreno presentes no mapa
-class ForestMap(Map): #Mapa de floresta
+class ForestMap(Map): # Mapa de floresta
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
@@ -15,15 +15,15 @@ class ForestMap(Map): #Mapa de floresta
         self.explore_process = [[0 for _ in range(self.largura)] for _ in range(self.altura)]
 
     def setup_terreno(self):
-        self.gerar_terreno(tronco, 18, 1, 1)
-        self.gerar_terreno(montanha, 12, 9, 14) #número de terrenos, tamanho mínimo e tamanho máximo
+        self.gerar_terreno(tronco, 18, 1, 1) # Método para gerar terrenos no mapa (tile, num_terrenos, min_size, max_size)
+        self.gerar_terreno(montanha, 12, 9, 14) 
         self.gerar_terreno(floresta, 25, 10, 25)
         self.gerar_terreno(areia, 9, 6, 13)
         self.gerar_terreno(flores, 10, 4, 12)
         self.gerar_terreno(arbusto, 18, 1, 5)
         self.gerar_terreno(agua, 9, 8, 15)
 
-class DesertMap(Map): #Mapa de deserto
+class DesertMap(Map): # Mapa de deserto
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
@@ -44,7 +44,7 @@ class DesertMap(Map): #Mapa de deserto
         self.gerar_terreno(pedra_p, 14, 1, 3)
         self.gerar_terreno(agua, 4, 9, 19) 
 
-class SnowMap(Map): #Mapa de neve
+class SnowMap(Map): # Mapa de neve
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
@@ -68,7 +68,7 @@ class SnowMap(Map): #Mapa de neve
         self.gerar_terreno(montanha_gelo, 15, 4, 14)
         self.gerar_terreno(agua, 10, 5, 16) 
 
-class SwampMap(Map): #Mapa de pântano
+class SwampMap(Map): # Mapa de pântano
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
@@ -88,7 +88,7 @@ class SwampMap(Map): #Mapa de pântano
         self.gerar_terreno(pantano, 16, 5, 20)
         self.gerar_terreno(agua, 15, 10, 23)
 
-class FireMap(Map): #Mapa de fogo
+class FireMap(Map): # Mapa de fogo
     def __init__(self, largura, altura):
         super().__init__(largura, altura)
         self.setup_terreno()
