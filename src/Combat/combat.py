@@ -47,7 +47,7 @@ class CombatSystem:
                     self.heal(player)
 
                 case 3: # fugir
-                    if self.flee(player):
+                    if self.flee(player, enemy):
                         return 'flee'
 
             self.add_text(text=f'Turno de {enemy.name}:')
