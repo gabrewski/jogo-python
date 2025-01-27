@@ -3,6 +3,11 @@ from Interface import shop
 
 def village(window, player, update_inv, update_stats, update_text):
     village_ascii = [
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                 « VILA DO ALVORECER »                                  ",
+        "                                                                                        ",
+        "                                                                                        ",
         "                                      ________                                          ",
         "                                     /--------\                                 (  )    ",
         "                                    /__________\                                ( )     ",
@@ -16,7 +21,10 @@ def village(window, player, update_inv, update_stats, update_text):
         "                                                                                        ",
         "                                                                                        ",
         "                                                                                        ",
-        "                                       M - Mapa                                         ",
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                       M - Mapa                                         "
     ]
     # Limpar tela
     window.clear()

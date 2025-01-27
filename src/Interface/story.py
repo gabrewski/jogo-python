@@ -72,13 +72,13 @@ def story(stdscr, player):
     
     phrases2 = [
         ("Finalmente, você despertou.", WHITE),
-        ("Você, Peregrino, foi escolhido para enfrentar a escuridão que assola esta terra.", WHITE),
+        ("Você, Peregrino, foi escolhido pela Lua para enfrentar a escuridão que assola esta terra.", WHITE),
         ("Escolhido? Eu sou apenas... um viajante.", CYAN),
         ("Sim, exatamente. Há um feitiço sob os moradores da vila.", WHITE),
-        ("O (nome do final boss) os amaldiçoou, tirando sua força de vontade e coragem, para que eles não consigam se opor a ele.", WHITE),
+        ("O grande Otsugua os amaldiçoou, tirando sua força de vontade e coragem, para que eles não consigam se opor a ele.", WHITE),
         ("Você é um visitante, Peregrino. A maldição dele não toca naqueles que vêm de fora.", WHITE),
         ("Não será uma jornada fácil. Ele é protegido por monstros e lacaios que infestam esta terra.", WHITE),
-        ("Fortaleça-se. Encontre equipamentos que o tornarão capazes de enfrentar a força do (boss).", WHITE)
+        ("Fortaleça-se. Encontre equipamentos que o tornarão capazes de enfrentar a força do Otsugua.", WHITE)
     ]
 
     # Dimensões da tela

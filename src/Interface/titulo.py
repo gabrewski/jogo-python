@@ -40,17 +40,13 @@ def main(stdscr, player):
         "                                            ┛┗┗┛┗┛┗┛  ┃┗┛┗┫┗┛       ",
         "                                                      ┛   ┛         ",
         "                                                                    ",
-        "                                                 ┏┓     •           ",
-        "                                             2 ➣ ┃ ┏┓┏┓╋┓┏┓┓┏┏┓┏┓   ",
-        "                                                 ┗┛┗┛┛┗┗┗┛┗┗┻┗┻┛    ",
+        "                                                 ┏┓   / ┓•          ",
+        "                                             2 ➣ ┃ ┏┓┏┓┏┫┓╋┏┓┏      ",
+        "                                                 ┗┛┛ ┗ ┗┻┗┗┗┛┛      ",
         "                                                                    ",
-        "                                                      ┏┓   / ┓•     ",
-        "                                                  3 ➣ ┃ ┏┓┏┓┏┫┓╋┏┓┏ ",
-        "                                                      ┗┛┛ ┗ ┗┻┗┗┗┛┛ ",
-        "                                                                    ",
-        "                                                           ┏┓  •    ",
-        "                                                       4 ➣ ┗┓┏┓┓┏┓  ",
-        "                                                           ┗┛┗┻┗┛   ",
+        "                                                      ┏┓  •         ",
+        "                                                  3 ➣ ┗┓┏┓┓┏┓       ",
+        "                                                      ┗┛┗┻┗┛        ",
     ]
 
     # obter dimensões da tela
@@ -136,10 +132,6 @@ def main(stdscr, player):
                 break
 
             elif key == ord('2'):
-                # coisar o negocio de carregar jogo salvo
-                pass
-
-            elif key == ord('3'):
                 # Mostrar nomes do grupo
                 stdscr.clear()
                 group_names = [
@@ -190,7 +182,7 @@ def main(stdscr, player):
                         min(height - 1, final_y2 + len(menu_ascii)),
                         min(width - 1, start_x2 + len(menu_ascii[0])))                
 
-            elif key == ord('4'):
+            elif key == ord('3'):
                 # Fechar o jogo
                 break
 
