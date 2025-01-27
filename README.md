@@ -1,5 +1,5 @@
-# jogo-python
-trabalho final para a disciplina de LP do curso de Análise e Desenvolvimento de Sistemas do IFPR
+# Ecos da Lua
+Trabalho final para a disciplina de LP do curso de Análise e Desenvolvimento de Sistemas do IFPR, um RPG feito totalmente em Python.
 <br><br>
 Beatriz Ivano dos Santos
 <br>
