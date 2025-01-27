@@ -29,14 +29,12 @@ class CombatSystem:
         while True:
             self.update_enemy(enemy)
             self.add_text(pos=(1,2), text=f'Turno de {player.name}:')
-            self.add_text(pos=(2,2), text=f'[1] Atacar     [2] Defender     [3] Curar     [4] Fugir', clear=False)
+            self.add_text(pos=(2,2), text=f'[1] Atacar       [2] Curar       [3] Fugir', clear=False)
 
             while True:
                 option = self.text_window.getch()
-                if option in [ord('1'), ord('2'), ord('3'), ord('4')]:
+                if option in [ord('1'), ord('2'), ord('3')]:
                     break
-
-            
 
             match option-48:
                 case 1: # atacar
@@ -44,19 +42,13 @@ class CombatSystem:
                     self.update_enemy(enemy)
                     if win:
                         return self.stop_combat(player, enemy, victory=True)
-                
-                case 2: # defender
-                    if self.defend(player=player, enemy=enemy):
-                        continue
-                    else:
-                        return self.stop_combat(player, enemy, victory=False)
 
-                case 3: # curar
+                case 2: # curar
                     self.heal(player)
 
-                case 4: # fugir
+                case 3: # fugir
                     if self.flee(player):
-                        return True
+                        return 'flee'
 
             self.add_text(text=f'Turno de {enemy.name}:')
             time.sleep(1.8)
@@ -82,19 +74,8 @@ class CombatSystem:
         return self.is_dead(target)
 
 
-    def defend(self, player: 'Entity', enemy: 'Entity') -> bool:
-        def_damage, defend = player.defend(enemy)
-
-        if defend:
-            print('attack blocked') # placeholder
-        else:
-            print(f'defended and took {def_damage} dmg') # placeholder
-
-        return not self.is_dead(player)
-
-
     def heal(self, player: 'Entity'):
-        potions = player.inventory.get_consumables()
+        potions = list(set(player.inventory.get_consumables()))
 
         self.add_text(clear=True)
 
@@ -108,16 +89,16 @@ class CombatSystem:
 
         selected_potion = potions[option-49]
         heal_amount = selected_potion.hp_value
-        player.hp += heal_amount
-        player.inventory.remove_item(selected_potion)
+        player.heal(selected_potion)
 
         self.add_text(text=f'{player.name} usou {selected_potion.name} e curou {heal_amount} HP')
         self.update_stats()
         time.sleep(3)
 
 
-    def flee(self, player: 'Entity') -> bool:
+    def flee(self, player: 'Entity', enemy: 'Entity') -> bool:
         if random() <= 0.7:
+            enemy.revive()
             self.add_text(text=f'{player.name} fugiu do combate...')
             time.sleep(3)
             return True
@@ -156,6 +137,7 @@ class CombatSystem:
             self.update_char()
             player.revive()
 
+        enemy.revive()
         self.update_inventory()
         time.sleep(4)
         self.add_text(clear=True)

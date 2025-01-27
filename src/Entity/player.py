@@ -18,14 +18,15 @@ class Player (Entity):
         self.exp = 0
         self.level = 1
         self.level_exp = {1:50, # exp necessário em cada nível
-                          2:100, 
-                          3:400, 
-                          4:600, 
-                          5:900, 
-                          6:1200, 
-                          7:1600, 
-                          8:2000, 
-                          9:2500}
+                          2:150, 
+                          3:250, 
+                          4:400, 
+                          5:550, 
+                          6:750, 
+                          7:950, 
+                          8:1200, 
+                          9:1500,
+                          10:0}
         self.pos = [0, 0]
         self.marker = player_marker
 
@@ -41,20 +42,27 @@ class Player (Entity):
 
         exp_ganho = random.randint(*exp_range)
         self.exp += exp_ganho
-        if self.exp >= self.level_exp[self.level]:
-            self.exp = 0
+        lvl_up = False
+
+        while self.exp >= self.level_exp[self.level]:
+            self.exp -= self.level_exp[self.level]
             self.level_up()
-            return (True, exp_ganho)
-        else:
-            return (False, exp_ganho)
+            lvl_up = True
+
+            if self.level == 10:
+                self.exp = 0
+                break
+
+        return (lvl_up, exp_ganho)
 
 
     def level_up(self):
         '''Incrementa os atributos base do jogador.'''
         self.level += 1
-        self.hp_max += 25
+        self.hp += 50
+        self.hp_max += 50
         self.atk_value += 10
-        self.crit_chance += 0.1
+        self.crit_chance += 0.02
 
 
     def gain_gold(self, gold_range:tuple[int, int]) -> int:
@@ -120,5 +128,24 @@ class Player (Entity):
         return choice
     
 
-    def revive(self):
-        self.hp += self.hp_max
+    def equip_armor(self, item):
+        if self.armor:
+            self.inventory.add_item(self.armor)
+            self.inventory.remove_item(item)
+        self.armor = item
+
+
+    def equip_weapon(self, item):
+        if self.weapon:
+            self.inventory.add_item(self.weapon)
+        self.inventory.remove_item(item)
+        self.weapon = item
+
+    
+    def heal(self, item):
+        self.hp += item.hp_value
+
+        if self.hp > self.hp_max:
+            self.hp = self.hp_max
+
+        self.inventory.remove_item(item)

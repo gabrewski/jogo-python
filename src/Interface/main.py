@@ -54,7 +54,7 @@ class GameInterface:
         self.stats_win = curses.newwin(7, side_width, 5, self.game_width)
         
         # Inventário (área vertical menos os comandos)
-        inv_height = self.max_y - 17
+        inv_height = self.max_y - 19
         self.inv_win = curses.newwin(inv_height, side_width, 12, self.game_width)
 
         # Área de comandos
@@ -101,7 +101,11 @@ class GameInterface:
         self.char_win.addstr(2, 2, f"Level: {self.player.level}")
 
         # valores dinâmicos para a barra de experiência
-        exp_bar = int((self.player.exp / self.player.level_exp[self.player.level]) * 10)  # barra de xp com 10 blocos
+        if self.player.level < 10:
+            exp_bar = int((self.player.exp / self.player.level_exp[self.player.level]) * 10)  # barra de xp com 10 blocos
+        else:
+            exp_bar = 10
+        
         exp_display = f"EXP: {'█' * exp_bar}{'─' * (10 - exp_bar)} {self.player.exp}/{self.player.level_exp[self.player.level]}"
         self.char_win.addstr(3, 2, exp_display)
 
@@ -132,8 +136,8 @@ class GameInterface:
         stats = [
             f"ATK: {self.player.atk_value + self.player.weapon.atk_value if self.player.weapon else self.player.atk_value}",
             f"DEF: {self.player.armor.def_value if self.player.armor else 0}",
-            f"CRIT_CHANCE: {self.player.crit_chance}",
-            f"CRIT_DAMAGE: {self.player.crit_damage}"
+            f"CRIT_CHANCE: {int(self.player.crit_chance*100)} %",
+            f"CRIT_DAMAGE: {int(self.player.crit_damage*100)} %"
         ]
         
         # atualiza a janela de status
@@ -202,7 +206,11 @@ class GameInterface:
     # AREA PRINCIPAL
     def show_village(self):
         """Mostra vila na área princial"""
-        selected_area = village(self.game_win, self.player, self.update_inventory)
+        selected_area = village(self.game_win, 
+                                self.player, 
+                                self.update_inventory,
+                                self.update_stats,
+                                self.update_text)
         self.game_win.refresh()
         return selected_area
 
@@ -211,6 +219,17 @@ class GameInterface:
         selected_area = show_map(self.game_win, previous_view)
         self.game_win.refresh()
         return selected_area
+    
+    def end_screen(self):
+        x, y = self.game_height//2, self.game_width
+        text1 = "Você derrotou Otsugua e livrou a vila de sua terrível maldição!"
+        text2 = "OBRIGADO POR JOGAR"
+        text3 = "Aperte ENTER para sair..."
+        self.game_win.addstr(x, (y-len(text1))//2, text1)
+        self.game_win.addstr(x+2, (y-len(text2))//2, text2)
+        self.game_win.addstr(x+4, (y-len(text3))//2, text3)
+        self.game_win.refresh()
+        
 
 def start_interface(stdscr, player):  
     height, width = stdscr.getmaxyx()
@@ -241,62 +260,57 @@ def start_interface(stdscr, player):
     interface.show_village()
     interface.refresh_all()
 
-    open_map = True
     while True:
-        if not open_map:
-            key = stdscr.getch()
-            
-        elif open_map or key in [ord('m'), ord('M')]:
-            open_map = False
-            selected_area = interface.show_world_map()
-            
-            stage_mapping = {
-                2: 1,  # Floresta
-                3: 2,  # Deserto
-                4: 3,  # Neve
-                5: 4,  # Pântano
-                6: 5   # Magma
-            }
-            
-            if selected_area == 1:
+        selected_area = interface.show_world_map()
+        
+        stage_mapping = {
+            2: 1,  # Floresta
+            3: 2,  # Deserto
+            4: 3,  # Neve
+            5: 4,  # Pântano
+            6: 5   # Magma
+        }
+        
+        if selected_area == 1:
+            if interface.show_village():
+                continue
+
+        if selected_area == 7:
+            status = combat_system.start_combat(player, dragao_magma)
+            if status and status != 'flee':
+                interface.update_game_area()
+                while True:
+                    interface.end_screen()
+                    key = stdscr.getch()
+                    if key == 10 or key == 13:
+                        return
+            else:
+                interface.update_stats()
                 if interface.show_village():
-                    open_map = True
                     continue
 
-            if selected_area == 7:
-                if combat_system.start_combat(player, dragao_magma):
-                    pass
-                    # parabens você venceu o jogo
-                else:
+
+        if selected_area not in stage_mapping:
+            continue
+    
+        while True:
+            if exploration.map_loop(player, 
+                                    stage_mapping[selected_area], 
+                                    interface.update_game_area,
+                                    stdscr):
+                enemy = combat_system.get_random_enemy(stage_mapping[selected_area])
+
+                if not combat_system.start_combat(player, enemy):
                     interface.update_stats()
                     if interface.show_village():
-                        open_map = True
-                        continue
+                        break
+            else:
+                break
+            
 
-
-            if selected_area not in stage_mapping:
-                continue
-        
-            while True:
-                if exploration.map_loop(player, 
-                                        stage_mapping[selected_area], 
-                                        interface.update_game_area,
-                                        stdscr):
-                    enemy = combat_system.get_random_enemy(stage_mapping[selected_area])
-
-                    if not combat_system.start_combat(player, enemy):
-                        interface.update_stats()
-                        if interface.show_village():
-                            open_map = True
-                            break
-                else:
-                    open_map = True
-                    break
-                
-
-            interface.update_game_area([])
-            interface.update_character()
-            interface.update_stats()
-            interface.update_inventory()
-            interface.update_commands()
-            interface.update_text()
+        interface.update_game_area([])
+        interface.update_character()
+        interface.update_stats()
+        interface.update_inventory()
+        interface.update_commands()
+        interface.update_text()

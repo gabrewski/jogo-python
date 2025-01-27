@@ -30,5 +30,9 @@ class Inventory:
         return [item for item in self.player_items if item.consumable]
     
 
+    def get_equipable(self):
+        return [item for item in self.player_items if item.equipable]
+
+
     def remove_item(self, item: 'Item'):
         self.player_items.remove(item)

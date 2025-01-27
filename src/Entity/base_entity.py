@@ -15,10 +15,11 @@ class Entity:
     def attack(self, target: 'Entity') -> tuple[int, bool]:
         crit = random.random() <= self.crit_chance
         atk_damage = int((self.atk_value + self.weapon.atk_value) * (self.crit_damage if crit else 1))
-        target.hp -= atk_damage
+        reduced_damage = max(atk_damage - target.armor.def_value, 0)
+        target.hp -= reduced_damage
         target.hp = max(target.hp, 0)
 
-        return (atk_damage, crit)
+        return (reduced_damage, crit)
 
 
     def defend(self: 'Entity') -> int:
@@ -26,3 +27,6 @@ class Entity:
 
         return (def_damage)
     
+
+    def revive(self):
+        self.hp = self.hp_max
