@@ -4,6 +4,11 @@ from Interface import map_module
 
 def village(window, player, update_inv):
     village_ascii = [
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                 « VILA DO ALVORECER »                                  ",
+        "                                                                                        ",
+        "                                                                                        ",
         "                                      ________                                          ",
         "                                     /--------\                                 (  )    ",
         "                                    /__________\                                ( )     ",
@@ -17,7 +22,10 @@ def village(window, player, update_inv):
         "                                                                                        ",
         "                                                                                        ",
         "                                                                                        ",
-        "                                       M - Mapa                                         ",
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                       M - Mapa                                         "
     ]
     # Limpar tela
     window.clear()
