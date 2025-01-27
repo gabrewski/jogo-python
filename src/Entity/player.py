@@ -118,3 +118,7 @@ class Player (Entity):
             self.pos[0] += 1
 
         return choice
+    
+
+    def revive(self):
+        self.hp += self.hp_max

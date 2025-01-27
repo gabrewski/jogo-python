@@ -153,6 +153,8 @@ class GameInterface:
         
         for i, item in enumerate(items, 2):
             self.inv_win.addstr(i, 2, f"- {item}")
+
+        #self.inv_win.addstr(10, 2, f"Gold: {self.player.inventory.gold}")
             
         self.inv_win.refresh()
     
@@ -262,7 +264,13 @@ def start_interface(stdscr, player):
 
             if selected_area == 7:
                 if combat_system.start_combat(player, dragao_magma):
-                    return
+                    pass
+                    # parabens você venceu o jogo
+                else:
+                    interface.update_stats()
+                    if interface.show_village():
+                        open_map = True
+                        continue
 
 
             if selected_area not in stage_mapping:
@@ -276,7 +284,10 @@ def start_interface(stdscr, player):
                     enemy = combat_system.get_random_enemy(stage_mapping[selected_area])
 
                     if not combat_system.start_combat(player, enemy):
-                        break
+                        interface.update_stats()
+                        if interface.show_village():
+                            open_map = True
+                            break
                 else:
                     open_map = True
                     break

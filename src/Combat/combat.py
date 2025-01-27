@@ -137,11 +137,19 @@ class CombatSystem:
             if lvl_up:
                 self.add_text(pos=(4,2), text=f'{player.name} subiu de nível!', clear=False)
 
-        else:
-            self.add_text(text=f'{enemy.name} venceu o combate...')
+            self.update_stats()
+            self.update_char()
 
-        self.update_stats()
-        self.update_char()
+        else:
+            gold_perdido = player.inventory.gold // 2
+            player.inventory.gold -= gold_perdido
+            self.add_text(pos=(1,2), text=f'{enemy.name} venceu o combate...')
+            self.add_text(pos=(2,2), text=f'{player.name} perdeu {gold_perdido} Gold e foi carregado de volta para a vila', clear=False)
+
+            self.update_stats()
+            self.update_char()
+            player.revive()
+
         time.sleep(4)
         self.add_text(clear=True)
         return victory
