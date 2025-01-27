@@ -13,16 +13,16 @@ def show_map(window, previous_view=None):
         '▲' : curses.color_pair(6), # montanha
         '∼' : curses.color_pair(1), # deserto
         '⌂' : curses.color_pair(8), #vila
-        '|' : curses.color_pair(9), # boss
-        '-' : curses.color_pair(9),
-        '[' : curses.color_pair(9),
-        ']' : curses.color_pair(9),
-        '∖' : curses.color_pair(9),
-        "⁄" : curses.color_pair(9),
-        '`' : curses.color_pair(9),
-        '´' : curses.color_pair(9),
-        '▶' : curses.color_pair(9),
-        '⁂' : curses.color_pair(9)
+        '|' : curses.color_pair(7), # boss
+        '-' : curses.color_pair(7),
+        '[' : curses.color_pair(7),
+        ']' : curses.color_pair(7),
+        '∖' : curses.color_pair(7),
+        "⁄" : curses.color_pair(7),
+        '`' : curses.color_pair(7),
+        '´' : curses.color_pair(7),
+        '▶' : curses.color_pair(7),
+        '⁂' : curses.color_pair(7)
     }
 
     ascii_map = [
@@ -62,7 +62,7 @@ def show_map(window, previous_view=None):
         ("4. ▲ - Terra Congelada", curses.color_pair(6)),
         ("5. ≈ - Pântano das Águas Místicas", curses.color_pair(2)),
         ("6. ≋ - Fornalha do Apocalipse", curses.color_pair(5)),
-        ("7. ⁂ - Fortaleza das Trevas", curses.color_pair(9))
+        ("7. ⁂ - Fortaleza das Trevas", curses.color_pair(7))
     ]
 
     # Obter dimensões da tela
