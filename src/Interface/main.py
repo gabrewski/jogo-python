@@ -154,6 +154,11 @@ class GameInterface:
         for i, item in enumerate(items, 2):
             self.inv_win.addstr(i, 2, f"- {item}")
             
+        # Ouro na última linha da janela do inventário
+        last_line = self.inv_win.getmaxyx()[0] - 2
+        gold_text = f"Gold: {self.player.inventory.gold}"
+        self.inv_win.addstr(last_line, 2, gold_text)
+            
         self.inv_win.refresh()
     
     def update_commands(self):
