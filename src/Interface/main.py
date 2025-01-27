@@ -161,11 +161,11 @@ class GameInterface:
         self.cmd_win.clear()
         self.cmd_win.box()
         commands = [
-            "    W         ↑    | P - Pause    ",
-            "                   |              ",
-            " A  S  D   ←  ↓  → | I - Inventory",
-            "                   |              ",
-            "       Move        | M - Map      "
+            "    W         ↑    |              ",
+            "                   | I - Inventory",
+            " A  S  D   ←  ↓  → |              ",
+            "                   | M - Map      ",
+            "       Move        |              "
             ]
         for i, command in enumerate(commands, 1):
             self.cmd_win.addstr(i, 2, command)
