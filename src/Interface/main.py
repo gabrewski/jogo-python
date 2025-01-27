@@ -153,8 +153,6 @@ class GameInterface:
         
         for i, item in enumerate(items, 2):
             self.inv_win.addstr(i, 2, f"- {item}")
-
-        #self.inv_win.addstr(10, 2, f"Gold: {self.player.inventory.gold}")
             
         self.inv_win.refresh()
     
@@ -199,7 +197,7 @@ class GameInterface:
     # AREA PRINCIPAL
     def show_village(self):
         """Mostra vila na área princial"""
-        selected_area = village(self.game_win, self.player)
+        selected_area = village(self.game_win, self.player, self.update_inventory)
         self.game_win.refresh()
         return selected_area
 
@@ -226,7 +224,8 @@ def start_interface(stdscr, player):
                                  interface.txt_win, 
                                  interface.update_text, 
                                  interface.update_character,
-                                 interface.update_stats)
+                                 interface.update_stats,
+                                 interface.update_inventory)
     
     interface.update_game_area()
     interface.update_character()
@@ -242,9 +241,6 @@ def start_interface(stdscr, player):
         if not open_map:
             key = stdscr.getch()
             
-            if key in [ord('q')]:  
-                break
-
         elif open_map or key in [ord('m'), ord('M')]:
             open_map = False
             selected_area = interface.show_world_map()

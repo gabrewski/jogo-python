@@ -9,12 +9,18 @@ import os
 
 
 class CombatSystem:
-    def __init__(self, game_window, txt_window, interface_func: Callable[[str], None], update_char, update_stats):
+    def __init__(self, game_window, txt_window, 
+                 interface_func: Callable[[str], None], 
+                 update_char: Callable, 
+                 update_stats: Callable,
+                 update_inv: Callable):
+        
         self.game_window = game_window
         self.text_window = txt_window
         self.add_text = interface_func
         self.update_char = update_char
         self.update_stats = update_stats
+        self.update_inventory = update_inv
 
         self.height, self.width = game_window.getmaxyx()
 
@@ -150,6 +156,7 @@ class CombatSystem:
             self.update_char()
             player.revive()
 
+        self.update_inventory()
         time.sleep(4)
         self.add_text(clear=True)
         return victory

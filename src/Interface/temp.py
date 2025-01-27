@@ -1,9 +1,14 @@
 import curses
-from Interface import shop
-from Interface import map_module
+import shop
+import map_module
 
-def village(window, player, update_inv):
+def village(window, player):
     village_ascii = [
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                 « VILA DO ALVORECER »                                  ",
+        "                                                                                        ",
+        "                                                                                        ",
         "                                      ________                                          ",
         "                                     /--------\                                 (  )    ",
         "                                    /__________\                                ( )     ",
@@ -14,6 +19,9 @@ def village(window, player, update_inv):
         " /|  ___ [] |\   | []     ___ |     |  ___     |    /|   ___  |\   |  _____          |  ",
         "  |  |`|    |    |1.Forja |´| |     |  |`|     |     |   |´|  |    |  |´  |   [0]    |  ",
         "__|__|_|____|____|________|_|_|_____|__|_|_____|_____|___|_|__|____|__|___|__________|__",
+        "                                                                                        ",
+        "                                                                                        ",
+        "                                                                                        ",
         "                                                                                        ",
         "                                                                                        ",
         "                                                                                        ",
@@ -41,10 +49,12 @@ def village(window, player, update_inv):
         key = window.getch()
 
         if key == ord('1'):
-            shop.open_weapon_shop(window, player, update_inv)  # Ajuste o player_level conforme necessário
+            shop.open_weapon_shop(window, player)  # Ajuste o player_level conforme necessário
         elif key == ord('2'):
-            shop.open_armor_shop(window, player, update_inv)
+            shop.open_armor_shop(window, player)
         elif key == ord('3'):
-            shop.open_potion_shop(window, player, update_inv)
+            shop.open_potion_shop(window, player)
         elif key == ord('m') or key == ord('M'):
-            return True
+            map_module.show_map(window)
+        elif key == ord('q') or key == ord('Q'):
+            return 'village'

@@ -1,5 +1,6 @@
 from Item.item_list import *
 from Item.inventory import Inventory
+import curses
 
 class Shop:
     def __init__(self, player, name, items, level_requirements):
@@ -15,94 +16,93 @@ class Shop:
             if self.level_requirements.get(item.name, float('inf')) <= player_level
         ]
 
-    def display_shop(self, player_level):
+    def display_shop(self, window, player_level):
         """Mostra itens disponíveis para compra"""
         available_items = self.get_available_items(player_level)
+        height, width = window.getmaxyx()
         
+        window.clear()
+        window.box()
+
+        instructions = "Pressione número para comprar ou 'Q' para voltar"
+
         if not available_items:
-            print("Nenhum item disponível no momento.")
+            msg = "Nenhum item disponível no momento."
+            window.addstr(height//2, (width - len(msg))//2, msg)
+            window.addstr(height-2, (width - len(instructions))//2, instructions)
+            window.refresh()
             return None
         
-        print(f"Loja de {self.name}:")
-        for i, item in enumerate(available_items, 1):
-            print(f"{i}. {item.name} - Valor: {item.gold_value} gold")
+        title = f"Loja de {self.name}"
+        gold_info = f"Seu ouro: {self.player.inventory.gold}"
+        window.addstr(1, (width - len(title))//2, title)
+        window.addstr(2, (width - len(gold_info))//2, gold_info)
+
+        start_y = (height - len(available_items)) // 2
+
+        for i, item in enumerate(available_items, 0):
+            item_text = f"{i+1}. {item.name} - {item.gold_value} gold"
+            window.addstr(start_y + i, (width - len(item_text))//2, item_text)
+
         
+        window.addstr(height-2, (width - len(instructions))//2, instructions)
+        window.refresh()
+
         return available_items
 
-    def buy_item(self, player_level, player_gold, choice):
-        """Processa a compra de item"""
-        available_items = self.get_available_items(player_level)
-        
-        if not available_items:
-            print("Nenhum item disponível para compra.")
-            return None
-        
+    def buy_item(self, window, player_gold, choice, available_items):
+        height, width = window.getmaxyx()
+
         if 1 <= choice <= len(available_items):
             selected_item = available_items[choice - 1]
             
             if player_gold >= selected_item.gold_value:
                 self.player.inventory.gold -= selected_item.gold_value
                 self.player.inventory.add_item(selected_item)
-                print(f"Você comprou {selected_item.name}!")
-                return selected_item
+                msg = f"Você comprou {selected_item.name}!"
             else:
-                print("Ouro insuficiente para comprar este item.")
-                return None
+                msg = "Ouro insuficiente!"
         else:
-            print("Escolha inválida.")
-            return None
+            msg = "Escolha inválida!"
+        
+        window.addstr(height-3, (width - len(msg))//2, msg)
+        window.refresh()
+        curses.napms(1000)
 
-def village_menu(player):
-    """Menu principal da vila com diferentes lojas"""
+
+def open_weapon_shop(window, player, update_inv):
     weapon_shop = Shop(player, "Forja", 
         [espada1, espada2, espada3, porrete, adaga, arco, machado, cimitarra, clava_gelo, espada_flamejante],
         {"Espada de Ferro": 1, "Espada de Aço": 3, "Espada Longa": 4, "Porrete de Madeira": 1, 
          "Adaga de Aço": 2, "Arco e Flecha": 3, "Machado": 4, "Cimitarra": 6, "Clava de Gelo": 7, "Espada Flamejante": 8}
     )
-    
+    handle_shop(window, player, weapon_shop, update_inv)
+
+def open_armor_shop(window, player, update_inv):
     armor_shop = Shop(player, "Ferraria", 
         [armor1, armor2, armor3, armor4],
         {"Armadura de Ferro": 2, "Armadura de Aço": 4, "Armadura de Platina": 6, "Armadura Divina": 8}
     )
-    
+    handle_shop(window, player, armor_shop, update_inv)
+
+def open_potion_shop(window, player, update_inv):
     potion_shop = Shop(player, "Poções", 
         [potion1, potion2, potion3, potion4],
         {"Poção Revigorante": 1, "Poção de Cura Leve": 3, "Poção de Cura Poderosa": 5, "Poção de Cura Suprema": 7}
     )
+    handle_shop(window, player, potion_shop, update_inv)
 
+def handle_shop(window, player, shop, update_inv):
+    available_items = None
     while True:
-        print("\n--- Bem-vindo à Vila ---")
-        print("Seu ouro:", player.inventory.gold)
-        print("1. Forja")
-        print("2. Ferraria")
-        print("3. Poções")
-        print("0. Sair")
+        if available_items is None:
+            available_items = shop.display_shop(window, player.level)
         
-        try:
-            choice = int(input("Escolha uma loja: "))
-            
-            if choice == 0:
-                break
-            elif choice == 1:
-                items = weapon_shop.display_shop(player.level)
-                if items:
-                    buy_choice = int(input("Escolha um item para comprar (0 para voltar): "))
-                    if buy_choice > 0:
-                        weapon_shop.buy_item(player.level, player.inventory.gold, buy_choice)
-            elif choice == 2:
-                items = armor_shop.display_shop(player.level)
-                if items:
-                    buy_choice = int(input("Escolha um item para comprar (0 para voltar): "))
-                    if buy_choice > 0:
-                        armor_shop.buy_item(player.level, player.inventory.gold, buy_choice)
-            elif choice == 3:
-                items = potion_shop.display_shop(player.level)
-                if items:
-                    buy_choice = int(input("Escolha um item para comprar (0 para voltar): "))
-                    if buy_choice > 0:
-                        potion_shop.buy_item(player.level, player.inventory.gold, buy_choice)
-            else:
-                print("Opção inválida.")
-        
-        except ValueError:
-            print("Por favor, insira um número válido.")
+        key = window.getch()
+        if key == ord('q') or key == ord('Q'):
+            break
+        elif ord('1') <= key <= ord('9'):
+            shop.buy_item(window, player.inventory.gold, 
+                         key - ord('0'), available_items)
+            update_inv()
+            available_items = shop.display_shop(window, player.level)
