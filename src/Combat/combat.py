@@ -70,7 +70,7 @@ class CombatSystem:
         if crit:
             self.add_text((3,2), f'{attacker.name} acertou dano crítico!', clear=False)
 
-        self.update_char()
+        self.update_stats()
         time.sleep(2.5)
 
         return self.is_dead(target)
@@ -106,7 +106,7 @@ class CombatSystem:
         player.inventory.remove_item(selected_potion)
 
         self.add_text(text=f'{player.name} usou {selected_potion.name} e curou {heal_amount} HP')
-        self.update_char()
+        self.update_stats()
         time.sleep(3)
 
 
@@ -128,12 +128,14 @@ class CombatSystem:
     def stop_combat(self, player, enemy, victory: bool) -> bool:
         if victory:
             lvl_up, exp_ganho = player.gain_exp(enemy.exp_range)
+            gold_ganho = player.gain_gold(enemy.gold_range)
 
             self.add_text(text=f'{player.name} venceu o combate!')
-            self.add_text(pos=(2,2), text=f'{player.name} ganhou {exp_ganho} de exp', clear=False)
+            self.add_text(pos=(2,2), text=f'{player.name} ganhou {gold_ganho} de Gold', clear=False)
+            self.add_text(pos=(3,2), text=f'{player.name} ganhou {exp_ganho} de exp', clear=False)
 
             if lvl_up:
-                self.add_text(pos=(3,2), text=f'{player.name} subiu de nível!', clear=False)
+                self.add_text(pos=(4,2), text=f'{player.name} subiu de nível!', clear=False)
 
         else:
             self.add_text(text=f'{enemy.name} venceu o combate...')

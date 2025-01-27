@@ -4,7 +4,7 @@ import curses
 from curses import wrapper
 import time
 
-def show_map(window):
+def show_map(window, previous_view=None):
     TERRAIN_COLORS = {
         '≈' : curses.color_pair(3), # lago/rio
         '♣' : curses.color_pair(2), # floresta
@@ -106,9 +106,7 @@ def show_map(window):
     
     while True:
         key = window.getch()
-        if key in [ord(str(i)) for i in range(1, 7)]:  # 1-6
+        if key in [ord('1'), ord('2'), ord('3'), ord('4'), ord('5'), ord('6'), ord('7')]:
             return int(chr(key))
-        elif key in [27, ord('q'), ord('Q')]:  # ESC ou Q
-            return None
-            
-        
+        elif key in [27, ord('q'), ord('Q')]:  # ESC ou Q para sair
+            return previous_view if previous_view else 'village'
